@@ -7,8 +7,8 @@ import type { Source } from '../types';
 export const SOURCES: Source[] = [
   {
     id: 'teachmeanatomy',
-    citation: 'TeachMeAnatomy — Upper limb muscles (origin, insertion, innervation, actions, clinical relevance).',
-    url: 'https://teachmeanatomy.info/upper-limb/muscles/',
+    citation: 'TeachMeAnatomy — muscles by region (origin, insertion, innervation, actions, clinical relevance).',
+    url: 'https://teachmeanatomy.info/',
   },
   {
     id: 'kenhub',

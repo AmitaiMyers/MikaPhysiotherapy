@@ -13,9 +13,10 @@ import {
   Vector3,
   WebGLRenderer,
 } from 'three';
+import type { RegionId } from '../data/types';
 import type { AnatomyModel, ModelPart } from './model';
 
-export type CameraView = 'anterior' | 'posterior' | 'lateral';
+export type CameraView = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior';
 export type DisplayMode = 'muscle' | 'attachments';
 
 export const COLORS = {
@@ -26,11 +27,29 @@ export const COLORS = {
   insertion: '#1e6fd9',
 } as const;
 
-/** Direction from the target towards the camera, for the right upper limb (model right = -x, front = +z). */
+/** Direction from the target towards the camera (model right = -x, front = +z, up = +y). */
 const VIEW_DIRECTIONS: Record<CameraView, Vector3> = {
   anterior: new Vector3(-0.25, 0.1, 1).normalize(),
   posterior: new Vector3(-0.25, 0.1, -1).normalize(),
   lateral: new Vector3(-1, 0.1, 0.15).normalize(),
+  medial: new Vector3(1, 0.1, 0.15).normalize(),
+  inferior: new Vector3(-0.15, -1, 0.35).normalize(),
+};
+
+/** Views offered for each region. Medial views hide the opposite limb, which would block them. */
+export const REGION_VIEWS: Record<RegionId, CameraView[]> = {
+  'upper-limb': ['anterior', 'posterior', 'lateral', 'medial'],
+  'lower-limb': ['anterior', 'posterior', 'lateral', 'medial', 'inferior'],
+  'trunk-pelvis': ['anterior', 'posterior', 'lateral', 'inferior'],
+  'head-neck': ['anterior', 'posterior', 'lateral'],
+};
+
+export const VIEW_LABELS: Record<CameraView, string> = {
+  anterior: 'Front',
+  posterior: 'Back',
+  lateral: 'Side',
+  medial: 'Inner',
+  inferior: 'Below',
 };
 
 export interface SceneOptions {
@@ -69,6 +88,8 @@ export class AnatomyScene {
     insertion: material(COLORS.insertion),
   };
   private options: SceneOptions;
+  /** True for medial views: the opposite (left) half of the body is hidden so it does not block the view. */
+  private hideLeftSide = false;
 
   constructor(canvas: HTMLCanvasElement, model: AnatomyModel, options: SceneOptions, preserveDrawingBuffer = false) {
     this.renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer });
@@ -102,6 +123,10 @@ export class AnatomyScene {
     const { muscleId, mode, showOtherMuscles } = this.options;
     for (const { part, mesh } of this.meshes) {
       const selected = part.muscleId === muscleId;
+      if (this.hideLeftSide && part.side === 'left') {
+        mesh.visible = false;
+        continue;
+      }
       if (part.kind === 'bone') {
         mesh.visible = true;
         mesh.material = this.materials.bone;
@@ -135,6 +160,8 @@ export class AnatomyScene {
 
   /** Place the camera so the selected muscle fills the view, with some surrounding context. */
   frame(view: CameraView, aspect: number, padding = 1.35): Vector3 {
+    this.hideLeftSide = view === 'medial';
+    this.apply();
     const box = this.focusBox();
     const center = box.getCenter(new Vector3());
     const size = box.getSize(new Vector3());
@@ -173,7 +200,8 @@ export class AnatomyScene {
     const { muscleId, mode } = this.options;
     for (const { part, mesh } of this.meshes) {
       const target = part.muscleId === muscleId && (mode === 'muscle' ? part.kind === 'muscle' : part.kind === 'attachment');
-      mesh.visible = target || part.kind === 'bone' || (mode === 'muscle' && part.kind === 'muscle' && part.muscleId === muscleId);
+      const hidden = this.hideLeftSide && part.side === 'left';
+      mesh.visible = !hidden && (target || part.kind === 'bone' || (mode === 'muscle' && part.kind === 'muscle' && part.muscleId === muscleId));
       mesh.material = target ? white : black;
     }
     this.renderer.setClearColor(0x000000, 1);

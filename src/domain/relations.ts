@@ -86,11 +86,11 @@ export function attachmentsOnBone(boneId: string): BoneAttachments {
 
 /** Every root used anywhere in the data, in segment order (for filters). */
 export const ROOT_ORDER: SpinalRoot[] = [
-  'CN XI',
+  'CN V', 'CN VII', 'CN XI', 'CN XII',
   'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8',
   'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12',
   'L1', 'L2', 'L3', 'L4', 'L5',
-  'S1', 'S2', 'S3', 'S4', 'S5',
+  'S1', 'S2', 'S3', 'S4', 'S5', 'Co1',
 ];
 
 export function usedRoots(): SpinalRoot[] {
@@ -105,5 +105,6 @@ export function formatRoots(roots: SpinalRoot[]): string {
   const last = sorted[sorted.length - 1];
   if (first === undefined || last === undefined) return '';
   const consecutive = ROOT_ORDER.indexOf(last) - ROOT_ORDER.indexOf(first) === sorted.length - 1;
-  return consecutive && sorted.length >= 3 ? `${first}–${last}` : sorted.join(', ');
+  const spinalOnly = !first.startsWith('CN');
+  return consecutive && spinalOnly && sorted.length >= 3 ? `${first}–${last}` : sorted.join(', ');
 }

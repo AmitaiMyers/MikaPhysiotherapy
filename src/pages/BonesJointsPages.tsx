@@ -5,11 +5,18 @@ import type { BoneRegion } from '../data/types';
 import { attachmentsOnBone, musclesPerforming } from '../domain/relations';
 
 const BONE_REGION_NAMES: Record<BoneRegion, string> = {
+  skull: 'Skull',
+  neck: 'Neck (hyoid and larynx)',
+  'vertebral-column': 'Vertebral column',
+  thorax: 'Thorax',
+  pelvis: 'Pelvis',
   'shoulder-girdle': 'Shoulder girdle',
   arm: 'Arm',
   forearm: 'Forearm',
   hand: 'Wrist & hand',
-  axial: 'Axial skeleton (upper-limb attachments)',
+  thigh: 'Thigh & knee',
+  leg: 'Leg',
+  foot: 'Ankle & foot',
 };
 
 export function BonesJointsPage() {
@@ -41,7 +48,6 @@ export function BonesJointsPage() {
           </ul>
         </Card>
       ))}
-      <Note>Bone and joint pages currently cover the upper limb; other regions follow with their muscles.</Note>
     </div>
   );
 }
@@ -108,7 +114,7 @@ export function JointDetailPage() {
           </Card>
         );
       })}
-      <Note>Movers are taken from the upper-limb muscle data; neck and trunk muscles will be added in later phases.</Note>
+      <Note>Movers are worked out from the action lists of all muscles in the app.</Note>
       <Disclaimer />
     </div>
   );

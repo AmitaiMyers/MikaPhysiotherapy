@@ -1,4 +1,5 @@
 import { BufferAttribute, BufferGeometry } from 'three';
+import type { RegionId } from '../data/types';
 import { assert } from '../domain/assert';
 
 /** One mesh of the anatomy model, as written by scripts/anatomy/build-model.mjs. */
@@ -31,18 +32,21 @@ export interface AnatomyModel {
   attribution: string;
 }
 
-const MODEL_URL = `${import.meta.env.BASE_URL}models/upper-limb`;
+const pending = new Map<RegionId, Promise<AnatomyModel>>();
 
-let pending: Promise<AnatomyModel> | null = null;
-
-/** Download (once) and decode the upper-limb model. */
-export function loadAnatomyModel(): Promise<AnatomyModel> {
-  pending ??= fetchModel();
-  return pending;
+/** Download (once per session) and decode the 3D model of one body region. */
+export function loadAnatomyModel(regionId: RegionId): Promise<AnatomyModel> {
+  let model = pending.get(regionId);
+  if (!model) {
+    model = fetchModel(regionId);
+    pending.set(regionId, model);
+  }
+  return model;
 }
 
-async function fetchModel(): Promise<AnatomyModel> {
-  const [manifestResponse, binResponse] = await Promise.all([fetch(`${MODEL_URL}.json`), fetch(`${MODEL_URL}.bin`)]);
+async function fetchModel(regionId: RegionId): Promise<AnatomyModel> {
+  const url = `${import.meta.env.BASE_URL}models/${regionId}`;
+  const [manifestResponse, binResponse] = await Promise.all([fetch(`${url}.json`), fetch(`${url}.bin`)]);
   assert(manifestResponse.ok && binResponse.ok, 'Could not download the 3D model');
   const manifest = (await manifestResponse.json()) as Manifest;
   assert(manifest.version === 1, `Unsupported model version ${manifest.version}`);

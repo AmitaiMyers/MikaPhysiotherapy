@@ -57,8 +57,11 @@ describe('muscle records', () => {
     }
   });
 
-  it('cover all 50 physio-relevant upper-limb muscles', () => {
-    expect(MUSCLES.filter((m) => m.regionId === 'upper-limb')).toHaveLength(50);
+  it.each([
+    ['upper-limb', 50],
+    ['lower-limb', 50],
+  ])('cover the physio-relevant muscles of the %s', (regionId, count) => {
+    expect(MUSCLES.filter((m) => m.regionId === regionId)).toHaveLength(count);
   });
 });
 

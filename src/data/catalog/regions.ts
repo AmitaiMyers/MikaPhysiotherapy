@@ -75,6 +75,57 @@ export const REGIONS: Region[] = [
   {
     id: 'lower-limb',
     name: 'Lower limb',
-    groups: [],
+    groups: [
+      {
+        id: 'gluteal',
+        name: 'Gluteal region & deep hip rotators',
+        description: 'Gluteal nerves and branches of the sacral plexus; extend, abduct and rotate the hip and stabilise the pelvis.',
+      },
+      {
+        id: 'iliopsoas',
+        name: 'Iliopsoas (anterior hip)',
+        description: 'The main hip flexors, from the lumbar spine and iliac fossa to the lesser trochanter.',
+      },
+      {
+        id: 'thigh-anterior',
+        name: 'Thigh — anterior compartment',
+        description: 'Femoral nerve; extend the knee (quadriceps) and flex the hip.',
+      },
+      {
+        id: 'thigh-medial',
+        name: 'Thigh — medial (adductor) compartment',
+        description: 'Mostly obturator nerve; adduct the hip.',
+      },
+      {
+        id: 'thigh-posterior',
+        name: 'Thigh — posterior compartment (hamstrings)',
+        description: 'Sciatic nerve; extend the hip and flex the knee.',
+      },
+      {
+        id: 'leg-anterior',
+        name: 'Leg — anterior compartment',
+        description: 'Deep fibular nerve; dorsiflex the ankle and extend the toes.',
+      },
+      {
+        id: 'leg-lateral',
+        name: 'Leg — lateral compartment',
+        description: 'Superficial fibular nerve; evert the foot.',
+      },
+      {
+        id: 'leg-posterior',
+        name: 'Leg — posterior compartment',
+        description: 'Tibial nerve; plantarflex the ankle, flex the toes and invert the foot. Superficial (triceps surae) and deep layers.',
+      },
+      {
+        id: 'foot-dorsal',
+        name: 'Foot — dorsum',
+        description: 'Deep fibular nerve; extend the toes.',
+      },
+      {
+        id: 'foot-plantar',
+        name: 'Foot — sole (four layers)',
+        description: 'Medial and lateral plantar nerves; support the arches and move the toes.',
+      },
+    ],
   },
 ];

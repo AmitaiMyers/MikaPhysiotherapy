@@ -566,6 +566,7 @@ button {
   min-height: 34px;
   padding: 0 12px;
   border-radius: 999px;
+  border: 1px solid var(--accent);
   background: var(--accent-soft);
   color: var(--text);
   text-decoration: none;
@@ -573,12 +574,9 @@ button {
   font-weight: 600;
 }
 
-.chip-assist .chips.spaced {
-  margin-top: 10px;
-}
-
-.chip-link {
-  background: var(--surface-2);
+.chip-assist .chip-link {
+  border: 1px dashed var(--border);
+  background: transparent;
   font-weight: 500;
   color: var(--muted);
 }

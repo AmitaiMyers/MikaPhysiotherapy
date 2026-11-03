@@ -1,12 +1,13 @@
 /**
- * Builds the upper-limb 3D model used by the app (public/models/upper-limb.{json,bin}).
+ * Builds one 3D model per body region (public/models/<region>.{json,bin}).
  *
  *   node scripts/anatomy/build-model.mjs
  *
  * Steps: download the pinned Z-Anatomy FBX files (cached), parse them with three.js, keep the
- * skeleton above the hips plus the right upper-limb muscles and their attachment areas, simplify
- * every mesh with meshoptimizer, classify each attachment area as origin or insertion from the
- * app's own data, and write positions (int16, quantised to the model bounds) and indices (uint16).
+ * part of the skeleton around each region plus the region's right-side (or midline) muscles and
+ * their attachment areas, simplify every mesh with meshoptimizer, classify each attachment area as
+ * origin or insertion from the app's own data, and write positions (int16, quantised to the model
+ * bounds) and indices (uint16).
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -16,7 +17,7 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { MeshoptSimplifier } from 'meshoptimizer';
 import { createServer } from 'vite';
-import { BONE_RULES, CONTEXT_EXCLUDE, CONTEXT_MIN_Y, MUSCLE_MESHES, MUSCLES_WITHOUT_MESH, SOURCE_FILES } from './config.mjs';
+import { ALWAYS_EXCLUDE, BONE_NAME, BONE_RULES, MUSCLES_WITHOUT_MESH, REGION_MODELS, SOURCE_FILES } from './config.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CACHE = join(ROOT, 'scripts', 'anatomy', '.cache');
@@ -128,8 +129,6 @@ function boneIdFor(base) {
   return rule ? rule[1] : null;
 }
 
-const BONE_NAME = /bone|Vertebra|_rib$|^Costal_cartilage|sternum|Xiphoid|phalanx|Sacrum|Coccyx|Mandible|Maxilla|Atlas|Axis|Clavicle|Scapula|Humerus|Radius|Ulna|Occipital/;
-
 /** Mean distance from sampled attachment vertices to the nearest vertex of each candidate bone. */
 function nearestBone(attachment, bones) {
   const a = attachment.positions;
@@ -182,75 +181,109 @@ async function loadAppMuscles() {
   return data.MUSCLES;
 }
 
+/** Every bone of the skeleton file, simplified once and shared by all regional models. */
+function prepareBones(skeletonMeshes) {
+  const bones = [];
+  for (const { name, geometry } of skeletonMeshes) {
+    const { base, side } = splitSide(name, geometry);
+    if (geometry.getAttribute('position').count <= 36 || !BONE_NAME.test(base) || ALWAYS_EXCLUDE.test(base)) continue;
+    const boneId = boneIdFor(base);
+    const box = geometry.boundingBox;
+    const part = { kind: 'bone', name: base, side, boneId, ...simplify(geometry, boneId ? SIMPLIFY.bone : SIMPLIFY.context) };
+    bones.push({ part, minY: box.min.y, maxY: box.max.y, centerX: centerX(geometry) });
+  }
+  return bones;
+}
+
+function inSkeletonWindow(bone, window) {
+  if (window.minTop !== undefined && bone.maxY < window.minTop) return false;
+  if (window.maxBottom !== undefined && bone.minY > window.maxBottom) return false;
+  if (window.maxAbsX !== undefined && Math.abs(bone.centerX) > window.maxAbsX) return false;
+  return !(window.exclude && window.exclude.test(bone.part.name));
+}
+
+/** The right-side mesh of a bilateral muscle, or the single mesh of a midline one (e.g. diaphragm). */
+function findMuscleMesh(muscleMeshes, meshName) {
+  const candidates = muscleMeshes.filter((m) => m.name === meshName || (/[rl]$/.test(m.name) && m.name.slice(0, -1) === meshName));
+  return candidates.find((m) => centerX(m.geometry) < -0.5) ?? candidates.find((m) => Math.abs(centerX(m.geometry)) <= 0.5);
+}
+
+function validateConfig(appMuscles) {
+  const appMuscleIds = new Set(appMuscles.map((m) => m.id));
+  const configured = new Map();
+  for (const [regionId, model] of Object.entries(REGION_MODELS)) {
+    for (const id of Object.keys(model.muscles)) {
+      if (!appMuscleIds.has(id)) fail(`${regionId} config lists unknown muscle "${id}"`);
+      configured.set(id, regionId);
+    }
+  }
+  for (const m of appMuscles) {
+    if (MUSCLES_WITHOUT_MESH.includes(m.id)) continue;
+    if (configured.get(m.id) !== m.regionId) fail(`No meshes configured for muscle "${m.id}" in its region model "${m.regionId}"`);
+  }
+}
+
+/** Origin/insertion areas of one muscle, classified by the bone each area lies on. */
+function classifyAttachments(muscle, config, attachmentMeshes, candidateBones, report) {
+  const originBones = new Set(muscle.origin.flatMap((a) => a.bones));
+  const insertionBones = new Set(muscle.insertion.flatMap((a) => a.bones));
+  const parts = [];
+  for (const { base, code, geometry } of attachmentMeshes.filter((a) => config.attachments.includes(a.base))) {
+    const simplified = simplify(geometry, SIMPLIFY.attachment);
+    const nearest = nearestBone(simplified, candidateBones);
+    const boneId = nearest.bone.boneId;
+    const isOrigin = originBones.has(boneId);
+    const isInsertion = insertionBones.has(boneId);
+    const line = `${muscle.id.padEnd(34)} ${`${base}${code}`.padEnd(58)} → ${boneId} (${nearest.distance.toFixed(2)} cm)`;
+    if (isOrigin === isInsertion || nearest.distance > 1.5) {
+      report.push(`SKIP      ${line}${isOrigin && isInsertion ? ' [bone is both origin and insertion]' : ''}`);
+      continue;
+    }
+    const attachment = isOrigin ? 'origin' : 'insertion';
+    report.push(`${attachment.toUpperCase().padEnd(9)} ${line}`);
+    parts.push({ kind: 'attachment', name: `${base}${code}`, side: 'right', muscleId: muscle.id, boneId, attachment, ...simplified });
+  }
+  return parts;
+}
+
 async function main() {
   await ensureSources();
   await MeshoptSimplifier.ready;
   const appMuscles = await loadAppMuscles();
-  const appMuscleIds = new Set(appMuscles.map((m) => m.id));
-  for (const id of Object.keys(MUSCLE_MESHES)) if (!appMuscleIds.has(id)) fail(`config lists unknown muscle "${id}"`);
-  for (const m of appMuscles) {
-    if (!MUSCLE_MESHES[m.id] && !MUSCLES_WITHOUT_MESH.includes(m.id)) fail(`No meshes configured for muscle "${m.id}"`);
-  }
+  validateConfig(appMuscles);
 
   console.log('Parsing FBX files…');
   const muscleMeshes = loadMeshes(SOURCE_FILES.muscles.file);
   const skeletonMeshes = loadMeshes(SOURCE_FILES.skeleton.file);
-  const attachmentBases = new Set(Object.values(MUSCLE_MESHES).flatMap((m) => m.attachments));
-
-  const parts = [];
-  const addPart = (part, geometry, settings) => parts.push({ ...part, ...simplify(geometry, settings) });
-
-  // Bones: right, left and midline skeleton above the hips.
-  for (const { name, geometry } of skeletonMeshes) {
-    const { base, side } = splitSide(name, geometry);
-    if (geometry.getAttribute('position').count <= 36 || !BONE_NAME.test(base) || CONTEXT_EXCLUDE.test(base)) continue;
-    geometry.computeBoundingBox();
-    if (geometry.boundingBox.max.y < CONTEXT_MIN_Y) continue;
-    const boneId = boneIdFor(base);
-    addPart({ kind: 'bone', name: base, side, boneId }, geometry, boneId ? SIMPLIFY.bone : SIMPLIFY.context);
-  }
-
-  // Muscles: right side only.
-  for (const [muscleId, config] of Object.entries(MUSCLE_MESHES)) {
-    for (const meshName of config.meshes) {
-      const found = muscleMeshes.find((m) => /[rl]$/.test(m.name) && m.name.slice(0, -1) === meshName && centerX(m.geometry) < 0);
-      if (!found) fail(`Right-side muscle mesh not found: ${meshName} (${muscleId})`);
-      addPart({ kind: 'muscle', name: meshName, side: 'right', muscleId }, found.geometry, SIMPLIFY.muscle);
-    }
-  }
-
-  // Attachment areas: the right-side mesh, or the left one mirrored when only that exists.
-  const rightBones = parts.filter((p) => p.kind === 'bone' && p.boneId && p.side !== 'left');
+  const bones = prepareBones(skeletonMeshes);
+  const attachmentBases = new Set(Object.values(REGION_MODELS).flatMap((model) => Object.values(model.muscles).flatMap((m) => m.attachments)));
   const attachmentMeshes = rightSideAttachments(skeletonMeshes, attachmentBases);
   const report = [];
-  for (const muscle of appMuscles) {
-    const config = MUSCLE_MESHES[muscle.id];
-    if (!config) continue;
-    const originBones = new Set(muscle.origin.flatMap((a) => a.bones));
-    const insertionBones = new Set(muscle.insertion.flatMap((a) => a.bones));
-    for (const { base, code, geometry } of attachmentMeshes.filter((a) => config.attachments.includes(a.base))) {
-      const simplified = simplify(geometry, SIMPLIFY.attachment);
-      const nearest = nearestBone(simplified, rightBones);
-      const boneId = nearest.bone.boneId;
-      const isOrigin = originBones.has(boneId);
-      const isInsertion = insertionBones.has(boneId);
-      const line = `${muscle.id.padEnd(34)} ${`${base}${code}`.padEnd(58)} → ${boneId} (${nearest.distance.toFixed(2)} cm)`;
-      if (isOrigin === isInsertion || nearest.distance > 1.5) {
-        report.push(`SKIP  ${line}${isOrigin && isInsertion ? ' [bone is both origin and insertion]' : ''}`);
-        continue;
+
+  for (const [regionId, model] of Object.entries(REGION_MODELS)) {
+    if (Object.keys(model.muscles).length === 0) continue;
+    const boneParts = bones.filter((bone) => inSkeletonWindow(bone, model.skeleton)).map((bone) => bone.part);
+    const parts = [...boneParts];
+    for (const [muscleId, config] of Object.entries(model.muscles)) {
+      for (const meshName of config.meshes) {
+        const found = findMuscleMesh(muscleMeshes, meshName);
+        if (!found) fail(`Right-side or midline muscle mesh not found: ${meshName} (${muscleId})`);
+        const { side } = splitSide(found.name, found.geometry);
+        parts.push({ kind: 'muscle', name: meshName, side, muscleId, ...simplify(found.geometry, SIMPLIFY.muscle) });
       }
-      const attachment = isOrigin ? 'origin' : 'insertion';
-      report.push(`${attachment.toUpperCase().padEnd(9)} ${line}`);
-      parts.push({ kind: 'attachment', name: `${base}${code}`, side: 'right', muscleId: muscle.id, boneId, attachment, ...simplified });
     }
+    const candidateBones = boneParts.filter((p) => p.boneId && p.side !== 'left');
+    report.push(`--- ${regionId}`);
+    for (const muscle of appMuscles.filter((m) => model.muscles[m.id])) {
+      parts.push(...classifyAttachments(muscle, model.muscles[muscle.id], attachmentMeshes, candidateBones, report));
+    }
+    writeModel(regionId, parts);
   }
   writeFileSync(join(CACHE, 'attachments-report.txt'), `${report.join('\n')}\n`);
-  console.log(report.join('\n'));
-
-  writeModel(parts);
+  console.log(report.filter((line) => line.startsWith('SKIP') || line.startsWith('---')).join('\n'));
 }
 
-function writeModel(parts) {
+function writeModel(regionId, parts) {
   const min = [Infinity, Infinity, Infinity];
   const max = [-Infinity, -Infinity, -Infinity];
   for (const part of parts) {
@@ -293,7 +326,7 @@ function writeModel(parts) {
     };
   });
   mkdirSync(OUT, { recursive: true });
-  writeFileSync(join(OUT, 'upper-limb.bin'), Buffer.concat(chunks));
+  writeFileSync(join(OUT, `${regionId}.bin`), Buffer.concat(chunks));
   const manifest = {
     version: 1,
     units: 'cm',
@@ -301,9 +334,9 @@ function writeModel(parts) {
     attribution: 'Z-Anatomy (CC BY-SA 4.0), derived from BodyParts3D © The Database Center for Life Science (CC BY-SA 2.1 JP). Simplified for the web.',
     parts: manifestParts,
   };
-  writeFileSync(join(OUT, 'upper-limb.json'), `${JSON.stringify(manifest)}\n`);
+  writeFileSync(join(OUT, `${regionId}.json`), `${JSON.stringify(manifest)}\n`);
   const triangles = parts.reduce((sum, p) => sum + p.indices.length / 3, 0);
-  console.log(`Wrote ${parts.length} parts, ${triangles} triangles, ${(offset / 1024 / 1024).toFixed(1)} MB`);
+  console.log(`${regionId}: ${parts.length} parts, ${triangles} triangles, ${(offset / 1024 / 1024).toFixed(1)} MB`);
 }
 
 await main();

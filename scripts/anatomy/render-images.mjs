@@ -7,22 +7,47 @@
  * keeps the 2–3 most informative views, renders one view of the origin/insertion areas and a
  * thumbnail, and writes src/data/generated/muscleImages.json for the app.
  */
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { createServer } from 'vite';
+import { REGION_MODELS } from './config.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const IMAGE_DIR = join(ROOT, 'public', 'images', 'muscles');
 const MANIFEST = join(ROOT, 'src', 'data', 'generated', 'muscleImages.json');
-const VIEWS = ['anterior', 'posterior', 'lateral'];
 const IMAGE = { width: 800, height: 1000, padding: 1.3 };
 const THUMB = { width: 240, height: 240, padding: 1.05 };
 const MEASURE = { width: 200, height: 250, padding: 1.3 };
 /** Every muscle gets the two best views; a third is kept when it shows at least this share of the best view. */
 const MIN_VIEWS = 2;
+const MAX_VIEWS = 3;
 const KEEP_RATIO = 0.45;
+
+/** Pick the most informative views of one muscle and write its images; returns its manifest entry. */
+async function renderMuscle(page, muscleId) {
+  const measure = (view, mode) => page.evaluate((r) => window.renderTool.coverage(r), { muscleId, view, mode, ...MEASURE });
+  const render = (view, mode, size) => page.evaluate((r) => window.renderTool.image(r), { muscleId, view, mode, ...size });
+
+  const views = await page.evaluate((id) => window.renderTool.candidateViews(id), muscleId);
+  const scored = [];
+  for (const view of views) scored.push({ view, coverage: await measure(view, 'muscle') });
+  scored.sort((a, b) => b.coverage - a.coverage);
+  const best = scored[0].coverage;
+  const kept = scored.filter((s, rank) => rank < MIN_VIEWS || s.coverage >= best * KEEP_RATIO).slice(0, MAX_VIEWS).map((s) => s.view);
+
+  const attachmentScores = [];
+  for (const view of views) attachmentScores.push({ view, coverage: await measure(view, 'attachments') });
+  attachmentScores.sort((a, b) => b.coverage - a.coverage);
+  const attachmentsView = attachmentScores[0].coverage > 0 ? attachmentScores[0].view : null;
+
+  for (const view of kept) writeDataUrl(join(IMAGE_DIR, `${muscleId}-${view}.webp`), await render(view, 'muscle', IMAGE));
+  if (attachmentsView) writeDataUrl(join(IMAGE_DIR, `${muscleId}-attachments.webp`), await render(attachmentsView, 'attachments', IMAGE));
+  writeDataUrl(join(IMAGE_DIR, `${muscleId}-thumb.webp`), await render(kept[0], 'muscle', THUMB));
+  console.log(`${muscleId.padEnd(34)} views: ${kept.join(', ').padEnd(30)} attachments: ${attachmentsView ?? '—'}`);
+  return { views: kept, attachmentsView };
+}
 
 function writeDataUrl(path, dataUrl) {
   const prefix = 'data:image/webp;base64,';
@@ -35,36 +60,18 @@ async function main() {
   await server.listen();
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   try {
-    const page = await browser.newPage({ viewport: { width: 1000, height: 1000 } });
-    page.on('pageerror', (error) => console.error('Page error:', error.message));
-    await page.goto(`http://localhost:5199${server.config.base}scripts/anatomy/render.html`);
-    await page.waitForFunction(() => 'renderTool' in window, null, { timeout: 120_000 });
-    const muscleIds = await page.evaluate(() => window.renderTool.muscleIds);
-
     rmSync(IMAGE_DIR, { recursive: true, force: true });
     mkdirSync(IMAGE_DIR, { recursive: true });
     const manifest = {};
-    for (const muscleId of muscleIds) {
-      const measure = (view, mode) => page.evaluate((r) => window.renderTool.coverage(r), { muscleId, view, mode, ...MEASURE });
-      const render = (view, mode, size) => page.evaluate((r) => window.renderTool.image(r), { muscleId, view, mode, ...size });
-
-      const scored = [];
-      for (const view of VIEWS) scored.push({ view, coverage: await measure(view, 'muscle') });
-      scored.sort((a, b) => b.coverage - a.coverage);
-      const best = scored[0].coverage;
-      const views = scored.filter((s, rank) => rank < MIN_VIEWS || s.coverage >= best * KEEP_RATIO).map((s) => s.view);
-
-      const attachmentScores = [];
-      for (const view of VIEWS) attachmentScores.push({ view, coverage: await measure(view, 'attachments') });
-      attachmentScores.sort((a, b) => b.coverage - a.coverage);
-      const attachmentsView = attachmentScores[0].coverage > 0 ? attachmentScores[0].view : null;
-
-      for (const view of views) writeDataUrl(join(IMAGE_DIR, `${muscleId}-${view}.webp`), await render(view, 'muscle', IMAGE));
-      if (attachmentsView) writeDataUrl(join(IMAGE_DIR, `${muscleId}-attachments.webp`), await render(attachmentsView, 'attachments', IMAGE));
-      writeDataUrl(join(IMAGE_DIR, `${muscleId}-thumb.webp`), await render(views[0], 'muscle', THUMB));
-
-      manifest[muscleId] = { views, attachmentsView };
-      console.log(`${muscleId.padEnd(34)} views: ${views.join(', ').padEnd(30)} attachments: ${attachmentsView ?? '—'}`);
+    for (const regionId of Object.keys(REGION_MODELS)) {
+      if (!existsSync(join(ROOT, 'public', 'models', `${regionId}.json`))) continue;
+      const page = await browser.newPage({ viewport: { width: 1000, height: 1000 } });
+      page.on('pageerror', (error) => console.error('Page error:', error.message));
+      await page.goto(`http://localhost:5199${server.config.base}scripts/anatomy/render.html?region=${regionId}`);
+      await page.waitForFunction(() => 'renderTool' in window, null, { timeout: 120_000 });
+      const muscleIds = await page.evaluate(() => window.renderTool.muscleIds);
+      for (const muscleId of muscleIds) manifest[muscleId] = await renderMuscle(page, muscleId);
+      await page.close();
     }
     mkdirSync(dirname(MANIFEST), { recursive: true });
     writeFileSync(MANIFEST, `${JSON.stringify(manifest, null, 2)}\n`);

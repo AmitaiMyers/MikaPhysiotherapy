@@ -2,26 +2,22 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Vector2 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { findMuscle } from '../data';
+import { findMuscle, getMuscle } from '../data';
 import { bestView } from '../data/images';
 import { loadAnatomyModel, type AnatomyModel } from './model';
-import { AnatomyScene, COLORS, muscleHasModel, type CameraView, type DisplayMode } from './scene';
+import { AnatomyScene, COLORS, muscleHasModel, REGION_VIEWS, VIEW_LABELS, type CameraView, type DisplayMode } from './scene';
 
-const VIEWS: { id: CameraView; label: string }[] = [
-  { id: 'anterior', label: 'Front' },
-  { id: 'posterior', label: 'Back' },
-  { id: 'lateral', label: 'Side' },
-];
 
 /** Interactive 3D view of one muscle: rotate, zoom, show attachments, tap other muscles. */
 export default function AnatomyViewer({ muscleId }: { muscleId: string }) {
   const [model, setModel] = useState<AnatomyModel | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const regionId = getMuscle(muscleId).regionId;
   useEffect(() => {
-    loadAnatomyModel().then(setModel, (e: unknown) => setError(e instanceof Error ? e.message : String(e)));
-  }, []);
-  if (error) return <p className="empty">{error}. Connect to the internet once to download the 3D model (about 3 MB).</p>;
-  if (!model) return <p className="muted center">Downloading 3D model (about 3 MB, once)…</p>;
+    loadAnatomyModel(regionId).then(setModel, (e: unknown) => setError(e instanceof Error ? e.message : String(e)));
+  }, [regionId]);
+  if (error) return <p className="empty">{error}. Connect to the internet once to download the 3D model (a few MB).</p>;
+  if (!model) return <p className="muted center">Downloading the 3D model of this region (a few MB, once)…</p>;
   if (!muscleHasModel(model, muscleId)) return <p className="empty">No open 3D model exists for this muscle.</p>;
   return <ViewerCanvas model={model} muscleId={muscleId} />;
 }
@@ -109,9 +105,9 @@ function ViewerCanvas({ model, muscleId }: { model: AnatomyModel; muscleId: stri
         )}
       </div>
       <div className="segmented" role="group" aria-label="Camera">
-        {VIEWS.map((v) => (
-          <button key={v.id} type="button" className={v.id === view ? 'segment-active' : ''} aria-pressed={v.id === view} onClick={() => setView(v.id)}>
-            {v.label}
+        {REGION_VIEWS[getMuscle(muscleId).regionId].map((id) => (
+          <button key={id} type="button" className={id === view ? 'segment-active' : ''} aria-pressed={id === view} onClick={() => setView(id)}>
+            {VIEW_LABELS[id]}
           </button>
         ))}
       </div>
@@ -125,7 +121,7 @@ function ViewerCanvas({ model, muscleId }: { model: AnatomyModel; muscleId: stri
           Other muscles (faded)
         </label>
       </div>
-      <p className="muted small">Drag to rotate, pinch or scroll to zoom, tap a muscle to name it. Model: Z-Anatomy (CC BY-SA 4.0), right upper limb.</p>
+      <p className="muted small">Drag to rotate, pinch or scroll to zoom, tap a muscle to name it. Model: Z-Anatomy (CC BY-SA 4.0), right side.</p>
     </section>
   );
 }

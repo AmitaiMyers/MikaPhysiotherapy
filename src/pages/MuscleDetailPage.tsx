@@ -106,7 +106,7 @@ function Gallery({ images }: { images: MuscleImage[] }) {
         <div className="segmented" role="group" aria-label="View">
           {images.map((image, i) => (
             <button key={image.url} type="button" className={i === index ? 'segment-active' : ''} onClick={() => setIndex(i)} aria-pressed={i === index}>
-              {image.caption.replace(' view', '')}
+              {image.label}
             </button>
           ))}
         </div>
@@ -205,7 +205,7 @@ function RelatedList({ label, related }: { label: string; related: RelatedMuscle
     <div className="related">
       <span className="related-label">{label}</span>
       {related.length === 0 ? (
-        <span className="muted">None listed in the upper-limb data yet</span>
+        <span className="muted">None in the current data</span>
       ) : (
         <span className="chips">
           {related.map(({ muscle, action }) => (
@@ -250,7 +250,7 @@ function ActionsTab({ muscle }: { muscle: Muscle }) {
         ))}
       </ul>
       <Note>
-        Agonists and antagonists are worked out from the actions of every muscle in the app, so they always agree with each muscle’s own action list. Faded names assist rather than act as prime movers. Muscles of the neck and trunk will be added in later phases.
+        Agonists and antagonists are worked out from the actions of every muscle in the app, so they always agree with each muscle’s own action list. Outlined names assist; filled names are prime movers.
       </Note>
     </>
   );

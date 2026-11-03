@@ -22,10 +22,19 @@ export interface MuscleGroup {
   description: string;
 }
 
-export type Layer = 'Superficial' | 'Intermediate' | 'Deep';
+export type Layer = 'Superficial' | 'Intermediate' | 'Deep' | 'Layer 1' | 'Layer 2' | 'Layer 3' | 'Layer 4';
 
-/** A spinal nerve root, e.g. "C5" or "T1". */
-export type SpinalRoot = `C${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8}` | `T${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}` | `L${1 | 2 | 3 | 4 | 5}` | `S${1 | 2 | 3 | 4 | 5}` | 'CN XI';
+/** A spinal nerve root (e.g. "C5", "T1") or, for head and neck muscles, a cranial nerve. */
+export type SpinalRoot =
+  | 'CN V'
+  | 'CN VII'
+  | 'CN XI'
+  | 'CN XII'
+  | `C${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8}`
+  | `T${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}`
+  | `L${1 | 2 | 3 | 4 | 5}`
+  | `S${1 | 2 | 3 | 4 | 5}`
+  | 'Co1';
 
 export interface Attachment {
   /** Precise landmark description, e.g. "Medial two-thirds of the supraspinous fossa". */
@@ -114,7 +123,7 @@ export interface Nerve {
   sourceIds: string[];
 }
 
-export type BoneRegion = 'shoulder-girdle' | 'arm' | 'forearm' | 'hand' | 'axial';
+export type BoneRegion = 'skull' | 'neck' | 'thorax' | 'vertebral-column' | 'pelvis' | 'shoulder-girdle' | 'arm' | 'forearm' | 'hand' | 'thigh' | 'leg' | 'foot';
 
 export interface Bone {
   id: string;

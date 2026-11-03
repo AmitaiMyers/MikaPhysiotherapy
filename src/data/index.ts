@@ -12,6 +12,10 @@ import { HAND_MUSCLES } from './muscles/upperLimb/hand';
 import { PECTORAL_MUSCLES } from './muscles/upperLimb/pectoral';
 import { POSTERIOR_AXIAL_MUSCLES } from './muscles/upperLimb/posteriorAxial';
 import { SCAPULOHUMERAL_MUSCLES } from './muscles/upperLimb/scapulohumeral';
+import { FOOT_MUSCLES } from './muscles/lowerLimb/foot';
+import { GLUTEAL_MUSCLES, ILIOPSOAS_MUSCLES } from './muscles/lowerLimb/gluteal';
+import { LEG_MUSCLES } from './muscles/lowerLimb/leg';
+import { THIGH_MUSCLES } from './muscles/lowerLimb/thigh';
 import type { Bone, Joint, Muscle, Nerve, Region, Source, SpecialTest } from './types';
 
 export { BONES, JOINTS, NERVES, REGIONS, SOURCES, SPECIAL_TESTS };
@@ -24,6 +28,11 @@ export const MUSCLES: Muscle[] = [
   ...FOREARM_ANTERIOR_MUSCLES,
   ...FOREARM_POSTERIOR_MUSCLES,
   ...HAND_MUSCLES,
+  ...GLUTEAL_MUSCLES,
+  ...ILIOPSOAS_MUSCLES,
+  ...THIGH_MUSCLES,
+  ...LEG_MUSCLES,
+  ...FOOT_MUSCLES,
 ];
 
 /** Index a list by id, failing fast on duplicates. */

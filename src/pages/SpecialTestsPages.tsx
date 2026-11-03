@@ -11,7 +11,7 @@ export function SpecialTestsPage() {
   const tests = SPECIAL_TESTS.filter((t) => query === '' || `${t.name} ${t.purpose}`.toLowerCase().includes(query));
   return (
     <div className="page">
-      <PageHeader title="Special tests" subtitle={`${SPECIAL_TESTS.length} upper-limb tests`} />
+      <PageHeader title="Special tests" subtitle={`${SPECIAL_TESTS.length} muscle-related tests`} />
       <input type="search" className="search-input" placeholder="Search test or structure" value={text} onChange={(e) => setText(e.target.value)} aria-label="Search special tests" />
       <section className="card list-card">
         {tests.length === 0 ? (

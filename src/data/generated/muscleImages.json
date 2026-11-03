@@ -23,7 +23,8 @@
   "serratus-anterior": {
     "views": [
       "lateral",
-      "posterior"
+      "posterior",
+      "medial"
     ],
     "attachmentsView": "lateral"
   },
@@ -52,14 +53,14 @@
   "rhomboid-major": {
     "views": [
       "posterior",
-      "anterior"
+      "medial"
     ],
     "attachmentsView": "posterior"
   },
   "rhomboid-minor": {
     "views": [
       "posterior",
-      "lateral"
+      "medial"
     ],
     "attachmentsView": "posterior"
   },
@@ -103,7 +104,7 @@
   "subscapularis": {
     "views": [
       "anterior",
-      "lateral"
+      "medial"
     ],
     "attachmentsView": "anterior"
   },
@@ -162,7 +163,7 @@
     "views": [
       "anterior",
       "lateral",
-      "posterior"
+      "medial"
     ],
     "attachmentsView": "anterior"
   },
@@ -285,6 +286,7 @@
   "abductor-pollicis-brevis": {
     "views": [
       "anterior",
+      "medial",
       "lateral"
     ],
     "attachmentsView": null
@@ -299,36 +301,38 @@
   "opponens-pollicis": {
     "views": [
       "anterior",
-      "posterior"
+      "medial"
     ],
     "attachmentsView": null
   },
   "adductor-pollicis": {
     "views": [
       "anterior",
-      "posterior"
+      "posterior",
+      "medial"
     ],
     "attachmentsView": "anterior"
   },
   "abductor-digiti-minimi-hand": {
     "views": [
+      "medial",
       "anterior",
-      "lateral",
-      "posterior"
+      "lateral"
     ],
-    "attachmentsView": "anterior"
+    "attachmentsView": "medial"
   },
   "flexor-digiti-minimi-brevis-hand": {
     "views": [
       "anterior",
+      "medial",
       "lateral"
     ],
     "attachmentsView": "anterior"
   },
   "opponens-digiti-minimi-hand": {
     "views": [
-      "anterior",
-      "lateral"
+      "medial",
+      "anterior"
     ],
     "attachmentsView": "anterior"
   },
@@ -351,6 +355,377 @@
     "views": [
       "anterior",
       "posterior"
+    ],
+    "attachmentsView": null
+  },
+  "gluteus-maximus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "gluteus-medius": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "gluteus-minimus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "tensor-fasciae-latae": {
+    "views": [
+      "anterior",
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "piriformis": {
+    "views": [
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "superior-gemellus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "obturator-internus": {
+    "views": [
+      "medial",
+      "posterior"
+    ],
+    "attachmentsView": "medial"
+  },
+  "inferior-gemellus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "quadratus-femoris": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "psoas-major": {
+    "views": [
+      "anterior",
+      "lateral",
+      "medial"
+    ],
+    "attachmentsView": "medial"
+  },
+  "iliacus": {
+    "views": [
+      "anterior",
+      "medial"
+    ],
+    "attachmentsView": "medial"
+  },
+  "sartorius": {
+    "views": [
+      "anterior",
+      "medial",
+      "posterior"
+    ],
+    "attachmentsView": "medial"
+  },
+  "rectus-femoris": {
+    "views": [
+      "anterior",
+      "lateral",
+      "medial"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "vastus-lateralis": {
+    "views": [
+      "lateral",
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "vastus-medialis": {
+    "views": [
+      "medial",
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "medial"
+  },
+  "vastus-intermedius": {
+    "views": [
+      "anterior",
+      "lateral",
+      "medial"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "pectineus": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "adductor-longus": {
+    "views": [
+      "anterior",
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "medial"
+  },
+  "adductor-brevis": {
+    "views": [
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": null
+  },
+  "adductor-magnus": {
+    "views": [
+      "posterior",
+      "anterior",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "gracilis": {
+    "views": [
+      "medial",
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "medial"
+  },
+  "obturator-externus": {
+    "views": [
+      "anterior",
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "biceps-femoris": {
+    "views": [
+      "lateral",
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "semitendinosus": {
+    "views": [
+      "posterior",
+      "anterior",
+      "medial"
+    ],
+    "attachmentsView": "medial"
+  },
+  "semimembranosus": {
+    "views": [
+      "posterior",
+      "anterior",
+      "medial"
+    ],
+    "attachmentsView": "medial"
+  },
+  "tibialis-anterior": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "extensor-hallucis-longus": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "extensor-digitorum-longus": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "fibularis-tertius": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "fibularis-longus": {
+    "views": [
+      "lateral",
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "fibularis-brevis": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "gastrocnemius": {
+    "views": [
+      "posterior",
+      "medial",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "soleus": {
+    "views": [
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "plantaris": {
+    "views": [
+      "posterior",
+      "lateral",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "popliteus": {
+    "views": [
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "flexor-hallucis-longus": {
+    "views": [
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "medial"
+  },
+  "flexor-digitorum-longus": {
+    "views": [
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "tibialis-posterior": {
+    "views": [
+      "posterior",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "extensor-digitorum-brevis": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "extensor-hallucis-brevis": {
+    "views": [
+      "lateral",
+      "anterior",
+      "medial"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "abductor-hallucis": {
+    "views": [
+      "medial",
+      "inferior"
+    ],
+    "attachmentsView": "inferior"
+  },
+  "flexor-digitorum-brevis": {
+    "views": [
+      "inferior",
+      "medial"
+    ],
+    "attachmentsView": "inferior"
+  },
+  "abductor-digiti-minimi-foot": {
+    "views": [
+      "inferior",
+      "lateral",
+      "medial"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "quadratus-plantae": {
+    "views": [
+      "inferior",
+      "medial"
+    ],
+    "attachmentsView": null
+  },
+  "lumbricals-foot": {
+    "views": [
+      "inferior",
+      "medial"
+    ],
+    "attachmentsView": null
+  },
+  "flexor-hallucis-brevis": {
+    "views": [
+      "inferior",
+      "medial"
+    ],
+    "attachmentsView": "inferior"
+  },
+  "adductor-hallucis": {
+    "views": [
+      "inferior",
+      "medial"
+    ],
+    "attachmentsView": "inferior"
+  },
+  "flexor-digiti-minimi-brevis-foot": {
+    "views": [
+      "inferior",
+      "medial",
+      "lateral"
+    ],
+    "attachmentsView": "inferior"
+  },
+  "plantar-interossei": {
+    "views": [
+      "inferior",
+      "anterior"
+    ],
+    "attachmentsView": "medial"
+  },
+  "dorsal-interossei-foot": {
+    "views": [
+      "lateral",
+      "anterior",
+      "inferior"
     ],
     "attachmentsView": null
   }
