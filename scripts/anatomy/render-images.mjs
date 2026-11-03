@@ -1,13 +1,14 @@
 /**
  * Renders the still images of every muscle from the 3D model (run after build-model.mjs):
  *
- *   node scripts/anatomy/render-images.mjs
+ *   node scripts/anatomy/render-images.mjs              # all regions
+ *   node scripts/anatomy/render-images.mjs lower-limb   # only the given region(s); others are kept
  *
  * For each muscle it measures how much of the muscle is visible from the front, back and side,
  * keeps the 2–3 most informative views, renders one view of the origin/insertion areas and a
  * thumbnail, and writes src/data/generated/muscleImages.json for the app.
  */
-import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -49,6 +50,13 @@ async function renderMuscle(page, muscleId) {
   return { views: kept, attachmentsView };
 }
 
+/** Delete a muscle's previous images so views that are no longer chosen do not linger. */
+function removeImages(muscleId) {
+  if (!existsSync(IMAGE_DIR)) return;
+  const pattern = new RegExp(`^${muscleId}-(anterior|posterior|lateral|medial|inferior|attachments|thumb)\\.webp$`);
+  for (const file of readdirSync(IMAGE_DIR)) if (pattern.test(file)) rmSync(join(IMAGE_DIR, file));
+}
+
 function writeDataUrl(path, dataUrl) {
   const prefix = 'data:image/webp;base64,';
   if (!dataUrl.startsWith(prefix)) throw new Error(`Renderer did not return WebP for ${path}`);
@@ -60,17 +68,23 @@ async function main() {
   await server.listen();
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   try {
-    rmSync(IMAGE_DIR, { recursive: true, force: true });
+    const requested = process.argv.slice(2);
+    for (const regionId of requested) if (!REGION_MODELS[regionId]) throw new Error(`Unknown region "${regionId}"`);
+    const regions = requested.length > 0 ? requested : Object.keys(REGION_MODELS);
+    const manifest = requested.length > 0 && existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : {};
+    if (requested.length === 0) rmSync(IMAGE_DIR, { recursive: true, force: true });
     mkdirSync(IMAGE_DIR, { recursive: true });
-    const manifest = {};
-    for (const regionId of Object.keys(REGION_MODELS)) {
+    for (const regionId of regions) {
       if (!existsSync(join(ROOT, 'public', 'models', `${regionId}.json`))) continue;
       const page = await browser.newPage({ viewport: { width: 1000, height: 1000 } });
       page.on('pageerror', (error) => console.error('Page error:', error.message));
       await page.goto(`http://localhost:5199${server.config.base}scripts/anatomy/render.html?region=${regionId}`);
       await page.waitForFunction(() => 'renderTool' in window, null, { timeout: 120_000 });
       const muscleIds = await page.evaluate(() => window.renderTool.muscleIds);
-      for (const muscleId of muscleIds) manifest[muscleId] = await renderMuscle(page, muscleId);
+      for (const muscleId of muscleIds) {
+        removeImages(muscleId);
+        manifest[muscleId] = await renderMuscle(page, muscleId);
+      }
       await page.close();
     }
     mkdirSync(dirname(MANIFEST), { recursive: true });

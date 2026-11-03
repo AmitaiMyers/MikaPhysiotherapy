@@ -728,5 +728,154 @@
       "inferior"
     ],
     "attachmentsView": null
+  },
+  "serratus-posterior-superior": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "serratus-posterior-inferior": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "iliocostalis": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "longissimus": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "spinalis": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "semispinalis-thoracis": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": null
+  },
+  "multifidus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "rotatores": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "quadratus-lumborum": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": null
+  },
+  "diaphragm": {
+    "views": [
+      "anterior",
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "external-intercostals": {
+    "views": [
+      "lateral",
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": null
+  },
+  "internal-intercostals": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": null
+  },
+  "rectus-abdominis": {
+    "views": [
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "external-oblique": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "internal-oblique": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "transversus-abdominis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "pyramidalis": {
+    "views": [
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": null
+  },
+  "pubococcygeus": {
+    "views": [
+      "inferior",
+      "posterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "iliococcygeus": {
+    "views": [
+      "posterior",
+      "inferior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "coccygeus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "external-anal-sphincter": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": null
   }
 }

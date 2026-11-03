@@ -16,6 +16,9 @@ import { FOOT_MUSCLES } from './muscles/lowerLimb/foot';
 import { GLUTEAL_MUSCLES, ILIOPSOAS_MUSCLES } from './muscles/lowerLimb/gluteal';
 import { LEG_MUSCLES } from './muscles/lowerLimb/leg';
 import { THIGH_MUSCLES } from './muscles/lowerLimb/thigh';
+import { BACK_MUSCLES } from './muscles/trunkPelvis/back';
+import { PELVIC_FLOOR_MUSCLES } from './muscles/trunkPelvis/pelvicFloor';
+import { WALL_MUSCLES } from './muscles/trunkPelvis/walls';
 import type { Bone, Joint, Muscle, Nerve, Region, Source, SpecialTest } from './types';
 
 export { BONES, JOINTS, NERVES, REGIONS, SOURCES, SPECIAL_TESTS };
@@ -33,6 +36,9 @@ export const MUSCLES: Muscle[] = [
   ...THIGH_MUSCLES,
   ...LEG_MUSCLES,
   ...FOOT_MUSCLES,
+  ...BACK_MUSCLES,
+  ...WALL_MUSCLES,
+  ...PELVIC_FLOOR_MUSCLES,
 ];
 
 /** Index a list by id, failing fast on duplicates. */

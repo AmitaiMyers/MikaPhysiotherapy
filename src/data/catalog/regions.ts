@@ -14,7 +14,48 @@ export const REGIONS: Region[] = [
   {
     id: 'trunk-pelvis',
     name: 'Trunk & pelvis',
-    groups: [],
+    groups: [
+      {
+        id: 'back-intermediate',
+        name: 'Back — intermediate (serratus posterior)',
+        description: 'Thin respiratory muscles from the spine to the ribs; intercostal nerves.',
+      },
+      {
+        id: 'erector-spinae',
+        name: 'Back — deep: erector spinae',
+        description: 'Long vertical extensors of the spine, from lateral to medial: iliocostalis, longissimus, spinalis. Dorsal rami.',
+      },
+      {
+        id: 'transversospinalis',
+        name: 'Back — deep: transversospinalis',
+        description: 'Short oblique muscles from transverse to spinous processes; segmental control and rotation. Dorsal rami.',
+      },
+      {
+        id: 'posterior-abdominal-wall',
+        name: 'Posterior abdominal wall',
+        description: 'Quadratus lumborum (psoas major and iliacus are listed with the hip).',
+      },
+      {
+        id: 'thoracic-wall',
+        name: 'Thoracic wall & diaphragm',
+        description: 'Muscles of breathing: diaphragm (phrenic nerve) and intercostals (intercostal nerves).',
+      },
+      {
+        id: 'abdominal-wall',
+        name: 'Anterolateral abdominal wall',
+        description: 'Flex and rotate the trunk, compress the abdomen and stabilise the lumbopelvic region. Thoraco-abdominal nerves.',
+      },
+      {
+        id: 'pelvic-floor',
+        name: 'Pelvic floor (pelvic diaphragm)',
+        description: 'Levator ani and coccygeus: support the pelvic organs and maintain continence. Direct sacral branches (S3–S5) and the pudendal nerve.',
+      },
+      {
+        id: 'perineum',
+        name: 'Perineum & sphincters',
+        description: 'Superficial and deep perineal muscles and the external sphincters; pudendal nerve.',
+      },
+    ],
   },
   {
     id: 'upper-limb',

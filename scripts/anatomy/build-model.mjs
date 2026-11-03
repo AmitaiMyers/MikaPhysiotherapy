@@ -23,6 +23,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CACHE = join(ROOT, 'scripts', 'anatomy', '.cache');
 const OUT = join(ROOT, 'public', 'models');
 
+/**
+ * Mean distance (cm) from an attachment area to the nearest vertex of its bone above which the area
+ * is not used. Measured against the simplified bones, so areas on curved surfaces (e.g. the inner
+ * costal margin) sit a few centimetres from the nearest vertex.
+ */
+const MAX_ATTACHMENT_DISTANCE = 3.5;
+
 /** Fraction of triangles kept per mesh kind, and the maximum simplification error (relative). */
 const SIMPLIFY = {
   muscle: { ratio: 0.3, error: 0.004 },
@@ -202,10 +209,15 @@ function inSkeletonWindow(bone, window) {
   return !(window.exclude && window.exclude.test(bone.part.name));
 }
 
-/** The right-side mesh of a bilateral muscle, or the single mesh of a midline one (e.g. diaphragm). */
-function findMuscleMesh(muscleMeshes, meshName) {
+/**
+ * Meshes to draw for one Z-Anatomy muscle name: the right-side mesh of a bilateral muscle, or the
+ * midline mesh; with `bothSides` (single muscles split into halves, e.g. the diaphragm) both halves.
+ */
+function findMuscleMeshes(muscleMeshes, meshName, bothSides) {
   const candidates = muscleMeshes.filter((m) => m.name === meshName || (/[rl]$/.test(m.name) && m.name.slice(0, -1) === meshName));
-  return candidates.find((m) => centerX(m.geometry) < -0.5) ?? candidates.find((m) => Math.abs(centerX(m.geometry)) <= 0.5);
+  if (bothSides) return candidates;
+  const one = candidates.find((m) => centerX(m.geometry) < -0.5) ?? candidates.find((m) => Math.abs(centerX(m.geometry)) <= 0.5);
+  return one ? [one] : [];
 }
 
 function validateConfig(appMuscles) {
@@ -235,12 +247,15 @@ function classifyAttachments(muscle, config, attachmentMeshes, candidateBones, r
     const isOrigin = originBones.has(boneId);
     const isInsertion = insertionBones.has(boneId);
     const line = `${muscle.id.padEnd(34)} ${`${base}${code}`.padEnd(58)} → ${boneId} (${nearest.distance.toFixed(2)} cm)`;
-    if (isOrigin === isInsertion || nearest.distance > 1.5) {
-      report.push(`SKIP      ${line}${isOrigin && isInsertion ? ' [bone is both origin and insertion]' : ''}`);
+    if ((!isOrigin && !isInsertion) || nearest.distance > MAX_ATTACHMENT_DISTANCE) {
+      report.push(`SKIP      ${line}`);
       continue;
     }
-    const attachment = isOrigin ? 'origin' : 'insertion';
-    report.push(`${attachment.toUpperCase().padEnd(9)} ${line}`);
+    // When the same bone carries both the origin and the insertion (e.g. longissimus on the thoracic
+    // vertebrae), fall back to Z-Anatomy's own o/e label; it is only unreliable across different bones.
+    const bothOnBone = isOrigin && isInsertion;
+    const attachment = bothOnBone ? (code.startsWith('o') ? 'origin' : 'insertion') : isOrigin ? 'origin' : 'insertion';
+    report.push(`${attachment.toUpperCase().padEnd(9)} ${line}${bothOnBone ? ' [same bone; Z-Anatomy label used]' : ''}`);
     parts.push({ kind: 'attachment', name: `${base}${code}`, side: 'right', muscleId: muscle.id, boneId, attachment, ...simplified });
   }
   return parts;
@@ -266,10 +281,12 @@ async function main() {
     const parts = [...boneParts];
     for (const [muscleId, config] of Object.entries(model.muscles)) {
       for (const meshName of config.meshes) {
-        const found = findMuscleMesh(muscleMeshes, meshName);
-        if (!found) fail(`Right-side or midline muscle mesh not found: ${meshName} (${muscleId})`);
-        const { side } = splitSide(found.name, found.geometry);
-        parts.push({ kind: 'muscle', name: meshName, side, muscleId, ...simplify(found.geometry, SIMPLIFY.muscle) });
+        const found = findMuscleMeshes(muscleMeshes, meshName, config.bothSides === true);
+        if (found.length === 0) fail(`Right-side or midline muscle mesh not found: ${meshName} (${muscleId})`);
+        for (const mesh of found) {
+          const { side } = splitSide(mesh.name, mesh.geometry);
+          parts.push({ kind: 'muscle', name: meshName, side, muscleId, ...simplify(mesh.geometry, SIMPLIFY.muscle) });
+        }
       }
     }
     const candidateBones = boneParts.filter((p) => p.boneId && p.side !== 'left');

@@ -1,3 +1,4 @@
+import { rootRange } from '../roots';
 import type { Nerve } from '../types';
 
 const ANATOMY = ['teachmeanatomy', 'kenhub', 'wikipedia'];
@@ -256,11 +257,11 @@ export const NERVES: Nerve[] = [
   },
   {
     id: 'lumbar-ventral-rami',
-    name: 'Ventral rami of the lumbar nerves (L1–L3)',
-    roots: ['L1', 'L2', 'L3'],
-    origin: 'Direct branches of the lumbar plexus within psoas major.',
+    name: 'Ventral rami of T12–L4 (direct muscular branches)',
+    roots: ['T12', 'L1', 'L2', 'L3', 'L4'],
+    origin: 'Short direct branches of the subcostal nerve and the lumbar plexus, given off within psoas major and to quadratus lumborum.',
     sensory: 'None (direct muscular branches).',
-    lesion: ['Rarely injured in isolation; psoas weakness occurs with upper lumbar radiculopathy or retroperitoneal haematoma.'],
+    lesion: ['Rarely injured in isolation; psoas and quadratus lumborum weakness occurs with upper lumbar radiculopathy or retroperitoneal pathology.'],
     sourceIds: ANATOMY,
   },
   {
@@ -445,6 +446,97 @@ export const NERVES: Nerve[] = [
       'Entrapment of its first branch (Baxter’s nerve, to abductor digiti minimi) is a cause of chronic heel pain.',
       'Weak intrinsic muscles: clawing of the toes.',
     ],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'dorsal-rami',
+    name: 'Dorsal (posterior) rami of the spinal nerves',
+    roots: rootRange('C1', 'S5'),
+    origin: 'Each spinal nerve divides just outside the intervertebral foramen into a ventral and a dorsal ramus; the dorsal ramus divides into medial and lateral branches.',
+    sensory: 'Skin of the back in a band either side of the midline; the facet (zygapophyseal) joints via the medial branches.',
+    lesion: [
+      'Segmental supply: the medial branches supply multifidus, rotatores, interspinales and the facet joints; the lateral branches supply iliocostalis and longissimus.',
+      'Medial branch blocks and radiofrequency denervation for facet joint pain also denervate the multifidus of that segment.',
+    ],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'intercostal',
+    name: 'Intercostal, thoraco-abdominal and subcostal nerves (T1–T12)',
+    roots: rootRange('T1', 'T12'),
+    origin: 'Ventral rami of T1–T11 run in the costal grooves between the internal and innermost intercostals; T7–T11 continue into the abdominal wall (thoraco-abdominal nerves) between internal oblique and transversus abdominis; T12 is the subcostal nerve.',
+    sensory: 'Segmental bands (dermatomes) of the chest and abdominal wall: T4 nipple, T10 umbilicus, T12 above the inguinal ligament.',
+    lesion: [
+      'Intercostal neuralgia (herpes zoster, rib fractures, thoracotomy) causes band-like chest or abdominal pain.',
+      'Lower thoracic nerve injury (e.g. flank surgery) causes abdominal wall bulging (pseudohernia).',
+    ],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'iliohypogastric-ilioinguinal',
+    name: 'Iliohypogastric and ilioinguinal nerves (L1)',
+    roots: ['L1'],
+    origin: 'Lumbar plexus (L1, with T12); emerge at the lateral border of psoas and run in the abdominal wall above the iliac crest; the ilioinguinal nerve passes through the inguinal canal.',
+    sensory: 'Skin over the lateral buttock and above the pubis (iliohypogastric); upper medial thigh and the root of the genitals (ilioinguinal).',
+    lesion: [
+      'Injured in inguinal hernia repair, Pfannenstiel incisions and iliac crest bone harvesting: groin pain and numbness.',
+      'Weakness of the lowest fibres of internal oblique and transversus abdominis may predispose to direct inguinal hernia.',
+    ],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'phrenic',
+    name: 'Phrenic nerve',
+    roots: ['C3', 'C4', 'C5'],
+    origin: 'Cervical plexus (mainly C4); descends on the front of scalenus anterior, through the thorax on the pericardium, to the diaphragm (“C3, 4, 5 keeps the diaphragm alive”).',
+    sensory: 'Central diaphragm, pericardium and mediastinal pleura; irritation refers pain to the shoulder tip (C4 dermatome).',
+    lesion: [
+      'Unilateral palsy (cardiac surgery, tumours, interscalene block): raised hemidiaphragm, often few symptoms at rest; breathless on exertion or lying flat.',
+      'Bilateral palsy or spinal cord injury above C3–C5 requires ventilatory support; injuries at C5 and below usually preserve the diaphragm.',
+    ],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'nerve-to-levator-ani',
+    name: 'Nerve to levator ani (direct sacral branches, S3–S5)',
+    roots: ['S3', 'S4', 'S5'],
+    origin: 'Direct branches of the ventral rami of S3–S5 (mainly S4) that run on the pelvic (upper) surface of the pelvic floor.',
+    sensory: 'None (motor branches).',
+    lesion: [
+      'Stretch injury during vaginal birth, together with direct muscle avulsion, contributes to pelvic floor weakness, prolapse and incontinence.',
+    ],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'pudendal',
+    name: 'Pudendal nerve',
+    roots: ['S2', 'S3', 'S4'],
+    origin: 'Sacral plexus; leaves the pelvis below piriformis, hooks around the sacrospinous ligament at the ischial spine and runs forwards in the pudendal (Alcock’s) canal on the obturator internus fascia.',
+    sensory: 'Perineum, external genitals and the anal canal below the pectinate line.',
+    lesion: [
+      'Pudendal neuralgia (Nantes criteria): burning perineal pain, worse sitting and relieved standing or lying; seen in cyclists and after pelvic surgery or childbirth.',
+      'Stretch injury in prolonged second-stage labour contributes to faecal and urinary incontinence.',
+    ],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'inferior-rectal',
+    name: 'Inferior rectal (anal) nerve',
+    parentId: 'pudendal',
+    roots: ['S2', 'S3', 'S4'],
+    origin: 'Branch of the pudendal nerve in the pudendal canal; crosses the ischio-anal fossa.',
+    sensory: 'Skin around the anus and the lower anal canal.',
+    lesion: ['Damage weakens the external anal sphincter (faecal incontinence); anal wink reflex reduced.'],
+    sourceIds: ANATOMY,
+  },
+  {
+    id: 'perineal-nerve',
+    name: 'Perineal nerve',
+    parentId: 'pudendal',
+    roots: ['S2', 'S3', 'S4'],
+    origin: 'Terminal branch of the pudendal nerve; supplies the perineal muscles and the external urethral sphincter.',
+    sensory: 'Skin of the perineum and the posterior scrotum or labia.',
+    lesion: ['Contributes to stress urinary incontinence and sexual dysfunction after pelvic or perineal injury.'],
     sourceIds: ANATOMY,
   },
 ];

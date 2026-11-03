@@ -60,6 +60,7 @@ describe('muscle records', () => {
   it.each([
     ['upper-limb', 50],
     ['lower-limb', 50],
+    ['trunk-pelvis', 27],
   ])('cover the physio-relevant muscles of the %s', (regionId, count) => {
     expect(MUSCLES.filter((m) => m.regionId === regionId)).toHaveLength(count);
   });

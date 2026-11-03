@@ -90,4 +90,12 @@ export const REGION_MODELS = {
 };
 
 /** Muscles in the app that no open 3D atlas models; they are shown without images. */
-export const MUSCLES_WITHOUT_MESH = ['palmaris-brevis'];
+export const MUSCLES_WITHOUT_MESH = [
+  'palmaris-brevis',
+  'puborectalis',
+  'external-urethral-sphincter',
+  'bulbospongiosus',
+  'ischiocavernosus',
+  'superficial-transverse-perineal',
+  'deep-transverse-perineal',
+];
