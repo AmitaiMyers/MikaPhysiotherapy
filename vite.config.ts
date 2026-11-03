@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { OFFLINE_CACHES } from './src/offlineCaches';
 
 // GitHub Pages serves the app from https://<user>.github.io/MikaPhysiotherapy/
 const BASE_PATH = '/MikaPhysiotherapy/';
@@ -30,15 +31,20 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Still images are small and precached so every muscle works offline.
-        globPatterns: ['**/*.{js,css,html,svg,png,webp,webmanifest}'],
-        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
-        // The 3D model is large, so it is cached the first time it is opened instead of on install.
+        // The app shell and the list thumbnails are installed up front (a few MB).
+        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}', 'images/muscles/*-thumb.webp'],
+        // Full-size images and the 3D models (about 30 MB together) are cached the first time they
+        // are opened, or all at once from the About screen ("Save for offline use").
         runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.includes('/images/muscles/'),
+            handler: 'CacheFirst',
+            options: { cacheName: OFFLINE_CACHES.images },
+          },
           {
             urlPattern: ({ url }) => url.pathname.includes('/models/'),
             handler: 'CacheFirst',
-            options: { cacheName: 'anatomy-models', expiration: { maxEntries: 8 } },
+            options: { cacheName: OFFLINE_CACHES.models },
           },
         ],
       },

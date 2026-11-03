@@ -4,21 +4,25 @@ A reference app for physiotherapists and students. It installs on a phone, works
 
 There is no account and no server; all data ships with the app.
 
-## Phase 1 (this version)
+## Contents
 
-- **Muscles tab**: the 50 physiotherapy-relevant muscles of the **upper limb**, grouped by region → compartment → layer. Head & neck, trunk & pelvis and lower limb are shown as "coming soon".
+- **Muscles tab**: 166 physiotherapy-relevant skeletal muscles in four regions, each grouped by compartment and layer:
+  - **Head & neck** (39): sternocleidomastoid, platysma, scalenes, suprahyoid and infrahyoid groups, deep neck flexors, suboccipitals, splenius and semispinalis, mastication and key muscles of facial expression.
+  - **Trunk & pelvis** (27): serratus posterior, erector spinae, transversospinalis, quadratus lumborum, diaphragm and intercostals, abdominal wall, pelvic floor and perineum.
+  - **Upper limb** (50): pectoral and posterior axio-appendicular, scapulohumeral and rotator cuff, arm, forearm and hand compartments.
+  - **Lower limb** (50): gluteal region and deep rotators, iliopsoas, thigh and leg compartments, dorsum and the four plantar layers of the foot.
 - **Muscle page** with sub-tabs:
-  - **Overview**: summary, 2–3 images (anterior/posterior/lateral, the most informative chosen automatically), structure, function, sources.
+  - **Overview**: summary, 2–3 images (the most informative of anterior, posterior, lateral, medial and from below, chosen automatically), structure, function, sources.
   - **Origin & insertion**: precise landmarks with bone tags, an image with origin areas in red and insertion areas in blue, anatomical variations.
-  - **Nerve & blood**: nerves with root values, a note where sources disagree, reflex, arteries.
+  - **Nerve & blood**: nerves with root values (cranial nerves for the head), a note where sources disagree, reflexes, arteries.
   - **Actions**: per joint and movement (prime mover or assisting), normal ROM, agonists and antagonists for each action.
   - **Clinical**: clinical significance, trigger points and referred pain.
   - **Assessment**: palpation, manual muscle test, linked special tests, stretching, strengthening.
-  - **3D**: rotate, zoom, front/back/side, origin/insertion overlay, other muscles faded, tap a muscle to name it.
-- **Search and reverse lookup**: by name, Latin name or synonym, and filters for nerve, spinal root, action and attaching bone ("which muscles abduct the shoulder", "what does the axillary nerve supply", "what attaches to the pisiform"). Filters are kept in the URL.
-- **Bones & joints tab**: each bone's origins and insertions; each joint's movements with normal ROM (AAOS) and the muscles that produce them.
-- **Nerves tab**: course, muscles supplied (directly and through branches), sensory area, lesions; key myotomes; muscles by root.
-- **Special tests tab**: 28 muscle-related upper-limb tests with procedure, positive finding, notes and related muscles.
+  - **3D**: rotate, zoom, region-specific views (front, back, side, inner side, below), origin/insertion overlay, other muscles faded, tap a muscle to name it.
+- **Search and reverse lookup**: by name, Latin name or synonym, and filters for nerve, spinal root, action and attaching bone ("which muscles abduct the hip", "what does the tibial nerve supply", "what attaches to the pisiform"). Filters are kept in the URL.
+- **Bones & joints tab**: each bone's origins and insertions; each joint's movements with normal ROM (AAOS) and the muscles that produce them, including the pelvis, pelvic floor, TMJ, hyoid and facial expression.
+- **Nerves tab**: course, muscles supplied directly and through branches (e.g. sciatic → tibial → plantar nerves), sensory area, lesions; key myotomes (screening movement and ASIA key muscle); muscles by root.
+- **Special tests tab**: 56 muscle-related tests with procedure, positive finding, notes and related muscles.
 - **Share**: sends a muscle card (text, link and the first image where supported) through the phone's share sheet, or copies it.
 
 ## How the data stays consistent
@@ -28,24 +32,25 @@ There is no account and no server; all data ships with the app.
 
 ## Data sources and method
 
-Each record is written in original wording from standard anatomical knowledge, then cross-checked against TeachMeAnatomy, Kenhub, Wikipedia (Gray's Anatomy 1918), Radiopaedia and Physiopedia. Where sources disagree (most often root values), the most commonly cited value is shown with the alternatives in a note. ROM values are the AAOS norms. The full method is on the in-app About screen.
+Each record is written in original wording from standard anatomical knowledge, then cross-checked against TeachMeAnatomy, Kenhub, Wikipedia (Gray's Anatomy 1918), Radiopaedia, StatPearls and Physiopedia (through web search summaries; the build environment could not open those sites directly). Where sources disagree (most often root values), the most commonly cited value is shown with the alternatives in a note. ROM values are the AAOS norms. The full method is on the in-app About screen.
 
 Complete Anatomy (3D4Medical/Elsevier) and anatomy.app were used only as models of what to show and how. None of their content, images or models is copied: they are proprietary.
 
 ## 3D model and images
 
 - Source: [Z-Anatomy](https://github.com/LluisV/Z-Anatomy) (CC BY-SA 4.0), derived from [BodyParts3D](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/) © The Database Center for Life Science (CC BY-SA 2.1 JP). Under share-alike, the images in `public/images/` and the model in `public/models/` are CC BY-SA 4.0.
-- Palmaris brevis is not modelled in any open atlas, so it has no image.
+- Eight small muscles are not modelled in any open atlas (palmaris brevis, puborectalis, the external urethral sphincter, bulbospongiosus, ischiocavernosus, the transverse perinei and semispinalis capitis); they have full data but no image.
 - Z-Anatomy includes origin/insertion areas as meshes, but its origin/insertion labels are not consistent (e.g. serratus anterior is reversed) and some left/right labels are swapped. The build therefore takes the side from the geometry and classifies each area by the bone it lies on, using the app's own origin/insertion data. The classification report is written to `scripts/anatomy/.cache/attachments-report.txt`.
 
 Rebuild (only needed when the model mapping or the muscle list changes):
 
 ```bash
-node scripts/anatomy/build-model.mjs    # downloads the pinned Z-Anatomy FBX files, writes public/models/upper-limb.{json,bin}
-node scripts/anatomy/render-images.mjs  # renders public/images/muscles/*.webp and src/data/generated/muscleImages.json
+node scripts/anatomy/build-model.mjs                # downloads the pinned Z-Anatomy FBX files, writes public/models/<region>.{json,bin}
+node scripts/anatomy/render-images.mjs             # renders public/images/muscles/*.webp and src/data/generated/muscleImages.json
+node scripts/anatomy/render-images.mjs lower-limb  # re-render one region only
 ```
 
-`scripts/anatomy/config.mjs` maps each app muscle to its Z-Anatomy meshes. The renderer uses the same scene code as the in-app viewer (`src/viewer/scene.ts`) through the build-only page `scripts/anatomy/render.html`. Rendering uses Playwright's Chromium.
+`scripts/anatomy/config.mjs` defines one model per region (which part of the skeleton it shows) and `scripts/anatomy/meshes/<region>.mjs` maps each app muscle to its Z-Anatomy meshes. The renderer uses the same scene code as the in-app viewer (`src/viewer/scene.ts`) through the build-only page `scripts/anatomy/render.html`. Rendering uses Playwright's Chromium.
 
 ## Development
 
@@ -60,7 +65,7 @@ npm run preview
 
 Stack: React 19, TypeScript, Vite, vite-plugin-pwa (Workbox), three.js (lazily loaded for the 3D tab).
 
-Offline: the app shell and all still images (~8 MB) are precached on install. The 3D model (~3 MB) is downloaded the first time a 3D tab is opened, then cached.
+Offline: the app shell, all text and the list thumbnails (~3 MB) are installed on the first visit. Full-size images and the four regional 3D models (~30 MB together) are cached the first time they are opened, or all at once from **About → Save all images and 3D models**.
 
 ## Deploying to GitHub Pages
 

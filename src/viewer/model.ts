@@ -1,6 +1,7 @@
 import { BufferAttribute, BufferGeometry } from 'three';
 import type { RegionId } from '../data/types';
 import { assert } from '../domain/assert';
+import { modelUrls } from './modelUrls';
 
 /** One mesh of the anatomy model, as written by scripts/anatomy/build-model.mjs. */
 export interface ModelPart {
@@ -45,8 +46,8 @@ export function loadAnatomyModel(regionId: RegionId): Promise<AnatomyModel> {
 }
 
 async function fetchModel(regionId: RegionId): Promise<AnatomyModel> {
-  const url = `${import.meta.env.BASE_URL}models/${regionId}`;
-  const [manifestResponse, binResponse] = await Promise.all([fetch(`${url}.json`), fetch(`${url}.bin`)]);
+  const urls = modelUrls(regionId);
+  const [manifestResponse, binResponse] = await Promise.all([fetch(urls.manifest), fetch(urls.geometry)]);
   assert(manifestResponse.ok && binResponse.ok, 'Could not download the 3D model');
   const manifest = (await manifestResponse.json()) as Manifest;
   assert(manifest.version === 1, `Unsupported model version ${manifest.version}`);
