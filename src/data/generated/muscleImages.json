@@ -1,0 +1,357 @@
+{
+  "pectoralis-major": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "pectoralis-minor": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "subclavius": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "serratus-anterior": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "trapezius": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "latissimus-dorsi": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "levator-scapulae": {
+    "views": [
+      "lateral",
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "rhomboid-major": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "rhomboid-minor": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "deltoid": {
+    "views": [
+      "lateral",
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "teres-major": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "supraspinatus": {
+    "views": [
+      "posterior",
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "infraspinatus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "teres-minor": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "subscapularis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "biceps-brachii": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "brachialis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "coracobrachialis": {
+    "views": [
+      "anterior",
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "triceps-brachii": {
+    "views": [
+      "posterior",
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "anconeus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "pronator-teres": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "flexor-carpi-radialis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "palmaris-longus": {
+    "views": [
+      "anterior",
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "flexor-carpi-ulnaris": {
+    "views": [
+      "anterior",
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "flexor-digitorum-superficialis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "flexor-digitorum-profundus": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "flexor-pollicis-longus": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "pronator-quadratus": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "brachioradialis": {
+    "views": [
+      "lateral",
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "extensor-carpi-radialis-longus": {
+    "views": [
+      "lateral",
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "extensor-carpi-radialis-brevis": {
+    "views": [
+      "posterior",
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "extensor-digitorum": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "extensor-digiti-minimi": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "extensor-carpi-ulnaris": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "supinator": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "abductor-pollicis-longus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "extensor-pollicis-brevis": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "extensor-pollicis-longus": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "extensor-indicis": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "abductor-pollicis-brevis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "flexor-pollicis-brevis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "opponens-pollicis": {
+    "views": [
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": null
+  },
+  "adductor-pollicis": {
+    "views": [
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "abductor-digiti-minimi-hand": {
+    "views": [
+      "anterior",
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "flexor-digiti-minimi-brevis-hand": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "opponens-digiti-minimi-hand": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "lumbricals-hand": {
+    "views": [
+      "posterior",
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "dorsal-interossei-hand": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "palmar-interossei": {
+    "views": [
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": null
+  }
+}

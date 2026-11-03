@@ -1,0 +1,27 @@
+import type { Bone } from '../types';
+
+export const BONES: Bone[] = [
+  { id: 'clavicle', name: 'Clavicle', region: 'shoulder-girdle' },
+  { id: 'scapula', name: 'Scapula', region: 'shoulder-girdle' },
+  { id: 'humerus', name: 'Humerus', region: 'arm' },
+  { id: 'radius', name: 'Radius', region: 'forearm' },
+  { id: 'ulna', name: 'Ulna', region: 'forearm' },
+  { id: 'scaphoid', name: 'Scaphoid', region: 'hand' },
+  { id: 'lunate', name: 'Lunate', region: 'hand' },
+  { id: 'triquetrum', name: 'Triquetrum', region: 'hand' },
+  { id: 'pisiform', name: 'Pisiform', region: 'hand' },
+  { id: 'trapezium', name: 'Trapezium', region: 'hand' },
+  { id: 'trapezoid', name: 'Trapezoid', region: 'hand' },
+  { id: 'capitate', name: 'Capitate', region: 'hand' },
+  { id: 'hamate', name: 'Hamate', region: 'hand' },
+  { id: 'metacarpals', name: 'Metacarpals', region: 'hand' },
+  { id: 'phalanges-hand', name: 'Phalanges of the hand', region: 'hand' },
+  { id: 'sternum', name: 'Sternum', region: 'axial' },
+  { id: 'ribs', name: 'Ribs & costal cartilages', region: 'axial' },
+  { id: 'cervical-vertebrae', name: 'Cervical vertebrae', region: 'axial' },
+  { id: 'thoracic-vertebrae', name: 'Thoracic vertebrae', region: 'axial' },
+  { id: 'lumbar-vertebrae', name: 'Lumbar vertebrae', region: 'axial' },
+  { id: 'sacrum', name: 'Sacrum', region: 'axial' },
+  { id: 'hip-bone', name: 'Hip bone (ilium)', region: 'axial' },
+  { id: 'occipital', name: 'Occipital bone', region: 'axial' },
+];

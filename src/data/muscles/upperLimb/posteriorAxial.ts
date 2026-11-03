@@ -1,0 +1,273 @@
+import type { Muscle } from '../../types';
+import { upperLimb } from './common';
+
+const group = 'posterior-axio-appendicular';
+
+/** Fields identical for rhomboid major and minor. */
+const RHOMBOID_SHARED: Pick<
+  Muscle,
+  'innervation' | 'innervationNote' | 'bloodSupply' | 'actions' | 'functions' | 'muscleTest' | 'stretch' | 'strengthening' | 'triggerPoints' | 'specialTestIds'
+> = {
+  innervation: [{ nerveId: 'dorsal-scapular', roots: ['C4', 'C5'] }],
+  innervationNote: 'Often given as C5 alone; C4–C5 is the most common value.',
+  bloodSupply: ['Dorsal scapular artery (or the deep branch of the transverse cervical artery)', 'Dorsal branches of the upper posterior intercostal arteries'],
+  actions: [
+    { jointId: 'scapulothoracic', movement: 'retraction', role: 'prime' },
+    { jointId: 'scapulothoracic', movement: 'downward rotation', role: 'prime' },
+    { jointId: 'scapulothoracic', movement: 'elevation', role: 'assist' },
+  ],
+  functions: [
+    'With serratus anterior, holds the medial border of the scapula against the thoracic wall.',
+    'Retracts the scapula when pulling and rowing; controls protraction eccentrically when reaching and throwing.',
+  ],
+  muscleTest: {
+    position: 'Prone, hand resting on the lower back (shoulder medially rotated). Patient lifts the hand and elbow off the back, retracting and downwardly rotating the scapula.',
+    stabilize: 'Trunk on the table.',
+    resistance: 'Against the arm just above the elbow, downwards and outwards (towards abduction and protraction).',
+  },
+  stretch: ['Self-hug or cross-body reach with the scapula drawn forwards (protraction and upward rotation).', 'Rounding the upper back while reaching both arms forwards.'],
+  strengthening: ['Rows (seated, bent-over, band) finishing with the shoulder blades squeezed together.', 'Prone horizontal abduction (“T”) and reverse flyes.'],
+  triggerPoints: [{ location: 'Along the medial border of the scapula', referral: 'Superficial ache along the medial border and between the scapula and the spine; not much affected by movement.' }],
+  specialTestIds: [],
+};
+
+export const POSTERIOR_AXIAL_MUSCLES = [
+  upperLimb({
+    id: 'trapezius',
+    name: 'Trapezius',
+    latinName: 'Musculus trapezius',
+    synonyms: ['Traps'],
+    groupId: group,
+    layer: 'Superficial',
+    summary: 'Large superficial muscle of the neck and upper back that elevates, retracts, upwardly rotates and depresses the scapula.',
+    structure: [
+      'Three parts with different fibre directions: descending (upper), transverse (middle) and ascending (lower).',
+      'Both trapezii together form a diamond (trapezoid) over the back of the neck and upper thorax.',
+      'Upper fibres form the posterior border of the posterior triangle of the neck.',
+    ],
+    origin: [
+      { text: 'Medial third of the superior nuchal line and the external occipital protuberance', bones: ['occipital'] },
+      { text: 'Ligamentum nuchae', bones: ['cervical-vertebrae'] },
+      { text: 'Spinous processes and supraspinous ligaments of C7–T12', bones: ['cervical-vertebrae', 'thoracic-vertebrae'] },
+    ],
+    insertion: [
+      { text: 'Upper fibres: lateral third of the posterior border of the clavicle', bones: ['clavicle'] },
+      { text: 'Middle fibres: medial margin of the acromion and superior lip of the crest of the spine of the scapula', bones: ['scapula'] },
+      { text: 'Lower fibres: tubercle at the medial end (root) of the spine of the scapula', bones: ['scapula'] },
+    ],
+    innervation: [
+      { nerveId: 'accessory', roots: ['CN XI'] },
+      { nerveId: 'cervical-c3-c4', roots: ['C3', 'C4'] },
+    ],
+    innervationNote: 'The spinal accessory nerve is the motor supply. C3–C4 branches carry mainly pain and proprioceptive fibres; some sources describe a small motor contribution.',
+    bloodSupply: [
+      'Superficial branch of the transverse cervical artery (main supply)',
+      'Occipital artery (upper fibres)',
+      'Dorsal scapular artery',
+      'Dorsal branches of the posterior intercostal arteries (lower fibres)',
+    ],
+    actions: [
+      { jointId: 'scapulothoracic', movement: 'elevation', role: 'prime', note: 'Upper fibres' },
+      { jointId: 'scapulothoracic', movement: 'retraction', role: 'prime', note: 'Middle fibres (all parts assist)' },
+      { jointId: 'scapulothoracic', movement: 'upward rotation', role: 'prime', note: 'Upper and lower fibres, force couple with serratus anterior' },
+      { jointId: 'scapulothoracic', movement: 'depression', role: 'prime', note: 'Lower fibres' },
+      { jointId: 'scapulothoracic', movement: 'posterior tilt', role: 'assist', note: 'Lower fibres' },
+      { jointId: 'cervical-spine', movement: 'extension', role: 'assist', note: 'Upper fibres, both sides together' },
+      { jointId: 'cervical-spine', movement: 'lateral flexion (same side)', role: 'assist', note: 'Upper fibres, one side' },
+      { jointId: 'cervical-spine', movement: 'rotation to the opposite side', role: 'assist', note: 'Upper fibres, one side' },
+    ],
+    functions: [
+      'Suspends the shoulder girdle and resists downward pull when carrying loads.',
+      'Upward rotation of the scapula for overhead reaching (with serratus anterior).',
+      'Stabilises the scapula during arm movements; maintains neck and upper-back posture.',
+    ],
+    clinical: [
+      'Spinal accessory nerve palsy (often after posterior triangle surgery): drooping shoulder, lateral scapular winging, weak shrug and difficulty raising the arm above 90°.',
+      'Upper trapezius overactivity and trigger points are a common cause of neck pain and tension-type headache.',
+      'Weak or late lower trapezius activation is common in scapular dyskinesis and subacromial pain.',
+      'Shrugging against resistance is the clinical test of CN XI.',
+    ],
+    palpation: [
+      'Upper fibres: grasp the top of the shoulder between thumb and fingers during a shrug.',
+      'Middle fibres: between the spine of the scapula and the thoracic spinous processes during retraction.',
+      'Lower fibres: diagonally from the root of the spine of the scapula towards T12 with the arm raised in a “Y”.',
+    ],
+    muscleTest: {
+      position: 'Upper: sitting, patient elevates the shoulder towards the ear with the head extended, side-flexed to the same side and turned away. Middle: prone, shoulder abducted to 90° and laterally rotated, scapula retracted. Lower: prone, arm raised diagonally overhead (about 145° abduction, in line with the lower fibres) and laterally rotated.',
+      stabilize: 'Upper: none needed. Middle and lower: trunk on the table.',
+      resistance: 'Upper: downwards on the shoulder and against the head towards flexion. Middle and lower: against the forearm, downwards towards the table.',
+    },
+    stretch: [
+      'Upper fibres: sitting, hold the chair edge with the same-side hand; side-bend the neck away, then turn the head slightly towards the stretched side and tuck the chin.',
+      'Middle and lower fibres: self-hug or cross-body reach with the scapula drawn forwards.',
+    ],
+    strengthening: ['Upper: shrugs.', 'Middle: prone “T” raises and rows with retraction.', 'Lower: prone “Y” raises and wall slides with lift-off.'],
+    triggerPoints: [
+      { location: 'Upper fibres (free border of the shoulder)', referral: 'Up the posterolateral neck to the mastoid and temple (“question-mark” pattern), sometimes the angle of the jaw; a major source of tension-type headache.' },
+      { location: 'Middle fibres', referral: 'Burning pain between the scapula and the spine.' },
+      { location: 'Lower fibres', referral: 'Upper neck, the suprascapular region and the acromion.' },
+    ],
+    specialTestIds: ['wall-push-up'],
+    variationNotes: ['The lowest thoracic origin varies (T10–T12). The clavicular insertion may extend further medially.'],
+  }),
+  upperLimb({
+    id: 'latissimus-dorsi',
+    name: 'Latissimus dorsi',
+    latinName: 'Musculus latissimus dorsi',
+    synonyms: ['Lats'],
+    groupId: group,
+    layer: 'Superficial',
+    summary: 'Broad, flat muscle of the lower back that extends, adducts and medially rotates the arm; it lifts the body on the arms.',
+    structure: [
+      'The broadest muscle of the back: arises by a wide aponeurosis from the thoracolumbar fascia and converges to a narrow tendon.',
+      'The tendon twists 180° and wraps around teres major to insert in front of it; together they form the posterior axillary fold.',
+      'Often receives a slip from the inferior angle of the scapula, which helps hold the angle against the thorax.',
+    ],
+    origin: [
+      { text: 'Spinous processes of T7–T12 and their supraspinous ligaments', bones: ['thoracic-vertebrae'] },
+      { text: 'Thoracolumbar fascia (spinous processes of the lumbar and sacral vertebrae)', bones: ['lumbar-vertebrae', 'sacrum'] },
+      { text: 'Posterior third of the iliac crest', bones: ['hip-bone'] },
+      { text: 'Lower 3–4 ribs', bones: ['ribs'] },
+      { text: 'Inferior angle of the scapula (variable slip)', bones: ['scapula'] },
+    ],
+    insertion: [{ text: 'Floor of the intertubercular sulcus of the humerus', bones: ['humerus'] }],
+    innervation: [{ nerveId: 'thoracodorsal', roots: ['C6', 'C7', 'C8'] }],
+    bloodSupply: ['Thoracodorsal artery (main pedicle, from the subscapular artery)', 'Dorsal perforating branches of the posterior intercostal and lumbar arteries'],
+    actions: [
+      { jointId: 'glenohumeral', movement: 'extension', role: 'prime' },
+      { jointId: 'glenohumeral', movement: 'adduction', role: 'prime' },
+      { jointId: 'glenohumeral', movement: 'medial rotation', role: 'prime' },
+      { jointId: 'scapulothoracic', movement: 'depression', role: 'assist', note: 'Through the humerus and the scapular slip' },
+      { jointId: 'trunk', movement: 'extension', role: 'assist', note: 'Both sides, with the arms fixed' },
+      { jointId: 'trunk', movement: 'lateral flexion (same side)', role: 'assist', note: 'With the arm fixed it elevates the pelvis on the same side' },
+    ],
+    functions: [
+      'Climbing, pull-ups and swimming; pulling the arm down and back from overhead.',
+      'Lifting the body on the arms: crutch walking, push-up transfers and wheelchair propulsion.',
+      'With the arm fixed it hitches the pelvis; people with spinal cord injury use this for transfers and gait with orthoses.',
+    ],
+    clinical: [
+      'Key muscle for independence after spinal cord injury at C6–C8 (transfers, pressure relief lifts).',
+      'Latissimus dorsi flap is used in breast and chest-wall reconstruction; its tendon is transferred for irreparable posterosuperior rotator cuff tears.',
+      'Shortening limits shoulder flexion; patients compensate with lumbar extension when raising the arms.',
+      'Strains and tendon avulsions occur in throwing athletes.',
+    ],
+    palpation: [
+      'Grasp the posterior axillary fold: latissimus forms its lower and lateral part, teres major the upper and medial part.',
+      'Ask the patient to extend and adduct against resistance or to cough; the muscle tightens over the lower ribs.',
+    ],
+    muscleTest: {
+      position: 'Prone, arm at the side, shoulder medially rotated (palm up). Patient extends and adducts the arm.',
+      stabilize: 'Pelvis on the opposite side, if needed.',
+      resistance: 'Against the forearm, in the direction of abduction and slight flexion.',
+    },
+    stretch: [
+      'Standing or kneeling, reach the arm overhead and side-bend the trunk away.',
+      'Child’s pose with the hands walked to the opposite side.',
+    ],
+    strengthening: ['Lat pull-downs and pull-ups.', 'Straight-arm pull-downs.', 'Rows; seated push-up (depression) lifts.'],
+    triggerPoints: [
+      { location: 'Posterior axillary fold (upper part)', referral: 'Inferior angle of the scapula and mid-thoracic region, down the back of the medial arm and forearm into the ring and little fingers.' },
+      { location: 'Lower part (lateral trunk)', referral: 'Front of the shoulder and the flank above the iliac crest.' },
+    ],
+    specialTestIds: [],
+    variationNotes: [
+      'An axillary arch (Langer’s arch) slip crossing the axilla to pectoralis major is a common variant and can compress axillary structures.',
+      'The number of rib slips (3–4) and the scapular slip vary.',
+      'Some sources start the vertebral origin at T6, others describe it as the lower six thoracic spinous processes.',
+    ],
+  }),
+  upperLimb({
+    id: 'levator-scapulae',
+    name: 'Levator scapulae',
+    latinName: 'Musculus levator scapulae',
+    synonyms: [],
+    groupId: group,
+    layer: 'Deep',
+    summary: 'Strap-like neck muscle that elevates the scapula and turns its glenoid downwards; a common source of neck pain.',
+    structure: [
+      'Arises by separate slips from the upper cervical transverse processes; its fibres twist as they descend.',
+      'Lies deep to sternocleidomastoid above and trapezius below; forms part of the floor of the posterior triangle of the neck.',
+    ],
+    origin: [{ text: 'Transverse processes of C1–C4 (posterior tubercles of C3–C4)', bones: ['cervical-vertebrae'] }],
+    insertion: [{ text: 'Medial border of the scapula from the superior angle to the root of the spine', bones: ['scapula'] }],
+    innervation: [
+      { nerveId: 'dorsal-scapular', roots: ['C5'] },
+      { nerveId: 'cervical-c3-c4', roots: ['C3', 'C4'] },
+    ],
+    innervationNote: 'Its supply is shared between direct C3–C4 branches and the dorsal scapular nerve (C5, sometimes C4–C5).',
+    bloodSupply: ['Dorsal scapular artery', 'Transverse cervical artery', 'Ascending cervical artery'],
+    actions: [
+      { jointId: 'scapulothoracic', movement: 'elevation', role: 'prime' },
+      { jointId: 'scapulothoracic', movement: 'downward rotation', role: 'assist' },
+      { jointId: 'cervical-spine', movement: 'lateral flexion (same side)', role: 'assist', note: 'With the scapula fixed' },
+      { jointId: 'cervical-spine', movement: 'rotation to the same side', role: 'assist', note: 'With the scapula fixed' },
+      { jointId: 'cervical-spine', movement: 'extension', role: 'assist', note: 'Both sides together' },
+    ],
+    functions: ['Elevates and stabilises the scapula when carrying; holds the neck against the pull of the arm.', 'Controls head position over the shoulders.'],
+    clinical: [
+      'Very common source of neck–shoulder pain and “stiff neck”, with tenderness at the superior angle of the scapula and painful rotation to the same side.',
+      'Overactive in forward-head posture and with desk work.',
+      'Tenderness at its scapular insertion is often attributed to scapulocostal (levator scapulae) syndrome.',
+    ],
+    palpation: [
+      'At the superior angle of the scapula: ask for a small shrug, or for the patient to turn the head slightly to the same side.',
+      'In the posterior triangle between sternocleidomastoid and trapezius.',
+    ],
+    muscleTest: {
+      position: 'Sitting. Patient elevates the shoulder with the neck side-flexed and turned slightly to the same side (no standard isolated test; tested with upper trapezius and the rhomboids).',
+      stabilize: 'Head lightly supported.',
+      resistance: 'Downwards on the top of the shoulder.',
+    },
+    stretch: ['Sitting, hold the chair edge with the same-side hand; flex the neck and turn and side-bend it away (nose towards the opposite armpit).'],
+    strengthening: ['Shrugs (with upper trapezius); usually needs lengthening and posture correction rather than strengthening.'],
+    triggerPoints: [{ location: 'Angle of the neck (where the neck meets the shoulder) and near the superior angle of the scapula', referral: 'Angle of the neck and along the medial border of the scapula to the posterior shoulder; restricts rotation to the same side.' }],
+    specialTestIds: [],
+    variationNotes: ['The number of cervical slips varies; extra slips may run to the mastoid, the occipital bone, trapezius or serratus anterior.'],
+  }),
+  upperLimb({
+    id: 'rhomboid-major',
+    name: 'Rhomboid major',
+    latinName: 'Musculus rhomboideus major',
+    synonyms: [],
+    groupId: group,
+    layer: 'Deep',
+    summary: 'Rhomboid-shaped muscle between the spine and the scapula that retracts and downwardly rotates the scapula.',
+    structure: [
+      'Flat quadrilateral muscle whose fibres run downwards and laterally from the spine to the scapula.',
+      'Lies deep to trapezius, just below rhomboid minor (the two often fuse).',
+    ],
+    origin: [{ text: 'Spinous processes of T2–T5 and the supraspinous ligaments', bones: ['thoracic-vertebrae'] }],
+    insertion: [{ text: 'Medial border of the scapula from the root of the spine to the inferior angle', bones: ['scapula'] }],
+    ...RHOMBOID_SHARED,
+    clinical: [
+      'Lengthened and weak in rounded-shoulder posture; interscapular pain is common with desk work.',
+      'Dorsal scapular nerve entrapment (in scalenus medius) causes rhomboid weakness and medial scapular pain.',
+      'Strains occur in rowing, throwing and racket sports.',
+    ],
+    palpation: [
+      'Between the medial border of the scapula and the T2–T5 spinous processes, deep to trapezius.',
+      'Ask the patient to lift the hand off the lower back; the lower edge of the muscle stands out below trapezius near the inferior angle.',
+    ],
+    variationNotes: ['Often fused with rhomboid minor; the levels of origin vary by one segment.'],
+  }),
+  upperLimb({
+    id: 'rhomboid-minor',
+    name: 'Rhomboid minor',
+    latinName: 'Musculus rhomboideus minor',
+    synonyms: [],
+    groupId: group,
+    layer: 'Deep',
+    summary: 'Small band above rhomboid major that retracts and downwardly rotates the scapula.',
+    structure: ['Narrow cylindrical band parallel to and above rhomboid major, deep to trapezius; the two may fuse.'],
+    origin: [{ text: 'Lower ligamentum nuchae and the spinous processes of C7–T1', bones: ['cervical-vertebrae', 'thoracic-vertebrae'] }],
+    insertion: [{ text: 'Smooth triangular area at the medial end (root) of the spine of the scapula', bones: ['scapula'] }],
+    ...RHOMBOID_SHARED,
+    clinical: [
+      'Clinically assessed together with rhomboid major (see there).',
+      'Dorsal scapular nerve entrapment weakens both rhomboids.',
+    ],
+    palpation: ['Between the root of the spine of the scapula and the C7–T1 spinous processes, deep to trapezius, during retraction.'],
+    variationNotes: ['Often fused with rhomboid major.'],
+  }),
+];

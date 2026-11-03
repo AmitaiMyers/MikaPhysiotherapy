@@ -1,0 +1,139 @@
+import type { Joint, JointMovement } from '../types';
+
+/** A movement and the one that undoes it, with optional normal ranges (AAOS) for each. */
+function pair(name: string, opposite: string, range?: number, oppositeRange?: number): JointMovement[] {
+  return [
+    { name, opposite, rangeDegrees: range },
+    { name: opposite, opposite: name, rangeDegrees: oppositeRange },
+  ];
+}
+
+export const JOINTS: Joint[] = [
+  {
+    id: 'cervical-spine',
+    name: 'Cervical spine',
+    type: 'Series of synovial facet joints and intervertebral discs',
+    bones: ['occipital', 'cervical-vertebrae'],
+    movements: [...pair('extension', 'flexion'), { name: 'lateral flexion (same side)' }, ...pair('rotation to the same side', 'rotation to the opposite side')],
+  },
+  {
+    id: 'trunk',
+    name: 'Thoracolumbar spine',
+    type: 'Series of synovial facet joints and intervertebral discs',
+    bones: ['thoracic-vertebrae', 'lumbar-vertebrae'],
+    movements: [...pair('extension', 'flexion'), { name: 'lateral flexion (same side)' }],
+  },
+  {
+    id: 'thorax',
+    name: 'Thoracic cage (breathing)',
+    type: 'Costovertebral and sternocostal joints',
+    bones: ['ribs', 'sternum', 'thoracic-vertebrae'],
+    movements: pair('rib elevation (forced inspiration)', 'rib depression (forced expiration)'),
+  },
+  {
+    id: 'sternoclavicular',
+    name: 'Sternoclavicular joint',
+    type: 'Synovial saddle joint with an articular disc',
+    bones: ['clavicle', 'sternum', 'ribs'],
+    movements: [...pair('clavicle depression', 'clavicle elevation'), { name: 'stabilisation' }],
+  },
+  {
+    id: 'scapulothoracic',
+    name: 'Scapulothoracic articulation',
+    type: 'Physiological (non-synovial) articulation of the scapula on the thoracic wall',
+    bones: ['scapula', 'ribs'],
+    movements: [
+      ...pair('elevation', 'depression'),
+      ...pair('protraction', 'retraction'),
+      ...pair('upward rotation', 'downward rotation'),
+      ...pair('posterior tilt', 'anterior tilt'),
+    ],
+  },
+  {
+    id: 'glenohumeral',
+    name: 'Shoulder (glenohumeral) joint',
+    type: 'Synovial ball-and-socket joint',
+    bones: ['scapula', 'humerus'],
+    movements: [
+      ...pair('flexion', 'extension', 180, 60),
+      ...pair('abduction', 'adduction', 180),
+      ...pair('medial rotation', 'lateral rotation', 70, 90),
+      ...pair('horizontal adduction', 'horizontal abduction'),
+      { name: 'stabilisation (humeral head in glenoid)' },
+    ],
+  },
+  {
+    id: 'elbow',
+    name: 'Elbow joint',
+    type: 'Synovial hinge joint (humero-ulnar and humeroradial)',
+    bones: ['humerus', 'ulna', 'radius'],
+    movements: pair('flexion', 'extension', 150, 0),
+  },
+  {
+    id: 'radioulnar',
+    name: 'Radio-ulnar joints (proximal and distal)',
+    type: 'Synovial pivot joints',
+    bones: ['radius', 'ulna'],
+    movements: pair('pronation', 'supination', 80, 80),
+  },
+  {
+    id: 'wrist',
+    name: 'Wrist (radiocarpal and midcarpal joints)',
+    type: 'Synovial condyloid (ellipsoid) joint',
+    bones: ['radius', 'scaphoid', 'lunate', 'triquetrum'],
+    movements: [...pair('flexion', 'extension', 80, 70), ...pair('radial deviation', 'ulnar deviation', 20, 30)],
+  },
+  {
+    id: 'thumb-cmc',
+    name: 'Thumb carpometacarpal joint',
+    type: 'Synovial saddle joint (trapezium and 1st metacarpal)',
+    bones: ['trapezium', 'metacarpals'],
+    movements: [
+      ...pair('flexion', 'extension', 15, 20),
+      ...pair('palmar abduction', 'adduction', 70),
+      ...pair('opposition', 'reposition'),
+    ],
+  },
+  {
+    id: 'thumb-mcp',
+    name: 'Thumb metacarpophalangeal joint',
+    type: 'Synovial condyloid joint',
+    bones: ['metacarpals', 'phalanges-hand'],
+    movements: pair('flexion', 'extension', 50, 0),
+  },
+  {
+    id: 'thumb-ip',
+    name: 'Thumb interphalangeal joint',
+    type: 'Synovial hinge joint',
+    bones: ['phalanges-hand'],
+    movements: pair('flexion', 'extension', 80, 20),
+  },
+  {
+    id: 'fifth-cmc',
+    name: 'Fifth carpometacarpal joint',
+    type: 'Synovial saddle-like joint (hamate and 5th metacarpal)',
+    bones: ['hamate', 'metacarpals'],
+    movements: pair('opposition (cupping)', 'reposition'),
+  },
+  {
+    id: 'finger-mcp',
+    name: 'Finger metacarpophalangeal joints (2nd–5th)',
+    type: 'Synovial condyloid joints',
+    bones: ['metacarpals', 'phalanges-hand'],
+    movements: [...pair('flexion', 'extension', 90, 45), ...pair('abduction', 'adduction')],
+  },
+  {
+    id: 'finger-pip',
+    name: 'Finger proximal interphalangeal joints',
+    type: 'Synovial hinge joints',
+    bones: ['phalanges-hand'],
+    movements: pair('flexion', 'extension', 100, 0),
+  },
+  {
+    id: 'finger-dip',
+    name: 'Finger distal interphalangeal joints',
+    type: 'Synovial hinge joints',
+    bones: ['phalanges-hand'],
+    movements: pair('flexion', 'extension', 90, 10),
+  },
+];

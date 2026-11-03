@@ -1,0 +1,45 @@
+import { useEffect } from 'react';
+import { HashRouter, Route, Routes, useLocation } from 'react-router';
+import { BottomNav } from './components/BottomNav';
+import { AboutPage } from './pages/AboutPage';
+import { BoneDetailPage, BonesJointsPage, JointDetailPage } from './pages/BonesJointsPages';
+import { MuscleDetailPage } from './pages/MuscleDetailPage';
+import { MusclesPage } from './pages/MusclesPage';
+import { NerveDetailPage, NervesPage } from './pages/NervesPages';
+import { SpecialTestDetailPage, SpecialTestsPage } from './pages/SpecialTestsPages';
+
+/** Start each new screen at the top (a hash router keeps the old scroll position otherwise). */
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  // Block body on purpose: newer browsers return a Promise from scrollTo, which must not become the effect cleanup.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+export function App() {
+  return (
+    <HashRouter>
+      <ScrollToTop />
+      <div className="app-shell">
+        <main className="app-main">
+          <Routes>
+            <Route path="/" element={<MusclesPage />} />
+            <Route path="/muscles/:id" element={<MuscleDetailPage />} />
+            <Route path="/bones" element={<BonesJointsPage />} />
+            <Route path="/bones/:id" element={<BoneDetailPage />} />
+            <Route path="/joints/:id" element={<JointDetailPage />} />
+            <Route path="/nerves" element={<NervesPage />} />
+            <Route path="/nerves/:id" element={<NerveDetailPage />} />
+            <Route path="/tests" element={<SpecialTestsPage />} />
+            <Route path="/tests/:id" element={<SpecialTestDetailPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="*" element={<p className="empty">Page not found.</p>} />
+          </Routes>
+        </main>
+        <BottomNav />
+      </div>
+    </HashRouter>
+  );
+}
