@@ -39,7 +39,8 @@ describe('muscle records', () => {
 
   it.each(MUSCLES.map((m) => [m.id, m] as const))('%s has every content section filled in', (_id, muscle) => {
     expect(muscle.summary.length).toBeGreaterThan(20);
-    expect(muscle.latinName).toMatch(/^Muscul(us|i) /);
+    // Terminologia Anatomica names start with Musculus / Musculi, except platysma.
+    expect(muscle.latinName).toMatch(/^(Muscul(us|i) |Platysma$)/);
     expect(muscle.structure.length).toBeGreaterThan(0);
     expect(muscle.origin.length).toBeGreaterThan(0);
     expect(muscle.insertion.length).toBeGreaterThan(0);
@@ -61,6 +62,7 @@ describe('muscle records', () => {
     ['upper-limb', 50],
     ['lower-limb', 50],
     ['trunk-pelvis', 27],
+    ['head-neck', 39],
   ])('cover the physio-relevant muscles of the %s', (regionId, count) => {
     expect(MUSCLES.filter((m) => m.regionId === regionId)).toHaveLength(count);
   });

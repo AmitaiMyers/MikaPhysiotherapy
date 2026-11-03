@@ -98,4 +98,5 @@ export const MUSCLES_WITHOUT_MESH = [
   'ischiocavernosus',
   'superficial-transverse-perineal',
   'deep-transverse-perineal',
+  'semispinalis-capitis',
 ];

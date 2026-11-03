@@ -19,11 +19,15 @@ import { THIGH_MUSCLES } from './muscles/lowerLimb/thigh';
 import { BACK_MUSCLES } from './muscles/trunkPelvis/back';
 import { PELVIC_FLOOR_MUSCLES } from './muscles/trunkPelvis/pelvicFloor';
 import { WALL_MUSCLES } from './muscles/trunkPelvis/walls';
+import { HEAD_MUSCLES } from './muscles/headNeck/head';
+import { NECK_MUSCLES } from './muscles/headNeck/neck';
 import type { Bone, Joint, Muscle, Nerve, Region, Source, SpecialTest } from './types';
 
 export { BONES, JOINTS, NERVES, REGIONS, SOURCES, SPECIAL_TESTS };
 
 export const MUSCLES: Muscle[] = [
+  ...NECK_MUSCLES,
+  ...HEAD_MUSCLES,
   ...PECTORAL_MUSCLES,
   ...POSTERIOR_AXIAL_MUSCLES,
   ...SCAPULOHUMERAL_MUSCLES,

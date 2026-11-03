@@ -877,5 +877,276 @@
       "anterior"
     ],
     "attachmentsView": null
+  },
+  "sternocleidomastoid": {
+    "views": [
+      "lateral",
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "platysma": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "scalenus-anterior": {
+    "views": [
+      "lateral",
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "scalenus-medius": {
+    "views": [
+      "lateral",
+      "anterior",
+      "posterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "scalenus-posterior": {
+    "views": [
+      "posterior",
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "digastric": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "mylohyoid": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "geniohyoid": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "stylohyoid": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "sternohyoid": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "sternothyroid": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "thyrohyoid": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "omohyoid": {
+    "views": [
+      "anterior",
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "longus-colli": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "longus-capitis": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": null
+  },
+  "rectus-capitis-anterior": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "rectus-capitis-lateralis": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "rectus-capitis-posterior-major": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "rectus-capitis-posterior-minor": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "obliquus-capitis-superior": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "obliquus-capitis-inferior": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "splenius-capitis": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "splenius-cervicis": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "semispinalis-cervicis": {
+    "views": [
+      "posterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "masseter": {
+    "views": [
+      "lateral",
+      "posterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "temporalis": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "medial-pterygoid": {
+    "views": [
+      "posterior",
+      "anterior"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "lateral-pterygoid": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": null
+  },
+  "occipitofrontalis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "posterior"
+  },
+  "corrugator-supercilii": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": null
+  },
+  "orbicularis-oculi": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "nasalis": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "levator-labii-superioris": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "zygomaticus-major": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "orbicularis-oris": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
+  },
+  "buccinator": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "depressor-anguli-oris": {
+    "views": [
+      "lateral",
+      "anterior"
+    ],
+    "attachmentsView": "lateral"
+  },
+  "mentalis": {
+    "views": [
+      "anterior",
+      "lateral"
+    ],
+    "attachmentsView": "anterior"
   }
 }

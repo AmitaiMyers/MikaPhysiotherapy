@@ -9,7 +9,53 @@ export const REGIONS: Region[] = [
   {
     id: 'head-neck',
     name: 'Head & neck',
-    groups: [],
+    groups: [
+      {
+        id: 'neck-superficial',
+        name: 'Neck — superficial and lateral (platysma, sternocleidomastoid)',
+        description: 'Superficial muscles of the front and side of the neck.',
+      },
+      {
+        id: 'scalenes',
+        name: 'Neck — scalenes (lateral vertebral)',
+        description: 'From the cervical transverse processes to the first two ribs; the brachial plexus passes between anterior and middle scalene.',
+      },
+      {
+        id: 'suprahyoid',
+        name: 'Neck — suprahyoid',
+        description: 'Raise the hyoid in swallowing and open the mouth.',
+      },
+      {
+        id: 'infrahyoid',
+        name: 'Neck — infrahyoid (strap muscles)',
+        description: 'Depress and steady the hyoid and larynx; ansa cervicalis (C1–C3).',
+      },
+      {
+        id: 'prevertebral',
+        name: 'Neck — prevertebral (deep neck flexors)',
+        description: 'On the front of the cervical spine; flex the head and neck and stabilise the cervical lordosis.',
+      },
+      {
+        id: 'posterior-neck',
+        name: 'Neck — posterior (splenius and semispinalis)',
+        description: 'Extend and rotate the head and neck; dorsal rami.',
+      },
+      {
+        id: 'suboccipital',
+        name: 'Suboccipital muscles',
+        description: 'Short muscles between the occiput, atlas and axis; fine control of head position (suboccipital nerve, C1).',
+      },
+      {
+        id: 'mastication',
+        name: 'Muscles of mastication',
+        description: 'Move the mandible at the temporomandibular joint; mandibular nerve (CN V3).',
+      },
+      {
+        id: 'facial-expression',
+        name: 'Muscles of facial expression (key muscles)',
+        description: 'Move the skin of the face; facial nerve (CN VII). The muscles used in facial nerve grading.',
+      },
+    ],
   },
   {
     id: 'trunk-pelvis',
