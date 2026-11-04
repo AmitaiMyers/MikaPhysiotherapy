@@ -98,4 +98,125 @@ export const SOURCES: Source[] = [
     citation: 'Sadigursky D et al. The FIFA 11+ injury prevention program for soccer players: a systematic review. BMC Sports Sci Med Rehabil 2017;9:18.',
     url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5704377/',
   },
+  // ---------- Rehabilitation protocols: lower extremity ----------
+  {
+    id: 'nice-cg124',
+    citation: 'National Institute for Health and Care Excellence. Hip fracture: management (CG124), 2011, with later updates.',
+    url: 'https://www.nice.org.uk/guidance/cg124',
+  },
+  {
+    id: 'mcdonough-2021',
+    citation: 'McDonough CM et al. Physical therapy management of older adults with hip fracture. J Orthop Sports Phys Ther 2021;51(2):CPG1–81.',
+    url: 'https://www.jospt.org/doi/10.2519/jospt.2021.0301',
+  },
+  {
+    id: 'ffn-weight-bearing-2025',
+    citation: 'Fragility Fracture Network position on unrestricted weight-bearing after hip fracture surgery (2025).',
+    url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12217561/',
+  },
+  {
+    id: 'femoral-nail-rehab-2009',
+    citation: 'Review: Is there a standard rehabilitation protocol after femoral intramedullary nailing? (2009).',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/19390375/',
+  },
+  {
+    id: 'tibial-nail-weight-bearing-2022',
+    citation: 'Outcomes of early versus delayed weight-bearing with intramedullary nailing of tibial shaft fractures: a systematic review and meta-analysis (2022).',
+    url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9532312/',
+  },
+  {
+    id: 'tibial-plateau-weight-bearing-2025',
+    citation: 'Early versus delayed weight-bearing following tibial plateau fracture surgery: a systematic review and meta-analysis (2025).',
+    url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12638072/',
+  },
+  {
+    id: 'patella-orif-protocol',
+    citation: 'Gundersen Health System Sports Medicine. Patella fracture ORIF rehabilitation program (2022).',
+    url: 'https://www.gundersenhealth.org/sites/default/files/2022-06/Sports-Medicine-Protocol-Patella-Fracture-ORIF.pdf',
+  },
+  {
+    id: 'wax-2024',
+    citation: 'Bretherton CP et al. Early versus delayed weight-bearing following operatively treated ankle fracture (WAX): a non-inferiority, multicentre, randomised controlled trial. Lancet 2024;403(10446):2787–97.',
+    url: 'https://evidence.nihr.ac.uk/alert/walking-just-2-weeks-after-ankle-surgery-is-safe-for-many',
+  },
+  {
+    id: 'kortekangas-2019',
+    citation: 'Kortekangas T et al. Three week versus six week immobilisation for stable Weber B type ankle fractures: randomised, multicentre, non-inferiority clinical trial. BMJ 2019;364:k5432.',
+    url: 'https://doi.org/10.1136/bmj.k5432',
+  },
+  {
+    id: 'heft-2014',
+    citation: 'Griffin D et al. Operative versus non-operative treatment for closed, displaced, intra-articular fractures of the calcaneus (UK HeFT): randomised controlled trial. BMJ 2014;349:g4483.',
+    url: 'https://wrap.warwick.ac.uk/id/eprint/63523/',
+  },
+  {
+    id: 'fifth-metatarsal-2022',
+    citation: 'Fifth metatarsal fractures: an update on management, complications, and outcomes. EFORT Open Rev 2022;7(1).',
+    url: 'https://eor.bioscientifica.com/view/journals/eor/7/1/EOR-21-0025.xml',
+  },
+  {
+    id: 'hip-precautions-2020',
+    citation: 'Do hip precautions after posterior-approach total hip arthroplasty affect dislocation rates? A systematic review of 7 studies with 6,900 patients. Acta Orthop 2020.',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/32718213/',
+  },
+  {
+    id: 'mgh-hip-arthroscopy',
+    citation: 'Massachusetts General Hospital Sports Medicine. Rehabilitation protocol for hip arthroscopy for femoroacetabular impingement.',
+    url: 'https://www.massgeneral.org/assets/MGH/pdf/orthopaedics/sports-medicine/physical-therapy/rehabilitation-protocol-for-hip-labral-postop.pdf',
+  },
+  {
+    id: 'jette-2020',
+    citation: 'Jette DU et al. Physical therapist management of total knee arthroplasty. Phys Ther 2020;100(9):1603–31.',
+    url: 'https://academic.oup.com/ptj/article/100/9/1603/5857258',
+  },
+  {
+    id: 'apta-tka-2026',
+    citation: 'Clinical practice guideline for physical therapist management of total knee arthroplasty: revision 2026. Phys Ther 2026;106(7):pzag058.',
+    url: 'https://academic.oup.com/ptj/article/106/7/pzag058/8742282',
+  },
+  {
+    id: 'aspetar-aclr-2023',
+    citation: 'Kotsifaki R et al. Aspetar clinical practice guideline on rehabilitation after anterior cruciate ligament reconstruction. Br J Sports Med 2023;57(9):500–14.',
+    url: 'https://bjsm.bmj.com/content/57/9/500',
+  },
+  {
+    id: 'moon-aclr-2015',
+    citation: 'Wright RW, Haas AK et al. Anterior cruciate ligament reconstruction rehabilitation: MOON guidelines. Sports Health 2015;7(3):239–43.',
+    url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4482298/',
+  },
+  {
+    id: 'grindem-2016',
+    citation: 'Grindem H et al. Simple decision rules can reduce reinjury risk by 84% after ACL reconstruction: the Delaware-Oslo ACL cohort study. Br J Sports Med 2016;50(13):804–8.',
+    url: 'https://bjsm.bmj.com/content/50/13/804',
+  },
+  {
+    id: 'meniscus-consensus-2024',
+    citation: 'Pujol N et al. The formal EU-US Meniscus Rehabilitation 2024 Consensus: an ESSKA-AOSSM-AASPT initiative. Part I — rehabilitation management after meniscus surgery. Knee Surg Sports Traumatol Arthrosc 2025.',
+    url: 'https://esskajournals.onlinelibrary.wiley.com/doi/10.1002/ksa.12674',
+  },
+  {
+    id: 'mpfl-protocols',
+    citation: 'Institutional MPFL reconstruction protocols, e.g. Banff Sport Medicine (2019), Sanford Health and Children’s Hospital of Philadelphia.',
+    url: 'https://banffsportmed.ca/wp-content/uploads/2019/09/MPFL-Post-Operative-Sept-2019-FINAL.pdf',
+  },
+  {
+    id: 'achilles-rehab-2022',
+    citation: 'Rehabilitation following operative treatment of acute Achilles tendon ruptures: a systematic review and meta-analysis. EFORT Open Rev 2022;7(10).',
+    url: 'https://eor.bioscientifica.com/view/journals/eor/7/10/EOR-22-0072.xml',
+  },
+  {
+    id: 'ukstar-2020',
+    citation: 'Costa ML et al. Plaster cast versus functional brace for non-surgical treatment of Achilles tendon rupture (UKSTAR): a multicentre randomised controlled trial and economic evaluation. Lancet 2020;395:441–8.',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/32035553/',
+  },
+  {
+    id: 'mgh-brostrom',
+    citation: 'Massachusetts General Hospital Sports Medicine. Rehabilitation protocol for Broström lateral ankle ligament repair.',
+    url: 'https://www.massgeneral.org/assets/MGH/pdf/orthopaedics/sports-medicine/physical-therapy/rehabilitation-protocol-for-brostrom-repair.pdf',
+  },
+  {
+    id: 'mgh-hallux-valgus',
+    citation: 'Massachusetts General Hospital Foot & Ankle. Physical therapy guidelines for hallux valgus correction.',
+    url: 'https://www.massgeneral.org/assets/MGH/pdf/orthopaedics/foot-ankle/PT-guidelines-hallux-valgus-correction-final.pdf',
+  },
 ];

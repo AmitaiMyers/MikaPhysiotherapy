@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { equipmentLabels, ExerciseList } from '../components/ExerciseList';
+import { RehabTabs } from '../components/RehabTabs';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, Note, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
 import { getMuscle, getNerve, MUSCLES, REGIONS } from '../data';
@@ -18,6 +19,7 @@ import {
 } from '../data/exercises';
 import type { Difficulty, Equipment, Exercise, ExerciseType } from '../data/exerciseTypes';
 import { muscleViews } from '../data/images';
+import { protocolsUsingExercise } from '../data/protocols';
 import { filterExercises, hasActiveExerciseFilters, type ExerciseFilters } from '../domain/exerciseSearch';
 import { shareExercise } from '../domain/share';
 
@@ -49,6 +51,7 @@ export function ExercisesPage() {
   return (
     <div className="page">
       <PageHeader title="Rehab" subtitle={`${EXERCISES.length} exercises · by body region`} />
+      <RehabTabs />
       <div className="search-row">
         <input
           type="search"
@@ -216,6 +219,7 @@ export function ExerciseDetailPage() {
           <p>{exercise.evidence}</p>
         </Card>
       )}
+      <UsedInProtocols exerciseId={exercise.id} />
       <a className="button" href={videoSearchUrl(exercise)} target="_blank" rel="noreferrer">
         Find a video demonstration ↗
       </a>
@@ -295,5 +299,21 @@ function ExerciseLinks({ label, ids }: { label: string; ids: string[] }) {
         ))}
       </ul>
     </div>
+  );
+}
+
+function UsedInProtocols({ exerciseId }: { exerciseId: string }) {
+  const protocols = protocolsUsingExercise(exerciseId);
+  if (protocols.length === 0) return null;
+  return (
+    <Card title={`Used in protocols (${protocols.length})`}>
+      <ul className="link-list">
+        {protocols.map((protocol) => (
+          <li key={protocol.id}>
+            <Link to={`/rehab/protocols/${protocol.id}`}>{protocol.name}</Link> <span className="muted small">— {protocol.management}</span>
+          </li>
+        ))}
+      </ul>
+    </Card>
   );
 }

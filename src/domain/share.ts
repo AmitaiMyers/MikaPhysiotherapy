@@ -1,6 +1,7 @@
 import { getJoint, getNerve } from '../data';
 import { muscleViews } from '../data/images';
 import type { Exercise } from '../data/exerciseTypes';
+import type { Protocol } from '../data/protocolTypes';
 import type { Muscle } from '../data/types';
 import { formatRoots } from './relations';
 
@@ -76,4 +77,19 @@ export function exerciseShareText(exercise: Exercise): string {
 
 export function shareExercise(exercise: Exercise): Promise<ShareResult> {
   return shareContent({ title: exercise.name, text: exerciseShareText(exercise), url: appUrl(`/rehab/exercises/${exercise.id}`) });
+}
+
+/** Plain-text protocol outline: phases with timing and their criteria to progress. */
+export function protocolShareText(protocol: Protocol, disclaimer: string): string {
+  const phases = protocol.phases.flatMap((phase) => [
+    '',
+    `${phase.name} (${phase.timeframe})`,
+    ...phase.protection.map((item) => `• ${item}`),
+    ...(phase.criteria.length > 0 ? [`To progress: ${phase.criteria.join(' ')}`] : []),
+  ]);
+  return [`${protocol.name} — ${protocol.management}`, protocol.summary, ...phases, '', disclaimer].join('\n');
+}
+
+export function shareProtocol(protocol: Protocol, disclaimer: string): Promise<ShareResult> {
+  return shareContent({ title: protocol.name, text: protocolShareText(protocol, disclaimer), url: appUrl(`/rehab/protocols/${protocol.id}`) });
 }

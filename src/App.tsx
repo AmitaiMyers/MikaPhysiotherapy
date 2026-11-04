@@ -6,6 +6,7 @@ import { BoneDetailPage, BonesJointsPage, JointDetailPage } from './pages/BonesJ
 import { MuscleDetailPage } from './pages/MuscleDetailPage';
 import { MusclesPage } from './pages/MusclesPage';
 import { NerveDetailPage, NervesPage } from './pages/NervesPages';
+import { ProtocolDetailPage, ProtocolListPage } from './pages/ProtocolPages';
 import { ExerciseDetailPage, ExercisesPage } from './pages/RehabPages';
 import { SpecialTestDetailPage, SpecialTestsPage } from './pages/SpecialTestsPages';
 
@@ -37,6 +38,9 @@ export function App() {
             <Route path="/tests/:id" element={<SpecialTestDetailPage />} />
             <Route path="/rehab" element={<ExercisesPage />} />
             <Route path="/rehab/exercises/:id" element={<ExerciseDetailPage />} />
+            <Route path="/rehab/fractures" element={<ProtocolListPage kind="fracture" />} />
+            <Route path="/rehab/surgeries" element={<ProtocolListPage kind="surgery" />} />
+            <Route path="/rehab/protocols/:id" element={<ProtocolDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<p className="empty">Page not found.</p>} />
           </Routes>
