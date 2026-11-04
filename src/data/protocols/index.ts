@@ -4,12 +4,13 @@ import { indexById } from '../index';
 import { PROTOCOL_DISCLAIMER, PROTOCOL_REGIONS } from './catalog';
 import { LOWER_FRACTURE_PROTOCOLS } from './lowerFractures';
 import { LOWER_SURGERY_PROTOCOLS } from './lowerSurgeries';
+import { SPINE_PROTOCOLS } from './spine';
 import { UPPER_FRACTURE_PROTOCOLS } from './upperFractures';
 import { UPPER_SURGERY_PROTOCOLS } from './upperSurgeries';
 
 export { PROTOCOL_DISCLAIMER, PROTOCOL_REGIONS };
 
-export const PROTOCOLS: Protocol[] = [...LOWER_FRACTURE_PROTOCOLS, ...LOWER_SURGERY_PROTOCOLS, ...UPPER_FRACTURE_PROTOCOLS, ...UPPER_SURGERY_PROTOCOLS];
+export const PROTOCOLS: Protocol[] = [...LOWER_FRACTURE_PROTOCOLS, ...LOWER_SURGERY_PROTOCOLS, ...UPPER_FRACTURE_PROTOCOLS, ...UPPER_SURGERY_PROTOCOLS, ...SPINE_PROTOCOLS];
 
 export const PROTOCOL_KIND_LABELS: Record<ProtocolKind, string> = { fracture: 'Fractures', surgery: 'Surgeries' };
 
