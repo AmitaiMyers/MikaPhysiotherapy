@@ -4,6 +4,7 @@ import { Card, Note, PageHeader } from '../../components/ui';
 import { downloadBackup } from '../../patients/backupIo';
 import { biometricAvailable } from '../../patients/biometric';
 import { MIN_PIN_LENGTH } from '../../patients/crypto';
+import { saveSettings, useSettings } from '../../patients/settings';
 import { changePin, disableBiometric, enableBiometric, eraseVault, useVaultState } from '../../patients/vault';
 import { RestoreBackup } from './RestoreBackup';
 import { PinInput } from './VaultGate';
@@ -25,6 +26,7 @@ export function PatientSettingsPage() {
         </div>
         <Note>The backup file is encrypted: keep it somewhere safe (e.g. your cloud drive). It opens only with the PIN you have now.</Note>
       </Card>
+      <CalendarSettingsCard />
       <ChangePinCard />
       <BiometricCard enabled={vault.meta?.biometric != null} />
       <Card title="Automatic lock">
@@ -114,6 +116,31 @@ function BiometricCard({ enabled }: { enabled: boolean }) {
       )}
       {message !== null && <p className="small">{message}</p>}
       <Note>Needs a device whose screen lock supports passkeys (recent Android or iPhone). The PIN keeps working.</Note>
+    </Card>
+  );
+}
+
+function CalendarSettingsCard() {
+  const settings = useSettings();
+  return (
+    <Card title="Calendar">
+      <div className="field-row">
+        <label className="field">
+          <span>Day starts</span>
+          <input className="search-input" type="time" step={1800} value={settings.dayStart} onChange={(event) => saveSettings({ dayStart: event.target.value })} />
+        </label>
+        <label className="field">
+          <span>Day ends</span>
+          <input className="search-input" type="time" step={1800} value={settings.dayEnd} onChange={(event) => saveSettings({ dayEnd: event.target.value })} />
+        </label>
+      </div>
+      <label className="field spaced-field">
+        <span>Default session length</span>
+        <select value={settings.defaultDurationMin} onChange={(event) => saveSettings({ defaultDurationMin: event.target.value === '30' ? 30 : 60 })}>
+          <option value="30">30 minutes</option>
+          <option value="60">1 hour</option>
+        </select>
+      </label>
     </Card>
   );
 }

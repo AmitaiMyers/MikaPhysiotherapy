@@ -159,6 +159,8 @@ export interface Session extends SessionContent {
   durationMin: number;
   /** Shared by the sessions of one recurring booking. */
   seriesId: string | null;
+  /** Calendar event this session was imported from (UID and start), to avoid importing it twice. */
+  externalId?: string;
   createdAt: string;
   updatedAt: string;
 }

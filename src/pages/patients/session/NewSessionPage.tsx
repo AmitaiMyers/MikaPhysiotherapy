@@ -3,10 +3,9 @@ import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { SelectField, TextField } from '../../../components/forms';
 import { Empty, PageHeader } from '../../../components/ui';
 import { formatDate, localDate } from '../../../patients/dates';
-import { newId, nowIso } from '../../../patients/records';
-import { contentOf, emptyContent, lastCompletedSession, sessionStructure } from '../../../patients/sessions';
+import { buildSessions, startingContent, type SessionStart } from '../../../patients/booking';
+import { lastCompletedSession } from '../../../patients/sessions';
 import { useSettings } from '../../../patients/settings';
-import type { Session } from '../../../patients/types';
 import { getRecord, saveRecord, useRecords } from '../../../patients/vault';
 
 const nextHour = (): string => `${String(Math.min(new Date().getHours() + 1, 23)).padStart(2, '0')}:00`;
@@ -31,22 +30,21 @@ export function NewSessionPage() {
   if (patient === undefined) return <Empty>Patient not found.</Empty>;
 
   const create = () => {
-    const template = templates.find((t) => `template:${t.id}` === start);
-    const content = start === 'last' && last !== null ? sessionStructure(contentOf(last)) : template !== undefined ? sessionStructure(template.content) : emptyContent();
-    const session: Session = {
-      id: newId(),
+    const sessionStart: SessionStart = start === 'last' ? { kind: 'last' } : start.startsWith('template:') ? { kind: 'template', templateId: start.slice('template:'.length) } : { kind: 'blank' };
+    const episode = episodeId === '' ? null : episodeId;
+    const today = localDate(new Date());
+    const [session] = buildSessions({
       patientId: patient.id,
-      episodeId: episodeId === '' ? null : episodeId,
-      status: date > localDate(new Date()) ? 'planned' : 'done',
-      date,
+      episodeId: episode,
+      dates: [date],
       startTime,
       durationMin: Number(durationMin),
-      seriesId: null,
-      createdAt: nowIso(),
-      updatedAt: nowIso(),
-      ...content,
-    };
-    saveRecord('session', session);
+      content: startingContent(sessionStart, sessions, templates, patient.id, episode),
+      today,
+    });
+    if (session === undefined) throw new Error('No session was built');
+    // A session created for today is being done now; one in the future is a plan.
+    saveRecord('session', { ...session, status: date > today ? 'planned' : 'done' });
     void navigate(`/patients/sessions/${session.id}`, { replace: true });
   };
 

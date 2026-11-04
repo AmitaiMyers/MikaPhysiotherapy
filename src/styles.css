@@ -1383,3 +1383,179 @@ section.add-to-programme {
   margin-left: 8px;
   vertical-align: 2px;
 }
+
+/* ---------- calendar ---------- */
+
+.calendar-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-range {
+  font-weight: 700;
+  margin: -4px 2px 0;
+}
+
+.calendar {
+  display: grid;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.calendar-corner,
+.calendar-day-head {
+  border-bottom: 1px solid var(--border);
+  min-height: 44px;
+}
+
+.calendar-day-head {
+  background: none;
+  border-top: none;
+  border-left: 1px solid var(--border);
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  padding: 2px 0;
+}
+
+.calendar-day-head strong {
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.calendar-today strong {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0 6px;
+}
+
+.calendar-times {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-time {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-align: right;
+  padding-right: 4px;
+  transform: translateY(-6px);
+}
+
+.calendar-column {
+  position: relative;
+  border-left: 1px solid var(--border);
+}
+
+.calendar-slot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border: none;
+  border-top: 1px dashed color-mix(in srgb, var(--border) 60%, transparent);
+  background: none;
+  padding: 0;
+}
+
+.calendar-slot-hour {
+  border-top: 1px solid var(--border);
+}
+
+.calendar-slot:hover {
+  background: var(--accent-soft);
+}
+
+.calendar-event {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  border: 1.5px solid var(--accent);
+  background: var(--surface);
+  z-index: 1;
+}
+
+.calendar-event-done {
+  background: var(--accent);
+  color: #fff;
+}
+
+.calendar-week .calendar-event {
+  padding: 2px 3px;
+  font-size: 0.68rem;
+}
+
+.import-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.import-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.import-list select {
+  min-height: var(--tap);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  max-width: 100%;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(0 0 0 / 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--bg);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 14px 16px calc(16px + var(--safe-bottom));
+}
+
+@media (min-width: 560px) {
+  .modal-backdrop {
+    align-items: center;
+  }
+
+  .modal {
+    border-radius: var(--radius);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
