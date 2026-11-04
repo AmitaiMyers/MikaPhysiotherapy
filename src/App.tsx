@@ -5,6 +5,9 @@ import { AboutPage } from './pages/AboutPage';
 import { BoneDetailPage, BonesJointsPage, JointDetailPage } from './pages/BonesJointsPages';
 import { MuscleDetailPage } from './pages/MuscleDetailPage';
 import { MusclesPage } from './pages/MusclesPage';
+import { EpisodeFormPage } from './pages/patients/EpisodeFormPage';
+import { PatientFolderPage } from './pages/patients/PatientFolderPage';
+import { PatientFormPage } from './pages/patients/PatientFormPage';
 import { PatientListPage } from './pages/patients/PatientListPage';
 import { PatientSettingsPage } from './pages/patients/SettingsPage';
 import { VaultGate } from './pages/patients/VaultGate';
@@ -57,6 +60,10 @@ export function App() {
             <Route path="/rehab/programmes/:id" element={<ProgrammeDetailPage />} />
             <Route path="/patients" element={gated(<PatientListPage />)} />
             <Route path="/patients/settings" element={gated(<PatientSettingsPage />)} />
+            <Route path="/patients/new" element={gated(<PatientFormPage />)} />
+            <Route path="/patients/:id" element={gated(<PatientFolderPage />)} />
+            <Route path="/patients/:id/edit" element={gated(<PatientFormPage />)} />
+            <Route path="/patients/:id/episodes/:episodeId" element={gated(<EpisodeFormPage />)} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<p className="empty">Page not found.</p>} />
           </Routes>
