@@ -6,7 +6,10 @@ There is no account and no server; all data ships with the app.
 
 ## Contents
 
-- **Muscles tab**: 166 physiotherapy-relevant skeletal muscles in four regions, each grouped by compartment and layer:
+- **Home**: an interactive human body (front and back; muscles, deep muscles or skeleton — muscles on the body's right side, bones on the left). Tap a muscle or bone to highlight it and see its key facts, then open its page. Also a search across everything, today's sessions and quick links. The body is pre-rendered from the 3D model with an "ID map" for tapping, so it works offline (`node scripts/anatomy/render-body.mjs`).
+- **Navigation**: Home · Library (Muscles, Bones & joints, Nerves, Special tests) · Rehab · Patients · Calendar. Design notes: `docs/design/critique.md` and `docs/design/design-system.md`.
+
+- **Muscles** (Library): 166 physiotherapy-relevant skeletal muscles in four regions, each grouped by compartment and layer:
   - **Head & neck** (39): sternocleidomastoid, platysma, scalenes, suprahyoid and infrahyoid groups, deep neck flexors, suboccipitals, splenius and semispinalis, mastication and key muscles of facial expression.
   - **Trunk & pelvis** (27): serratus posterior, erector spinae, transversospinalis, quadratus lumborum, diaphragm and intercostals, abdominal wall, pelvic floor and perineum.
   - **Upper limb** (50): pectoral and posterior axio-appendicular, scapulohumeral and rotator cuff, arm, forearm and hand compartments.

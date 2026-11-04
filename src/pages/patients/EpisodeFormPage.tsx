@@ -72,7 +72,7 @@ function EpisodeForm({ initial, isNew, patientName }: { initial: Episode; isNew:
         </SelectField>
         <TextField label="Surgery or injury date (week 0 of the protocol)" type="date" value={episode.startDate ?? ''} onChange={(value) => update({ startDate: value === '' ? null : value })} />
         <TextAreaField label="Notes" value={episode.notes} onChange={(notes) => update({ notes })} />
-        <button type="submit" className="button button-active" disabled={episode.title.trim() === ''}>
+        <button type="submit" className="button button-primary" disabled={episode.title.trim() === ''}>
           {isNew ? 'Create episode' : 'Save'}
         </button>
       </form>
@@ -80,7 +80,7 @@ function EpisodeForm({ initial, isNew, patientName }: { initial: Episode; isNew:
       {!isNew && (
         <button
           type="button"
-          className="text-button"
+          className="text-button danger"
           onClick={() => {
             if (!window.confirm('Delete this episode? Its sessions and files stay in the patient folder.')) return;
             deleteEpisode(episode.id);

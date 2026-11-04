@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { LibraryTabs } from '../components/LibraryTabs';
+import { Icon } from '../components/Icon';
 import { Link } from 'react-router';
 import { Empty, PageHeader } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
@@ -36,10 +38,11 @@ export function MusclesPage() {
         subtitle={`${MUSCLES.length} muscles · grouped by region`}
         actions={
           <Link to="/about" className="icon-button" aria-label="About and sources">
-            ⓘ
+            <Icon name="info" />
           </Link>
         }
       />
+      <LibraryTabs />
       <div className="search-row">
         <input
           type="search"

@@ -1,0 +1,1432 @@
+{
+ "size": {
+  "width": 720,
+  "height": 1800
+ },
+ "targets": [
+  {
+   "kind": "bone",
+   "id": "cervical-vertebrae"
+  },
+  {
+   "kind": "bone",
+   "id": "thoracic-vertebrae"
+  },
+  {
+   "kind": "bone",
+   "id": "hyoid"
+  },
+  {
+   "kind": "bone",
+   "id": "mandible"
+  },
+  {
+   "kind": "bone",
+   "id": "parietal"
+  },
+  {
+   "kind": "bone",
+   "id": "temporal"
+  },
+  {
+   "kind": "bone",
+   "id": "maxilla"
+  },
+  {
+   "kind": "bone",
+   "id": "zygomatic"
+  },
+  {
+   "kind": "bone",
+   "id": "occipital"
+  },
+  {
+   "kind": "bone",
+   "id": "frontal"
+  },
+  {
+   "kind": "bone",
+   "id": "sphenoid"
+  },
+  {
+   "kind": "bone",
+   "id": "thyroid-cartilage"
+  },
+  {
+   "kind": "bone",
+   "id": "ribs"
+  },
+  {
+   "kind": "bone",
+   "id": "sternum"
+  },
+  {
+   "kind": "bone",
+   "id": "scapula"
+  },
+  {
+   "kind": "bone",
+   "id": "clavicle"
+  },
+  {
+   "kind": "muscle",
+   "id": "sternocleidomastoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "platysma"
+  },
+  {
+   "kind": "muscle",
+   "id": "scalenus-anterior"
+  },
+  {
+   "kind": "muscle",
+   "id": "scalenus-medius"
+  },
+  {
+   "kind": "muscle",
+   "id": "scalenus-posterior"
+  },
+  {
+   "kind": "muscle",
+   "id": "digastric"
+  },
+  {
+   "kind": "muscle",
+   "id": "mylohyoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "geniohyoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "stylohyoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "sternohyoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "sternothyroid"
+  },
+  {
+   "kind": "muscle",
+   "id": "thyrohyoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "omohyoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "longus-colli"
+  },
+  {
+   "kind": "muscle",
+   "id": "longus-capitis"
+  },
+  {
+   "kind": "muscle",
+   "id": "rectus-capitis-anterior"
+  },
+  {
+   "kind": "muscle",
+   "id": "rectus-capitis-lateralis"
+  },
+  {
+   "kind": "muscle",
+   "id": "rectus-capitis-posterior-major"
+  },
+  {
+   "kind": "muscle",
+   "id": "rectus-capitis-posterior-minor"
+  },
+  {
+   "kind": "muscle",
+   "id": "obliquus-capitis-superior"
+  },
+  {
+   "kind": "muscle",
+   "id": "obliquus-capitis-inferior"
+  },
+  {
+   "kind": "muscle",
+   "id": "splenius-capitis"
+  },
+  {
+   "kind": "muscle",
+   "id": "splenius-cervicis"
+  },
+  {
+   "kind": "muscle",
+   "id": "semispinalis-cervicis"
+  },
+  {
+   "kind": "muscle",
+   "id": "masseter"
+  },
+  {
+   "kind": "muscle",
+   "id": "temporalis"
+  },
+  {
+   "kind": "muscle",
+   "id": "medial-pterygoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "lateral-pterygoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "occipitofrontalis"
+  },
+  {
+   "kind": "muscle",
+   "id": "corrugator-supercilii"
+  },
+  {
+   "kind": "muscle",
+   "id": "orbicularis-oculi"
+  },
+  {
+   "kind": "muscle",
+   "id": "nasalis"
+  },
+  {
+   "kind": "muscle",
+   "id": "levator-labii-superioris"
+  },
+  {
+   "kind": "muscle",
+   "id": "zygomaticus-major"
+  },
+  {
+   "kind": "muscle",
+   "id": "orbicularis-oris"
+  },
+  {
+   "kind": "muscle",
+   "id": "buccinator"
+  },
+  {
+   "kind": "muscle",
+   "id": "depressor-anguli-oris"
+  },
+  {
+   "kind": "muscle",
+   "id": "mentalis"
+  },
+  {
+   "kind": "bone",
+   "id": "femur"
+  },
+  {
+   "kind": "bone",
+   "id": "hip-bone"
+  },
+  {
+   "kind": "bone",
+   "id": "sacrum"
+  },
+  {
+   "kind": "bone",
+   "id": "lumbar-vertebrae"
+  },
+  {
+   "kind": "bone",
+   "id": "coccyx"
+  },
+  {
+   "kind": "muscle",
+   "id": "serratus-posterior-superior"
+  },
+  {
+   "kind": "muscle",
+   "id": "serratus-posterior-inferior"
+  },
+  {
+   "kind": "muscle",
+   "id": "iliocostalis"
+  },
+  {
+   "kind": "muscle",
+   "id": "longissimus"
+  },
+  {
+   "kind": "muscle",
+   "id": "spinalis"
+  },
+  {
+   "kind": "muscle",
+   "id": "semispinalis-thoracis"
+  },
+  {
+   "kind": "muscle",
+   "id": "multifidus"
+  },
+  {
+   "kind": "muscle",
+   "id": "rotatores"
+  },
+  {
+   "kind": "muscle",
+   "id": "quadratus-lumborum"
+  },
+  {
+   "kind": "muscle",
+   "id": "diaphragm"
+  },
+  {
+   "kind": "muscle",
+   "id": "external-intercostals"
+  },
+  {
+   "kind": "muscle",
+   "id": "internal-intercostals"
+  },
+  {
+   "kind": "muscle",
+   "id": "rectus-abdominis"
+  },
+  {
+   "kind": "muscle",
+   "id": "external-oblique"
+  },
+  {
+   "kind": "muscle",
+   "id": "internal-oblique"
+  },
+  {
+   "kind": "muscle",
+   "id": "transversus-abdominis"
+  },
+  {
+   "kind": "muscle",
+   "id": "pyramidalis"
+  },
+  {
+   "kind": "muscle",
+   "id": "pubococcygeus"
+  },
+  {
+   "kind": "muscle",
+   "id": "iliococcygeus"
+  },
+  {
+   "kind": "muscle",
+   "id": "coccygeus"
+  },
+  {
+   "kind": "muscle",
+   "id": "external-anal-sphincter"
+  },
+  {
+   "kind": "bone",
+   "id": "ulna"
+  },
+  {
+   "kind": "bone",
+   "id": "phalanges-hand"
+  },
+  {
+   "kind": "bone",
+   "id": "metacarpals"
+  },
+  {
+   "kind": "bone",
+   "id": "scaphoid"
+  },
+  {
+   "kind": "bone",
+   "id": "humerus"
+  },
+  {
+   "kind": "bone",
+   "id": "trapezium"
+  },
+  {
+   "kind": "bone",
+   "id": "lunate"
+  },
+  {
+   "kind": "bone",
+   "id": "triquetrum"
+  },
+  {
+   "kind": "bone",
+   "id": "capitate"
+  },
+  {
+   "kind": "bone",
+   "id": "trapezoid"
+  },
+  {
+   "kind": "bone",
+   "id": "hamate"
+  },
+  {
+   "kind": "bone",
+   "id": "radius"
+  },
+  {
+   "kind": "bone",
+   "id": "pisiform"
+  },
+  {
+   "kind": "muscle",
+   "id": "pectoralis-major"
+  },
+  {
+   "kind": "muscle",
+   "id": "pectoralis-minor"
+  },
+  {
+   "kind": "muscle",
+   "id": "subclavius"
+  },
+  {
+   "kind": "muscle",
+   "id": "serratus-anterior"
+  },
+  {
+   "kind": "muscle",
+   "id": "trapezius"
+  },
+  {
+   "kind": "muscle",
+   "id": "latissimus-dorsi"
+  },
+  {
+   "kind": "muscle",
+   "id": "levator-scapulae"
+  },
+  {
+   "kind": "muscle",
+   "id": "rhomboid-major"
+  },
+  {
+   "kind": "muscle",
+   "id": "rhomboid-minor"
+  },
+  {
+   "kind": "muscle",
+   "id": "deltoid"
+  },
+  {
+   "kind": "muscle",
+   "id": "teres-major"
+  },
+  {
+   "kind": "muscle",
+   "id": "supraspinatus"
+  },
+  {
+   "kind": "muscle",
+   "id": "infraspinatus"
+  },
+  {
+   "kind": "muscle",
+   "id": "teres-minor"
+  },
+  {
+   "kind": "muscle",
+   "id": "subscapularis"
+  },
+  {
+   "kind": "muscle",
+   "id": "biceps-brachii"
+  },
+  {
+   "kind": "muscle",
+   "id": "brachialis"
+  },
+  {
+   "kind": "muscle",
+   "id": "coracobrachialis"
+  },
+  {
+   "kind": "muscle",
+   "id": "triceps-brachii"
+  },
+  {
+   "kind": "muscle",
+   "id": "anconeus"
+  },
+  {
+   "kind": "muscle",
+   "id": "pronator-teres"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-carpi-radialis"
+  },
+  {
+   "kind": "muscle",
+   "id": "palmaris-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-carpi-ulnaris"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-digitorum-superficialis"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-digitorum-profundus"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-pollicis-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "pronator-quadratus"
+  },
+  {
+   "kind": "muscle",
+   "id": "brachioradialis"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-carpi-radialis-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-carpi-radialis-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-digitorum"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-digiti-minimi"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-carpi-ulnaris"
+  },
+  {
+   "kind": "muscle",
+   "id": "supinator"
+  },
+  {
+   "kind": "muscle",
+   "id": "abductor-pollicis-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-pollicis-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-pollicis-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-indicis"
+  },
+  {
+   "kind": "muscle",
+   "id": "abductor-pollicis-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-pollicis-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "opponens-pollicis"
+  },
+  {
+   "kind": "muscle",
+   "id": "adductor-pollicis"
+  },
+  {
+   "kind": "muscle",
+   "id": "abductor-digiti-minimi-hand"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-digiti-minimi-brevis-hand"
+  },
+  {
+   "kind": "muscle",
+   "id": "opponens-digiti-minimi-hand"
+  },
+  {
+   "kind": "muscle",
+   "id": "lumbricals-hand"
+  },
+  {
+   "kind": "muscle",
+   "id": "dorsal-interossei-hand"
+  },
+  {
+   "kind": "muscle",
+   "id": "palmar-interossei"
+  },
+  {
+   "kind": "bone",
+   "id": "tibia"
+  },
+  {
+   "kind": "bone",
+   "id": "patella"
+  },
+  {
+   "kind": "bone",
+   "id": "phalanges-foot"
+  },
+  {
+   "kind": "bone",
+   "id": "metatarsals"
+  },
+  {
+   "kind": "bone",
+   "id": "cuneiforms"
+  },
+  {
+   "kind": "bone",
+   "id": "talus"
+  },
+  {
+   "kind": "bone",
+   "id": "cuboid"
+  },
+  {
+   "kind": "bone",
+   "id": "calcaneus"
+  },
+  {
+   "kind": "bone",
+   "id": "navicular"
+  },
+  {
+   "kind": "bone",
+   "id": "fibula"
+  },
+  {
+   "kind": "muscle",
+   "id": "gluteus-maximus"
+  },
+  {
+   "kind": "muscle",
+   "id": "gluteus-medius"
+  },
+  {
+   "kind": "muscle",
+   "id": "gluteus-minimus"
+  },
+  {
+   "kind": "muscle",
+   "id": "tensor-fasciae-latae"
+  },
+  {
+   "kind": "muscle",
+   "id": "piriformis"
+  },
+  {
+   "kind": "muscle",
+   "id": "superior-gemellus"
+  },
+  {
+   "kind": "muscle",
+   "id": "obturator-internus"
+  },
+  {
+   "kind": "muscle",
+   "id": "inferior-gemellus"
+  },
+  {
+   "kind": "muscle",
+   "id": "quadratus-femoris"
+  },
+  {
+   "kind": "muscle",
+   "id": "psoas-major"
+  },
+  {
+   "kind": "muscle",
+   "id": "iliacus"
+  },
+  {
+   "kind": "muscle",
+   "id": "sartorius"
+  },
+  {
+   "kind": "muscle",
+   "id": "rectus-femoris"
+  },
+  {
+   "kind": "muscle",
+   "id": "vastus-lateralis"
+  },
+  {
+   "kind": "muscle",
+   "id": "vastus-medialis"
+  },
+  {
+   "kind": "muscle",
+   "id": "vastus-intermedius"
+  },
+  {
+   "kind": "muscle",
+   "id": "pectineus"
+  },
+  {
+   "kind": "muscle",
+   "id": "adductor-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "adductor-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "adductor-magnus"
+  },
+  {
+   "kind": "muscle",
+   "id": "gracilis"
+  },
+  {
+   "kind": "muscle",
+   "id": "obturator-externus"
+  },
+  {
+   "kind": "muscle",
+   "id": "biceps-femoris"
+  },
+  {
+   "kind": "muscle",
+   "id": "semitendinosus"
+  },
+  {
+   "kind": "muscle",
+   "id": "semimembranosus"
+  },
+  {
+   "kind": "muscle",
+   "id": "tibialis-anterior"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-hallucis-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-digitorum-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "fibularis-tertius"
+  },
+  {
+   "kind": "muscle",
+   "id": "fibularis-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "fibularis-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "gastrocnemius"
+  },
+  {
+   "kind": "muscle",
+   "id": "soleus"
+  },
+  {
+   "kind": "muscle",
+   "id": "plantaris"
+  },
+  {
+   "kind": "muscle",
+   "id": "popliteus"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-hallucis-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-digitorum-longus"
+  },
+  {
+   "kind": "muscle",
+   "id": "tibialis-posterior"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-digitorum-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "extensor-hallucis-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "abductor-hallucis"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-digitorum-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "abductor-digiti-minimi-foot"
+  },
+  {
+   "kind": "muscle",
+   "id": "quadratus-plantae"
+  },
+  {
+   "kind": "muscle",
+   "id": "lumbricals-foot"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-hallucis-brevis"
+  },
+  {
+   "kind": "muscle",
+   "id": "adductor-hallucis"
+  },
+  {
+   "kind": "muscle",
+   "id": "flexor-digiti-minimi-brevis-foot"
+  },
+  {
+   "kind": "muscle",
+   "id": "plantar-interossei"
+  },
+  {
+   "kind": "muscle",
+   "id": "dorsal-interossei-foot"
+  }
+ ],
+ "layers": {
+  "superficial": {
+   "front": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    26,
+    30,
+    31,
+    37,
+    40,
+    41,
+    42,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    69,
+    70,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    97,
+    98,
+    99,
+    103,
+    104,
+    109,
+    110,
+    111,
+    112,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    129,
+    130,
+    131,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    159,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172,
+    173,
+    175,
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    196,
+    197,
+    198,
+    199,
+    202
+   ],
+   "back": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    36,
+    38,
+    39,
+    41,
+    42,
+    45,
+    55,
+    56,
+    57,
+    58,
+    59,
+    61,
+    62,
+    63,
+    64,
+    69,
+    70,
+    72,
+    73,
+    74,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    97,
+    98,
+    99,
+    100,
+    101,
+    103,
+    104,
+    106,
+    107,
+    110,
+    112,
+    113,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    166,
+    167,
+    172,
+    173,
+    175,
+    176,
+    177,
+    178,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    188,
+    189,
+    190,
+    191,
+    193,
+    194,
+    195,
+    196,
+    198,
+    199,
+    200,
+    201,
+    202
+   ]
+  },
+  "deep": {
+   "front": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    19,
+    20,
+    21,
+    22,
+    25,
+    27,
+    28,
+    29,
+    32,
+    33,
+    34,
+    35,
+    37,
+    39,
+    40,
+    43,
+    44,
+    46,
+    52,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    67,
+    71,
+    74,
+    75,
+    78,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    95,
+    96,
+    97,
+    100,
+    101,
+    102,
+    105,
+    106,
+    107,
+    108,
+    110,
+    118,
+    119,
+    120,
+    121,
+    128,
+    129,
+    130,
+    131,
+    135,
+    136,
+    139,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    154,
+    155,
+    157,
+    158,
+    159,
+    161,
+    168,
+    171,
+    172,
+    174,
+    177,
+    183,
+    187,
+    188,
+    189,
+    190,
+    196,
+    197,
+    198,
+    199,
+    201,
+    202
+   ],
+   "back": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    19,
+    20,
+    21,
+    22,
+    25,
+    29,
+    33,
+    34,
+    35,
+    37,
+    39,
+    40,
+    43,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    64,
+    65,
+    66,
+    67,
+    68,
+    71,
+    74,
+    75,
+    78,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    97,
+    100,
+    101,
+    102,
+    105,
+    106,
+    107,
+    110,
+    118,
+    119,
+    120,
+    121,
+    128,
+    129,
+    130,
+    131,
+    132,
+    135,
+    136,
+    139,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    154,
+    155,
+    157,
+    158,
+    159,
+    160,
+    161,
+    168,
+    172,
+    174,
+    177,
+    183,
+    187,
+    188,
+    189,
+    190,
+    196,
+    198,
+    199,
+    200,
+    201,
+    202
+   ]
+  },
+  "skeleton": {
+   "front": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    55,
+    56,
+    57,
+    58,
+    59,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152
+   ],
+   "back": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    55,
+    56,
+    57,
+    58,
+    59,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152
+   ]
+  }
+ }
+}

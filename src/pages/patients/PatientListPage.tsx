@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Icon } from '../../components/Icon';
 import { Link } from 'react-router';
 import { PatientsTabs } from '../../components/PatientsTabs';
 import { Card, PageHeader } from '../../components/ui';
@@ -36,7 +37,7 @@ export function PatientListPage() {
         subtitle={`${patients.length} ${patients.length === 1 ? 'patient' : 'patients'} · encrypted on this device`}
         actions={
           <Link to="/patients/new" className="icon-button" aria-label="New patient">
-            ＋
+            <Icon name="plus" />
           </Link>
         }
       />
@@ -45,7 +46,7 @@ export function PatientListPage() {
       {patients.length === 0 ? (
         <Card>
           <p>No patients yet.</p>
-          <Link to="/patients/new" className="button button-active spaced-top">
+          <Link to="/patients/new" className="button button-primary spaced-top">
             Add the first patient
           </Link>
         </Card>

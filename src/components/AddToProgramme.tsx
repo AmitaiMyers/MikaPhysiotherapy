@@ -72,7 +72,7 @@ export function AddToProgramme({ items, defaultTitle, defaultNotes = '', label }
         }}
       >
         <input className="search-input" aria-label="Programme title" value={title} onChange={(event) => setTitle(event.target.value)} />
-        <button type="submit" className="button button-active" disabled={title.trim() === ''}>
+        <button type="submit" className="button button-primary" disabled={title.trim() === ''}>
           Create
         </button>
       </form>

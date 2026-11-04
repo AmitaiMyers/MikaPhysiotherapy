@@ -90,7 +90,7 @@ export function NewSessionPage() {
             </label>
           ))}
         </fieldset>
-        <button type="submit" className="button button-active">
+        <button type="submit" className="button button-primary">
           Create session
         </button>
       </form>

@@ -21,6 +21,18 @@ export function SessionPage() {
   return <SessionEditor session={session} allSessions={sessions} />;
 }
 
+const SOAP_JUMPS = [
+  ['S', 'soap-s', 'Subjective'],
+  ['O', 'soap-o', 'Objective'],
+  ['T', 'soap-t', 'Treatment and exercises'],
+  ['A', 'soap-a', 'Assessment'],
+  ['P', 'soap-p', 'Plan'],
+] as const;
+
+function jumpTo(id: string): void {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function suggestedPhase(episode: Episode | undefined, date: string): number | null {
   if (episode?.protocolId == null || episode.startDate === null) return null;
   const days = daysBetween(episode.startDate, date);
@@ -51,6 +63,13 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
           </button>
         ))}
       </div>
+      <nav className="soap-bar" aria-label="Jump to section">
+        {SOAP_JUMPS.map(([letter, target, label]) => (
+          <button key={target} type="button" className="soap-chip" aria-label={label} onClick={() => jumpTo(target)}>
+            {letter}
+          </button>
+        ))}
+      </nav>
       <SessionSection title="Date, time & episode">
         <div className="field-row">
           <TextField label="Date" type="date" value={session.date} onChange={(date) => update({ date })} />
@@ -72,20 +91,25 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
         </div>
       </SessionSection>
 
+      <span id="soap-s" className="soap-anchor" />
       <SubjectiveSection subjective={session.subjective} onChange={(subjective) => update({ subjective })} />
-      <h2 className="section-heading soap-heading">
+      <h2 className="section-heading soap-heading" id="soap-o">
         <span className="soap-letter">O</span> Objective
       </h2>
       <ObjectiveSections objective={session.objective} defaultSide={defaultSide} onChange={(objective) => update({ objective })} />
-      <h2 className="section-heading soap-heading">Treatment & plan</h2>
+      <h2 className="section-heading soap-heading" id="soap-t">
+        <span className="soap-letter">T</span> Treatment
+      </h2>
       <TreatmentSection treatment={session.treatment} onChange={(treatment) => update({ treatment })} />
       <ExercisesSection exercises={session.exercises} onChange={(exercises) => update({ exercises })} />
       {protocol !== null && <ProtocolSection protocol={protocol} value={session.protocol} suggestedPhase={suggestedPhase(episode, session.date)} onChange={(value) => update({ protocol: value })} />}
       <HomeProgrammeSection value={session.homeProgramme} exercises={session.exercises} onChange={(homeProgramme) => update({ homeProgramme })} />
       <ScoresSection scores={session.scores} subjects={scoreSubjects(allSessions, session.patientId)} onChange={(scores) => update({ scores })} />
+      <span id="soap-a" className="soap-anchor" />
       <SessionSection letter="A" title="Assessment" defaultOpen count={session.assessment === '' ? 0 : 1}>
         <TextAreaField label="Clinical reasoning, progress, response to treatment" rows={4} value={session.assessment} onChange={(assessment) => update({ assessment })} />
       </SessionSection>
+      <span id="soap-p" className="soap-anchor" />
       <SessionSection letter="P" title="Plan" defaultOpen count={session.plan === '' ? 0 : 1}>
         <TextAreaField label="Plan for next session" rows={4} value={session.plan} onChange={(plan) => update({ plan })} />
         <TextAreaField label="Other notes" value={session.notes} onChange={(notes) => update({ notes })} />
@@ -109,7 +133,7 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
         </Link>
         <button
           type="button"
-          className="text-button"
+          className="text-button danger"
           onClick={() => {
             if (!window.confirm('Delete this session?')) return;
             deleteRecord('session', session.id);

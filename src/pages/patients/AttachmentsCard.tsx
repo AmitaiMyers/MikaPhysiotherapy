@@ -78,7 +78,7 @@ function AttachmentTile({ attachment }: { attachment: Attachment }) {
       </span>
       <button
         type="button"
-        className="text-button small"
+        className="text-button danger small"
         onClick={() => {
           if (!window.confirm(`Delete ${attachment.name}?`)) return;
           deleteRecord('attachment', attachment.id);

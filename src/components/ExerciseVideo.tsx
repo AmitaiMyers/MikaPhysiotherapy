@@ -70,7 +70,7 @@ export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state
               onChange={(event) => setLink(event.target.value)}
               autoFocus
             />
-            <button type="submit" className="button button-active" disabled={parsed === null}>
+            <button type="submit" className="button button-primary" disabled={parsed === null}>
               Save
             </button>
           </div>
@@ -90,7 +90,7 @@ export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state
             {state.video === null ? 'Add video' : 'Change video'}
           </button>
           {state.video !== null && (
-            <button type="button" className="text-button" onClick={() => setVideoOverride(exercise.id, null)}>
+            <button type="button" className="text-button danger" onClick={() => setVideoOverride(exercise.id, null)}>
               Remove
             </button>
           )}

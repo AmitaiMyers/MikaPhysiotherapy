@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router';
+import { LibraryTabs } from '../components/LibraryTabs';
 import { Card, Disclaimer, Empty, MuscleLink, Note, PageHeader } from '../components/ui';
 import { BONES, findBone, findJoint, JOINTS } from '../data';
 import type { BoneRegion } from '../data/types';
@@ -23,6 +24,7 @@ export function BonesJointsPage() {
   return (
     <div className="page">
       <PageHeader title="Bones & joints" subtitle="Attachments and the muscles that move each joint" />
+      <LibraryTabs />
       <Card title="Joints">
         <ul className="link-list">
           {JOINTS.map((joint) => (

@@ -58,7 +58,7 @@ function SetupScreen() {
         <PinInput label={`New PIN (at least ${MIN_PIN_LENGTH} digits)`} value={pin} onChange={setPin} autoFocus />
         <PinInput label="Repeat the PIN" value={confirm} onChange={setConfirm} />
         {mismatch && <p className="field-error">The PINs do not match.</p>}
-        <button type="submit" className="button button-active" disabled={busy || !pinValid(pin) || pin !== confirm}>
+        <button type="submit" className="button button-primary" disabled={busy || !pinValid(pin) || pin !== confirm}>
           {busy ? 'Setting up…' : 'Create PIN'}
         </button>
         <Note>There is no way to recover a forgotten PIN — the data cannot be decrypted without it. Make regular backups (Settings).</Note>
@@ -105,7 +105,7 @@ function UnlockScreen({ hasBiometric }: { hasBiometric: boolean }) {
       >
         <PinInput label="PIN" value={pin} onChange={setPin} autoFocus />
         {error !== null && <p className="field-error">{error}</p>}
-        <button type="submit" className="button button-active" disabled={busy || pin.length < MIN_PIN_LENGTH}>
+        <button type="submit" className="button button-primary" disabled={busy || pin.length < MIN_PIN_LENGTH}>
           {busy ? 'Unlocking…' : 'Unlock'}
         </button>
         {canBiometric && (
@@ -123,7 +123,7 @@ function ForgotPin() {
   return (
     <button
       type="button"
-      className="text-button small"
+      className="text-button danger small"
       onClick={() => {
         if (!window.confirm('Forgot the PIN? The data cannot be recovered without it. Erase all patient data on this device and start again (you can then restore a backup)?')) return;
         if (!window.confirm('This permanently deletes all patients and sessions on this device. Continue?')) return;

@@ -136,7 +136,7 @@ function ProgrammeEditor({ programme }: { programme: Programme }) {
         </button>
         <button
           type="button"
-          className="text-button"
+          className="text-button danger"
           onClick={() => {
             if (!window.confirm(`Delete “${programme.title}”?`)) return;
             deleteProgramme(programme.id);

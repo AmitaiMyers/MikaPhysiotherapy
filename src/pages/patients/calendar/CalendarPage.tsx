@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
-import { PatientsTabs } from '../../../components/PatientsTabs';
 import { PageHeader } from '../../../components/ui';
 import { layoutLanes, minutesToTime, timeToMinutes, weekDays } from '../../../patients/calendar';
 import { addDays, localDate, parseLocalDate } from '../../../patients/dates';
@@ -43,8 +42,15 @@ export function CalendarPage() {
 
   return (
     <div className="page">
-      <PageHeader title="Patients" subtitle="Calendar" actions={<Link to="/patients/calendar/import" className="button">Import</Link>} />
-      <PatientsTabs />
+      <PageHeader
+        title="Calendar"
+        subtitle={`${visible.length} ${visible.length === 1 ? 'session' : 'sessions'} ${view === 'day' ? 'this day' : 'this week'}`}
+        actions={
+          <Link to="/calendar/import" className="button">
+            Import
+          </Link>
+        }
+      />
       <div className="calendar-toolbar">
         <div className="segmented" role="group" aria-label="View">
           {(['day', 'week'] as const).map((v) => (

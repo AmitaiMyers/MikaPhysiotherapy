@@ -43,7 +43,7 @@ export function TemplatesPage() {
                 >
                   Rename
                 </button>
-                <button type="button" className="text-button small" onClick={() => window.confirm(`Delete “${template.name}”?`) && deleteRecord('template', template.id)}>
+                <button type="button" className="text-button danger small" onClick={() => window.confirm(`Delete “${template.name}”?`) && deleteRecord('template', template.id)}>
                   Delete
                 </button>
               </span>

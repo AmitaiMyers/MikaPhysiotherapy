@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router';
+import { LibraryTabs } from '../components/LibraryTabs';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, PageHeader } from '../components/ui';
 import { findNerve, getNerve, MUSCLES, NERVES } from '../data';
 import { exercisesForNerve } from '../data/exercises';
@@ -18,6 +19,7 @@ export function NervesPage() {
   return (
     <div className="page">
       <PageHeader title="Nerves" subtitle="Peripheral nerves and the muscles they supply" />
+      <LibraryTabs />
       <Card title="Peripheral nerves">
         <ul className="link-list">
           {NERVES.map((nerve) => (

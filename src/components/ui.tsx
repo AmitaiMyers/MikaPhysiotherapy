@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { Icon } from './Icon';
 import { Link, useNavigate } from 'react-router';
 import { getMuscle, getNerve, getSource } from '../data';
 import type { NerveSupply } from '../data/types';
@@ -11,7 +12,7 @@ export function PageHeader({ title, subtitle, back, actions }: { title: ReactNod
     <header className="page-header">
       {back && (
         <button type="button" className="icon-button" onClick={() => navigate(-1)} aria-label="Back">
-          ‹
+          <Icon name="back" />
         </button>
       )}
       <div className="page-heading">
@@ -125,7 +126,7 @@ export function ShareButton({ label, onShare }: { label: string; onShare: () => 
   };
   return (
     <button type="button" className="icon-button" onClick={() => void share()} aria-label={label}>
-      {message ?? '⤴'}
+      {message ?? <Icon name="share" />}
     </button>
   );
 }

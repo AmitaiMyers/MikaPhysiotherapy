@@ -3,7 +3,9 @@ import { HashRouter, Route, Routes, useLocation } from 'react-router';
 import { BottomNav } from './components/BottomNav';
 import { AboutPage } from './pages/AboutPage';
 import { BoneDetailPage, BonesJointsPage, JointDetailPage } from './pages/BonesJointsPages';
+import { HomePage } from './pages/HomePage';
 import { MuscleDetailPage } from './pages/MuscleDetailPage';
+import { SearchPage } from './pages/SearchPage';
 import { MusclesPage } from './pages/MusclesPage';
 import { EpisodeFormPage } from './pages/patients/EpisodeFormPage';
 import { PatientFolderPage } from './pages/patients/PatientFolderPage';
@@ -48,7 +50,9 @@ export function App() {
       <div className="app-shell">
         <main className="app-main">
           <Routes>
-            <Route path="/" element={<MusclesPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/muscles" element={<MusclesPage />} />
             <Route path="/muscles/:id" element={<MuscleDetailPage />} />
             <Route path="/bones" element={<BonesJointsPage />} />
             <Route path="/bones/:id" element={<BoneDetailPage />} />
@@ -67,8 +71,8 @@ export function App() {
             <Route path="/patients" element={gated(<PatientListPage />)} />
             <Route path="/patients/settings" element={gated(<PatientSettingsPage />)} />
             <Route path="/patients/templates" element={gated(<TemplatesPage />)} />
-            <Route path="/patients/calendar" element={gated(<CalendarPage />)} />
-            <Route path="/patients/calendar/import" element={gated(<CalendarImportPage />)} />
+            <Route path="/calendar" element={gated(<CalendarPage />)} />
+            <Route path="/calendar/import" element={gated(<CalendarImportPage />)} />
             <Route path="/patients/sessions/:sessionId" element={gated(<SessionPage />)} />
             <Route path="/patients/new" element={gated(<PatientFormPage />)} />
             <Route path="/patients/:id/sessions/new" element={gated(<NewSessionPage />)} />

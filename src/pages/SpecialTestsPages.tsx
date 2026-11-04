@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { LibraryTabs } from '../components/LibraryTabs';
 import { Link, useParams } from 'react-router';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, PageHeader } from '../components/ui';
 import { findSpecialTest, getSource, MUSCLES, SPECIAL_TESTS } from '../data';
@@ -12,6 +13,7 @@ export function SpecialTestsPage() {
   return (
     <div className="page">
       <PageHeader title="Special tests" subtitle={`${SPECIAL_TESTS.length} muscle-related tests`} />
+      <LibraryTabs />
       <input type="search" className="search-input" placeholder="Search test or structure" value={text} onChange={(e) => setText(e.target.value)} aria-label="Search special tests" />
       <section className="card list-card">
         {tests.length === 0 ? (

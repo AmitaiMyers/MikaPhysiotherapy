@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router';
+import { Icon } from './Icon';
 import { lockVault } from '../patients/vault';
 
 const SECTIONS = [
   { to: '/patients', label: 'Patients' },
-  { to: '/patients/calendar', label: 'Calendar' },
   { to: '/patients/templates', label: 'Templates' },
   { to: '/patients/settings', label: 'Settings' },
 ] as const;
@@ -18,7 +18,7 @@ export function PatientsTabs() {
         </NavLink>
       ))}
       <button type="button" className="tab" onClick={lockVault} aria-label="Lock patient data">
-        🔒 Lock
+        <Icon name="lock" size={16} /> Lock
       </button>
     </nav>
   );

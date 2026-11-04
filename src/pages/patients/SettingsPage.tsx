@@ -19,7 +19,7 @@ export function PatientSettingsPage() {
       <Card title="Backup">
         <p>{lastBackup === null ? 'No backup made yet.' : `Last backup: ${new Date(lastBackup).toLocaleString()}.`}</p>
         <div className="button-row spaced-top">
-          <button type="button" className="button button-active" onClick={() => void downloadBackup()}>
+          <button type="button" className="button button-primary" onClick={() => void downloadBackup()}>
             Download backup
           </button>
           <RestoreBackup warnExisting />
@@ -35,7 +35,7 @@ export function PatientSettingsPage() {
       <Card title="Erase">
         <button
           type="button"
-          className="text-button"
+          className="text-button danger"
           onClick={() => {
             if (!window.confirm('Permanently delete ALL patient data on this device?')) return;
             void eraseVault();

@@ -35,7 +35,7 @@ export function BookingSheet({ date, startTime, onClose }: { date: string; start
     return (
       <Modal title="Book a session" onClose={onClose}>
         <p>Add a patient first.</p>
-        <Link to="/patients/new" className="button button-active spaced-top">
+        <Link to="/patients/new" className="button button-primary spaced-top">
           New patient
         </Link>
       </Modal>
@@ -131,7 +131,7 @@ export function BookingSheet({ date, startTime, onClose }: { date: string; start
             </SelectField>
           </>
         )}
-        <button type="submit" className="button button-active">
+        <button type="submit" className="button button-primary">
           Book {dates.length} {dates.length === 1 ? 'session' : 'sessions'}
         </button>
       </form>

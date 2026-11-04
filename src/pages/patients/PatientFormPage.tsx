@@ -53,7 +53,7 @@ function PatientForm({ initial, isNew }: { initial: Patient; isNew: boolean }) {
           onChange={(medicalBackground) => update({ medicalBackground })}
         />
         <TextAreaField label="Lifestyle" rows={4} value={patient.lifestyle} placeholder="Work, sport, activity level, goals…" onChange={(lifestyle) => update({ lifestyle })} />
-        <button type="submit" className="button button-active" disabled={patient.firstName.trim() === ''}>
+        <button type="submit" className="button button-primary" disabled={patient.firstName.trim() === ''}>
           {isNew ? 'Create patient' : 'Save'}
         </button>
       </form>

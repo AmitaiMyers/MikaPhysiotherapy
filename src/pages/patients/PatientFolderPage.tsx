@@ -1,4 +1,5 @@
 import { Link, useNavigate, useParams } from 'react-router';
+import { Icon } from '../../components/Icon';
 import { Card, Empty, PageHeader } from '../../components/ui';
 import { localDate } from '../../patients/dates';
 import { patientSummary } from '../../patients/patients';
@@ -33,7 +34,7 @@ function PatientFolder({ patient }: { patient: Patient }) {
         subtitle={patientSummary(patient, today) || undefined}
         actions={
           <Link to={`/patients/${patient.id}/edit`} className="icon-button" aria-label="Edit patient">
-            ✎
+            <Icon name="edit" />
           </Link>
         }
       />
@@ -47,7 +48,7 @@ function PatientFolder({ patient }: { patient: Patient }) {
       <div className="section-title-row">
         <h2 className="section-heading">Episodes</h2>
         <Link to={`/patients/${patient.id}/episodes/new`} className="button">
-          ＋ New episode
+          <Icon name="plus" size={18} /> New episode
         </Link>
       </div>
       {episodes.length === 0 && <Empty>No episodes yet — add one for each problem you treat (e.g. “Right knee — ACL reconstruction”).</Empty>}
@@ -66,10 +67,10 @@ function PatientFolder({ patient }: { patient: Patient }) {
         <h2 className="section-heading">Sessions</h2>
         <span className="button-row">
           <Link to={`/patients/${patient.id}/progress`} className="button">
-            📈 Progress
+            <Icon name="chart" size={18} /> Progress
           </Link>
-          <Link to={`/patients/${patient.id}/sessions/new`} className="button button-active">
-            ＋ New
+          <Link to={`/patients/${patient.id}/sessions/new`} className="button button-primary">
+            <Icon name="plus" size={18} /> New
           </Link>
         </span>
       </div>
@@ -79,7 +80,7 @@ function PatientFolder({ patient }: { patient: Patient }) {
 
       <button
         type="button"
-        className="text-button"
+        className="text-button danger"
         onClick={() => {
           if (!window.confirm(`Delete ${patient.firstName} with all episodes, sessions and files? This cannot be undone.`)) return;
           deletePatientAndRecords(patient.id);

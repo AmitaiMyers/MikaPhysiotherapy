@@ -56,7 +56,7 @@ export function CalendarImportPage() {
         saveRecord('session', session);
       }
     }
-    void navigate('/patients/calendar', { replace: true });
+    void navigate('/calendar', { replace: true });
   };
 
   return (
@@ -74,7 +74,7 @@ export function CalendarImportPage() {
           <TextField label="From" type="date" value={from} onChange={setFrom} />
           <TextField label="To" type="date" value={to} onChange={setTo} />
         </div>
-        <button type="button" className="button button-active spaced-top" onClick={() => input.current?.click()}>
+        <button type="button" className="button button-primary spaced-top" onClick={() => input.current?.click()}>
           {texts === null ? 'Choose calendar file' : 'Choose another file'}
         </button>
         <input
@@ -120,7 +120,7 @@ export function CalendarImportPage() {
               </li>
             ))}
           </ul>
-          <button type="button" className="button button-active spaced-top" disabled={toImport === 0} onClick={runImport}>
+          <button type="button" className="button button-primary spaced-top" disabled={toImport === 0} onClick={runImport}>
             Import {toImport} {toImport === 1 ? 'appointment' : 'appointments'}
           </button>
         </Card>
