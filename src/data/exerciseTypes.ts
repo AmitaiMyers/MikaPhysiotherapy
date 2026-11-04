@@ -87,3 +87,9 @@ export interface Exercise {
   evidence?: string;
   sourceIds: string[];
 }
+
+/** A YouTube video and where to start playing it. */
+export interface VideoRef {
+  id: string;
+  startSec: number;
+}

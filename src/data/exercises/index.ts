@@ -92,7 +92,3 @@ export function exercisesForMuscle(muscleId: string): { primary: Exercise[]; sec
 /** Exercises that mobilise a nerve. */
 export const exercisesForNerve = (nerveId: string): Exercise[] => EXERCISES.filter((e) => e.nerveIds.includes(nerveId));
 
-/** A YouTube search for a demonstration video (no specific video is endorsed). */
-export function videoSearchUrl(exercise: Exercise): string {
-  return `https://www.youtube.com/results?search_query=${encodeURIComponent(`${exercise.name} physiotherapy exercise`)}`;
-}

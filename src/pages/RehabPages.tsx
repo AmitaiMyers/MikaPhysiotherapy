@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { equipmentLabels, ExerciseList } from '../components/ExerciseList';
+import { ExerciseVideoPlayer, VideoLinkEditor } from '../components/ExerciseVideo';
 import { RehabTabs } from '../components/RehabTabs';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, Note, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
@@ -15,13 +16,13 @@ import {
   getExercise,
   getExerciseGroup,
   getExerciseRegion,
-  videoSearchUrl,
 } from '../data/exercises';
 import type { Difficulty, Equipment, Exercise, ExerciseType } from '../data/exerciseTypes';
 import { muscleViews } from '../data/images';
 import { protocolsUsingExercise } from '../data/protocols';
 import { filterExercises, hasActiveExerciseFilters, type ExerciseFilters } from '../domain/exerciseSearch';
 import { shareExercise } from '../domain/share';
+import { useExerciseVideo } from '../domain/videoOverrides';
 
 const isTargeted = (muscleId: string) => EXERCISES.some((e) => e.primaryMuscles.includes(muscleId) || e.secondaryMuscles.includes(muscleId));
 const MUSCLE_OPTIONS = REGIONS.map((region) => ({
@@ -173,8 +174,14 @@ export function ExerciseDetailPage() {
   const { id = '' } = useParams();
   const exercise = findExercise(id);
   if (!exercise) return <Empty>Exercise not found.</Empty>;
+  // Keyed so the video state and editor reset when following a link to another exercise.
+  return <ExerciseDetail key={exercise.id} exercise={exercise} />;
+}
+
+function ExerciseDetail({ exercise }: { exercise: Exercise }) {
+  const video = useExerciseVideo(exercise.id);
   return (
-    <div className="page" key={exercise.id}>
+    <div className="page">
       <PageHeader
         back
         title={exercise.name}
@@ -191,6 +198,7 @@ export function ExerciseDetailPage() {
           </span>
         ))}
       </div>
+      <ExerciseVideoPlayer exercise={exercise} video={video.video} />
       <aside className="tip-box">
         <span className="tip-label">Physio tip</span>
         <p>{exercise.tip}</p>
@@ -220,10 +228,7 @@ export function ExerciseDetailPage() {
         </Card>
       )}
       <UsedInProtocols exerciseId={exercise.id} />
-      <a className="button" href={videoSearchUrl(exercise)} target="_blank" rel="noreferrer">
-        Find a video demonstration ↗
-      </a>
-      <Note>Opens a YouTube search. The videos are not reviewed by this app — check the technique against the steps above.</Note>
+      <VideoLinkEditor exercise={exercise} state={video} />
       <SourcesSection sourceIds={exercise.sourceIds} />
       <Disclaimer />
     </div>
