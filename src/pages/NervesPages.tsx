@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, PageHeader } from '../components/ui';
 import { findNerve, getNerve, MUSCLES, NERVES } from '../data';
+import { exercisesForNerve } from '../data/exercises';
 import type { SpinalRoot } from '../data/types';
 import { branchesOf, formatRoots, musclesSuppliedBy, musclesSuppliedViaBranches, musclesWithRoot, usedRoots } from '../domain/relations';
 
@@ -60,6 +61,7 @@ export function NerveDetailPage() {
   const muscles = musclesSuppliedBy(nerve.id);
   const viaBranches = musclesSuppliedViaBranches(nerve.id);
   const branches = branchesOf(nerve.id);
+  const sliders = exercisesForNerve(nerve.id);
   return (
     <div className="page">
       <PageHeader back title={nerve.name} subtitle={`Roots ${formatRoots(nerve.roots)}`} />
@@ -90,6 +92,17 @@ export function NerveDetailPage() {
         <p>{nerve.sensory}</p>
       </Card>
       <BulletSection title="Lesions & clinical presentation" items={nerve.lesion} />
+      {sliders.length > 0 && (
+        <Card title="Nerve mobility exercises">
+          <ul className="link-list">
+            {sliders.map((exercise) => (
+              <li key={exercise.id}>
+                <Link to={`/rehab/exercises/${exercise.id}`}>{exercise.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
       <Disclaimer />
     </div>
   );

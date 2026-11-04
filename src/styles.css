@@ -306,6 +306,10 @@ button {
   font-size: 1rem;
 }
 
+.list-card-title {
+  padding: 8px 16px 0;
+}
+
 .results-header {
   display: flex;
   align-items: center;
@@ -671,6 +675,73 @@ button {
   gap: 6px;
 }
 
+/* ---------- rehab ---------- */
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tip-box {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tip-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.subheading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 12px 0 6px;
+}
+
+.card > .subheading:first-child {
+  margin-top: 0;
+}
+
+.target-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.target-card {
+  flex: 0 0 116px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.target-card img,
+.target-image-empty {
+  width: 116px;
+  height: 145px;
+  border-radius: 10px;
+  background: var(--image-bg);
+  object-fit: cover;
+}
+
 /* ---------- 3D viewer ---------- */
 
 .viewer {
@@ -751,6 +822,9 @@ button {
 
 .nav-item {
   flex: 1;
+  min-width: 0;
+  text-align: center;
+  line-height: 1.15;
   display: flex;
   flex-direction: column;
   align-items: center;

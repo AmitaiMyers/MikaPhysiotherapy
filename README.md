@@ -24,15 +24,19 @@ There is no account and no server; all data ships with the app.
 - **Nerves tab**: course, muscles supplied directly and through branches (e.g. sciatic → tibial → plantar nerves), sensory area, lesions; key myotomes (screening movement and ASIA key muscle); muscles by root.
 - **Special tests tab**: 56 muscle-related tests with procedure, positive finding, notes and related muscles.
 - **Share**: sends a muscle card (text, link and the first image where supported) through the phone's share sheet, or copies it.
+- **Rehab tab**: 250 therapeutic exercises in four regions (upper extremity & neck, lower extremity, spine & core, whole body & conditioning), grouped by muscle group. Each exercise has its type, level, equipment, target muscles (with their highlighted anatomy images), starting position, steps, cues, common mistakes, a typical starting dosage, easier and harder versions, precautions, a physio tip, the research behind it where there is some, and a YouTube search for a demonstration. Search and filters for muscle, type, equipment and level. Each muscle page has an **Exercises** sub-tab, and each nerve page lists its nerve mobility exercises.
 
 ## How the data stays consistent
 
 - Agonists and antagonists are **derived**, not typed in by hand. The agonists of an action are all other muscles with the same joint movement; the antagonists are the muscles that perform the opposite movement (`src/domain/relations.ts`). The same applies to "muscles supplied by a nerve", "attachments on a bone" and "movers of a joint".
+- `src/data/exercises/exercises.test.ts` checks every exercise: known muscles, nerves, groups, sources, and that easier/harder links point to real exercises.
 - `src/data/data.test.ts` checks every record: ids, known bones, nerves, joints, movements, tests and sources, that every section is filled in, and that joint movements have symmetric opposites.
 
 ## Data sources and method
 
 Each record is written in original wording from standard anatomical knowledge, then cross-checked against TeachMeAnatomy, Kenhub, Wikipedia (Gray's Anatomy 1918), Radiopaedia, StatPearls and Physiopedia (through web search summaries; the build environment could not open those sites directly). Where sources disagree (most often root values), the most commonly cited value is shown with the alternatives in a note. ROM values are the AAOS norms. The full method is on the in-app About screen.
+
+Exercise technique and dosage follow Physiopedia and the ACSM position stand on resistance training; specific claims cite the study (for example Reinold 2004, Distefano 2009, van Dyk 2019, Harøy 2019, Askling 2013, Alfredson 1998, Kongsgaard 2009, Tyler 2010, Dumoulin 2018, NICE NG123, FIFA 11+). Each was checked through web search summaries. The tips are original, written in the style of short physio tip posts; none are copied from social media.
 
 Complete Anatomy (3D4Medical/Elsevier) and anatomy.app were used only as models of what to show and how. None of their content, images or models is copied: they are proprietary.
 

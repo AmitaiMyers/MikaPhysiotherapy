@@ -46,7 +46,7 @@ export const MUSCLES: Muscle[] = [
 ];
 
 /** Index a list by id, failing fast on duplicates. */
-function indexById<T extends { id: string }>(items: T[], kind: string): Map<string, T> {
+export function indexById<T extends { id: string }>(items: T[], kind: string): Map<string, T> {
   const map = new Map<string, T>();
   for (const item of items) {
     assert(!map.has(item.id), `Duplicate ${kind} id "${item.id}"`);

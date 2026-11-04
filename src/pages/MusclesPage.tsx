@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Link, useSearchParams } from 'react-router';
+import { Link } from 'react-router';
 import { Empty, PageHeader } from '../components/ui';
+import { useUrlParams } from '../components/useUrlParams';
 import { BONES, getJoint, JOINTS, MUSCLES, NERVES, REGIONS } from '../data';
 import { thumbnailUrl } from '../data/images';
 import type { Muscle, SpinalRoot } from '../data/types';
@@ -9,24 +10,9 @@ import { actionKey, filterMuscles, hasActiveFilters, type MuscleFilters } from '
 
 /** Filters live in the URL so a filtered list can be shared and survives going back. */
 function useFilters(): [MuscleFilters, (patch: Partial<MuscleFilters>) => void, () => void] {
-  const [params, setParams] = useSearchParams();
-  const filters: MuscleFilters = {
-    text: params.get('q') ?? '',
-    nerveId: params.get('nerve'),
-    root: params.get('root') as SpinalRoot | null,
-    action: params.get('action'),
-    boneId: params.get('bone'),
-  };
-  const keys: Record<keyof MuscleFilters, string> = { text: 'q', nerveId: 'nerve', root: 'root', action: 'action', boneId: 'bone' };
-  const update = (patch: Partial<MuscleFilters>) => {
-    const next = new URLSearchParams(params);
-    for (const [field, value] of Object.entries(patch) as [keyof MuscleFilters, string | null][]) {
-      if (value === null || value === '') next.delete(keys[field]);
-      else next.set(keys[field], value);
-    }
-    setParams(next, { replace: true });
-  };
-  return [filters, update, () => setParams(new URLSearchParams(), { replace: true })];
+  const [values, update, clear] = useUrlParams({ text: 'q', nerveId: 'nerve', root: 'root', action: 'action', boneId: 'bone' });
+  const filters: MuscleFilters = { ...values, text: values.text ?? '', root: values.root as SpinalRoot | null };
+  return [filters, update, clear];
 }
 
 const ACTION_OPTIONS = JOINTS.flatMap((joint) =>

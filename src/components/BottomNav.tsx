@@ -41,6 +41,11 @@ const ITEMS = [
       </>,
     ),
   },
+  {
+    to: '/rehab',
+    label: 'Rehab',
+    icon: icon(<path d="M3 10v4M6.5 7v10M17.5 7v10M21 10v4M6.5 12h11" />),
+  },
 ] as const;
 
 export function BottomNav() {

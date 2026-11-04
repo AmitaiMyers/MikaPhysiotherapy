@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { getMuscle, getNerve } from '../data';
+import { getMuscle, getNerve, getSource } from '../data';
 import type { NerveSupply } from '../data/types';
 import { formatRoots } from '../domain/relations';
+import type { ShareResult } from '../domain/share';
 
 export function PageHeader({ title, subtitle, back, actions }: { title: ReactNode; subtitle?: ReactNode; back?: boolean; actions?: ReactNode }) {
   const navigate = useNavigate();
@@ -79,4 +80,52 @@ export const DISCLAIMER = 'For education and quick reference. Not a substitute f
 
 export function Disclaimer() {
   return <p className="disclaimer">{DISCLAIMER}</p>;
+}
+
+/** Sources are hidden behind a button so they do not crowd the page. */
+export function SourcesSection({ sourceIds }: { sourceIds: string[] }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <section className="sources-section">
+      <button type="button" className="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        {open ? 'Hide sources' : `Show sources (${sourceIds.length})`}
+      </button>
+      {open && (
+        <Card>
+          <ul className="bullets sources">
+            {sourceIds.map((id) => {
+              const source = getSource(id);
+              return (
+                <li key={id}>
+                  {source.url ? (
+                    <a href={source.url} target="_blank" rel="noreferrer">
+                      {source.citation}
+                    </a>
+                  ) : (
+                    source.citation
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </Card>
+      )}
+    </section>
+  );
+}
+
+/** Header button that shares, briefly confirming when the text was copied instead. */
+export function ShareButton({ label, onShare }: { label: string; onShare: () => Promise<ShareResult> }) {
+  const [message, setMessage] = useState<string | null>(null);
+  const share = async () => {
+    const result = await onShare();
+    if (result !== 'copied') return;
+    setMessage('Copied');
+    window.setTimeout(() => setMessage(null), 2000);
+  };
+  return (
+    <button type="button" className="icon-button" onClick={() => void share()} aria-label={label}>
+      {message ?? '⤴'}
+    </button>
+  );
 }

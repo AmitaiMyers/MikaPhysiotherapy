@@ -25,10 +25,11 @@ function normalise(value: string): string {
     .toLowerCase();
 }
 
-function matchesText(muscle: Muscle, text: string): boolean {
+/** True when every word of the query appears somewhere in the fields (an empty query matches). */
+export function matchesWords(text: string, fields: string[]): boolean {
   const words = normalise(text).split(/\s+/).filter(Boolean);
   if (words.length === 0) return true;
-  const haystack = normalise([muscle.name, muscle.latinName, ...muscle.synonyms].join(' '));
+  const haystack = normalise(fields.join(' '));
   return words.every((word) => haystack.includes(word));
 }
 
@@ -39,7 +40,7 @@ export function actionKey(jointId: string, movement: string): string {
 export function filterMuscles(muscles: Muscle[], filters: MuscleFilters): Muscle[] {
   return muscles.filter(
     (muscle) =>
-      matchesText(muscle, filters.text) &&
+      matchesWords(filters.text, [muscle.name, muscle.latinName, ...muscle.synonyms]) &&
       (filters.nerveId === null || muscle.innervation.some((s) => s.nerveId === filters.nerveId)) &&
       (filters.root === null || rootsOf(muscle).includes(filters.root)) &&
       (filters.action === null || muscle.actions.some((a) => actionKey(a.jointId, a.movement) === filters.action)) &&

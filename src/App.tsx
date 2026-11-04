@@ -6,6 +6,7 @@ import { BoneDetailPage, BonesJointsPage, JointDetailPage } from './pages/BonesJ
 import { MuscleDetailPage } from './pages/MuscleDetailPage';
 import { MusclesPage } from './pages/MusclesPage';
 import { NerveDetailPage, NervesPage } from './pages/NervesPages';
+import { ExerciseDetailPage, ExercisesPage } from './pages/RehabPages';
 import { SpecialTestDetailPage, SpecialTestsPage } from './pages/SpecialTestsPages';
 
 /** Start each new screen at the top (a hash router keeps the old scroll position otherwise). */
@@ -34,6 +35,8 @@ export function App() {
             <Route path="/nerves/:id" element={<NerveDetailPage />} />
             <Route path="/tests" element={<SpecialTestsPage />} />
             <Route path="/tests/:id" element={<SpecialTestDetailPage />} />
+            <Route path="/rehab" element={<ExercisesPage />} />
+            <Route path="/rehab/exercises/:id" element={<ExerciseDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<p className="empty">Page not found.</p>} />
           </Routes>

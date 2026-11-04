@@ -1,7 +1,9 @@
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
-import { BulletSection, Card, Disclaimer, Empty, MuscleLink, NerveSupplyLine, Note, PageHeader } from '../components/ui';
-import { findMuscle, getBone, getJoint, getRegion, getSource, getSpecialTest } from '../data';
+import { ExerciseList } from '../components/ExerciseList';
+import { BulletSection, Card, Disclaimer, Empty, MuscleLink, NerveSupplyLine, Note, PageHeader, ShareButton, SourcesSection } from '../components/ui';
+import { findMuscle, getBone, getJoint, getRegion, getSpecialTest } from '../data';
+import { exercisesForMuscle } from '../data/exercises';
 import { attachmentImage, muscleViews, type MuscleImage } from '../data/images';
 import type { Attachment, Muscle, MuscleAction } from '../data/types';
 import { agonists, antagonists, formatRoots, type RelatedMuscle } from '../domain/relations';
@@ -17,6 +19,7 @@ const TABS = [
   { id: 'actions', label: 'Actions' },
   { id: 'clinical', label: 'Clinical' },
   { id: 'assessment', label: 'Assessment' },
+  { id: 'exercises', label: 'Exercises' },
   { id: '3d', label: '3D' },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
@@ -32,7 +35,7 @@ export function MuscleDetailPage() {
   // Keyed by muscle so per-muscle state (selected image, 3D camera) resets when following a link to another muscle.
   return (
     <div className="page" key={muscle.id}>
-      <PageHeader back title={muscle.name} subtitle={muscle.latinName} actions={<ShareButton muscle={muscle} />} />
+      <PageHeader back title={muscle.name} subtitle={muscle.latinName} actions={<ShareButton label="Share muscle" onShare={() => shareMuscle(muscle)} />} />
       <p className="breadcrumb">
         {getRegion(muscle.regionId).name} › {group?.name}
         {muscle.layer ? ` › ${muscle.layer}` : ''}
@@ -44,6 +47,7 @@ export function MuscleDetailPage() {
       {tab === 'actions' && <ActionsTab muscle={muscle} />}
       {tab === 'clinical' && <ClinicalTab muscle={muscle} />}
       {tab === 'assessment' && <AssessmentTab muscle={muscle} />}
+      {tab === 'exercises' && <ExercisesTab muscle={muscle} />}
       {tab === '3d' && (
         <Suspense fallback={<p className="muted center">Loading 3D viewer…</p>}>
           <AnatomyViewer muscleId={muscle.id} />
@@ -75,20 +79,6 @@ function TabStrip({ active, onSelect }: { active: TabId; onSelect: (id: TabId) =
         </button>
       ))}
     </nav>
-  );
-}
-
-function ShareButton({ muscle }: { muscle: Muscle }) {
-  const [message, setMessage] = useState<string | null>(null);
-  const onShare = async () => {
-    const result = await shareMuscle(muscle);
-    setMessage(result === 'copied' ? 'Copied' : null);
-    if (result === 'copied') window.setTimeout(() => setMessage(null), 2000);
-  };
-  return (
-    <button type="button" className="icon-button" onClick={() => void onShare()} aria-label="Share muscle">
-      {message ?? '⤴'}
-    </button>
   );
 }
 
@@ -129,28 +119,6 @@ function OverviewTab({ muscle }: { muscle: Muscle }) {
       <BulletSection title="Function" items={muscle.functions} />
       <SourcesSection sourceIds={muscle.sourceIds} />
     </>
-  );
-}
-
-/** Sources are hidden behind a button so they do not crowd the overview. */
-function SourcesSection({ sourceIds }: { sourceIds: string[] }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <section className="sources-section">
-      <button type="button" className="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-        {open ? 'Hide sources' : `Show sources (${sourceIds.length})`}
-      </button>
-      {open && (
-        <Card>
-          <ul className="bullets sources">
-            {sourceIds.map((id) => {
-              const source = getSource(id);
-              return <li key={id}>{source.url ? <a href={source.url} target="_blank" rel="noreferrer">{source.citation}</a> : source.citation}</li>;
-            })}
-          </ul>
-        </Card>
-      )}
-    </section>
   );
 }
 
@@ -324,6 +292,27 @@ function AssessmentTab({ muscle }: { muscle: Muscle }) {
       )}
       <BulletSection title="Stretching" items={muscle.stretch} />
       <BulletSection title="Strengthening" items={muscle.strengthening} />
+    </>
+  );
+}
+
+function ExercisesTab({ muscle }: { muscle: Muscle }) {
+  const { primary, secondary } = exercisesForMuscle(muscle.id);
+  if (primary.length === 0 && secondary.length === 0) return <Empty>No exercise in the Rehab database targets this muscle.</Empty>;
+  return (
+    <>
+      {primary.length > 0 && (
+        <section className="card list-card">
+          <h2 className="list-card-title">Main target ({primary.length})</h2>
+          <ExerciseList exercises={primary} />
+        </section>
+      )}
+      {secondary.length > 0 && (
+        <section className="card list-card">
+          <h2 className="list-card-title">Also works it ({secondary.length})</h2>
+          <ExerciseList exercises={secondary} />
+        </section>
+      )}
     </>
   );
 }
