@@ -850,6 +850,78 @@ button {
   opacity: 0.5;
 }
 
+.add-to-programme {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  margin-top: 12px;
+}
+
+section.add-to-programme {
+  align-items: stretch;
+}
+
+.spaced-field {
+  margin-top: 10px;
+}
+
+.text-area {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  resize: vertical;
+}
+
+.programme-item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.programme-item-header h2 {
+  margin-bottom: 4px;
+}
+
+.programme-item .steps {
+  margin-top: 6px;
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  .bottom-nav,
+  .tabs,
+  .no-print,
+  .page-actions,
+  .page-header .icon-button,
+  .field {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  body,
+  .card {
+    background: #fff;
+    color: #000;
+  }
+
+  .programme-item {
+    break-inside: avoid;
+  }
+}
+
 /* ---------- 3D viewer ---------- */
 
 .viewer {
@@ -946,4 +1018,14 @@ button {
 
 .nav-active {
   color: var(--accent);
+}
+
+.pre-line {
+  white-space: pre-line;
+}
+
+.programme-item-header .button-row {
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
 }

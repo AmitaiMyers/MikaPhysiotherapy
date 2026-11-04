@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { equipmentLabels, ExerciseList } from '../components/ExerciseList';
 import { ExerciseVideoPlayer, VideoLinkEditor } from '../components/ExerciseVideo';
+import { AddToProgramme } from '../components/AddToProgramme';
 import { RehabTabs } from '../components/RehabTabs';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, Note, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
@@ -21,6 +22,7 @@ import type { Difficulty, Equipment, Exercise, ExerciseType } from '../data/exer
 import { muscleViews } from '../data/images';
 import { protocolsUsingExercise } from '../data/protocols';
 import { filterExercises, hasActiveExerciseFilters, type ExerciseFilters } from '../domain/exerciseSearch';
+import { itemFor } from '../domain/programmes';
 import { shareExercise } from '../domain/share';
 import { useExerciseVideo } from '../domain/videoOverrides';
 
@@ -220,6 +222,7 @@ function ExerciseDetail({ exercise }: { exercise: Exercise }) {
         <p>{exercise.dosage}</p>
         <Note>A typical starting point; adjust to the patient, their symptoms and the protocol phase.</Note>
       </Card>
+      <AddToProgramme items={[itemFor(exercise)]} defaultTitle="Home exercise programme" label="Add to programme" />
       <ProgressionCard exercise={exercise} />
       <BulletSection title="Precautions" items={exercise.precautions} />
       {exercise.evidence !== undefined && (

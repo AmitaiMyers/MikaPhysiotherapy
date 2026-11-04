@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router';
+import { AddToProgramme } from '../components/AddToProgramme';
 import { RehabTabs } from '../components/RehabTabs';
 import { BulletSection, Disclaimer, Empty, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
@@ -6,6 +7,7 @@ import { getExercise } from '../data/exercises';
 import type { Protocol, ProtocolKind, ProtocolPhase } from '../data/protocolTypes';
 import { findProtocol, getProtocolArea, getProtocolRegion, PROTOCOL_DISCLAIMER, PROTOCOL_KIND_LABELS, PROTOCOL_REGIONS, PROTOCOLS } from '../data/protocols';
 import { matchesWords } from '../domain/search';
+import { itemFor } from '../domain/programmes';
 import { shareProtocol } from '../domain/share';
 
 const KIND_SUBTITLE: Record<ProtocolKind, string> = {
@@ -107,7 +109,7 @@ export function ProtocolDetailPage() {
       <BulletSection title="Key points" items={protocol.keyPoints} />
       <h2 className="section-heading">Phases</h2>
       {protocol.phases.map((phase, index) => (
-        <PhaseCard key={phase.name} phase={phase} number={index + 1} defaultOpen={index === 0} />
+        <PhaseCard key={phase.name} protocol={protocol} phase={phase} number={index + 1} defaultOpen={index === 0} />
       ))}
       <BulletSection title="Return to activity and sport" items={protocol.returnToActivity} />
       <BulletSection title="Outcome measures" items={protocol.outcomeMeasures} />
@@ -118,7 +120,7 @@ export function ProtocolDetailPage() {
   );
 }
 
-function PhaseCard({ phase, number, defaultOpen }: { phase: ProtocolPhase; number: number; defaultOpen: boolean }) {
+function PhaseCard({ protocol, phase, number, defaultOpen }: { protocol: Protocol; phase: ProtocolPhase; number: number; defaultOpen: boolean }) {
   return (
     <details className="card group phase" open={defaultOpen}>
       <summary className="group-summary">
@@ -144,6 +146,12 @@ function PhaseCard({ phase, number, defaultOpen }: { phase: ProtocolPhase; numbe
           ))}
         </ul>
         <PhaseList title="Criteria to progress" items={phase.criteria} />
+        <AddToProgramme
+          items={phase.exercises.map((item) => itemFor(getExercise(item.exerciseId), item.note))}
+          defaultTitle={`${protocol.name} — ${phase.name}`}
+          defaultNotes={[...phase.protection, PROTOCOL_DISCLAIMER[protocol.treatment]].join('\n')}
+          label="Add this phase to a programme"
+        />
       </div>
     </details>
   );

@@ -4,6 +4,7 @@ const SECTIONS = [
   { to: '/rehab', label: 'Exercises' },
   { to: '/rehab/fractures', label: 'Fractures' },
   { to: '/rehab/surgeries', label: 'Surgeries' },
+  { to: '/rehab/programmes', label: 'Programmes' },
 ] as const;
 
 /** Sub-navigation of the Rehab tab. */
