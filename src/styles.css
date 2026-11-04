@@ -1165,3 +1165,221 @@ section.add-to-programme {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.field-row.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.soap-letter {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.soap-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-toggle {
+  align-self: flex-start;
+}
+
+.entry-row {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entry-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entry-title {
+  font-weight: 600;
+}
+
+.entry-fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.entry-fields .field {
+  flex: 1;
+  min-width: 90px;
+}
+
+.small-icon {
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  font-size: 1rem;
+}
+
+.add-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.add-row select,
+.field select {
+  min-height: var(--tap);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0 10px;
+  max-width: 100%;
+}
+
+.add-row select {
+  flex: 1;
+  min-width: 0;
+}
+
+.set-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.set-table th {
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 2px 4px;
+}
+
+.set-table td {
+  padding: 2px 4px;
+}
+
+.set-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0 6px;
+}
+
+.exercise-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.picker-results {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px 10px;
+}
+
+.toggle-chip {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+.toggle-chip-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.score-row {
+  display: grid;
+  grid-template-columns: minmax(80px, 1fr) 2fr 28px 32px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.score-value {
+  font-weight: 700;
+  text-align: center;
+}
+
+.choice-list {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.choice-list legend {
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 0 4px;
+}
+
+.template-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-badge {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.date-badge-month {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.date-badge-planned {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.muscle-row-name .status-tag {
+  margin-left: 8px;
+  vertical-align: 2px;
+}

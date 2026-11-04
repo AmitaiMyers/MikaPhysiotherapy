@@ -9,7 +9,10 @@ import { EpisodeFormPage } from './pages/patients/EpisodeFormPage';
 import { PatientFolderPage } from './pages/patients/PatientFolderPage';
 import { PatientFormPage } from './pages/patients/PatientFormPage';
 import { PatientListPage } from './pages/patients/PatientListPage';
+import { NewSessionPage } from './pages/patients/session/NewSessionPage';
+import { SessionPage } from './pages/patients/session/SessionPage';
 import { PatientSettingsPage } from './pages/patients/SettingsPage';
+import { TemplatesPage } from './pages/patients/TemplatesPage';
 import { VaultGate } from './pages/patients/VaultGate';
 import { initVault, startAutoLock } from './patients/vault';
 import { NerveDetailPage, NervesPage } from './pages/NervesPages';
@@ -60,7 +63,10 @@ export function App() {
             <Route path="/rehab/programmes/:id" element={<ProgrammeDetailPage />} />
             <Route path="/patients" element={gated(<PatientListPage />)} />
             <Route path="/patients/settings" element={gated(<PatientSettingsPage />)} />
+            <Route path="/patients/templates" element={gated(<TemplatesPage />)} />
+            <Route path="/patients/sessions/:sessionId" element={gated(<SessionPage />)} />
             <Route path="/patients/new" element={gated(<PatientFormPage />)} />
+            <Route path="/patients/:id/sessions/new" element={gated(<NewSessionPage />)} />
             <Route path="/patients/:id" element={gated(<PatientFolderPage />)} />
             <Route path="/patients/:id/edit" element={gated(<PatientFormPage />)} />
             <Route path="/patients/:id/episodes/:episodeId" element={gated(<EpisodeFormPage />)} />

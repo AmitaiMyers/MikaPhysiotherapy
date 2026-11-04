@@ -7,6 +7,7 @@ import type { Patient } from '../../patients/types';
 import { getRecord, useRecords } from '../../patients/vault';
 import { AttachmentsCard } from './AttachmentsCard';
 import { ProtocolProgress, SIDE_LABELS } from './EpisodeSummary';
+import { SessionList } from './SessionList';
 
 export function PatientFolderPage() {
   const { id = '' } = useParams();
@@ -19,6 +20,7 @@ export function PatientFolderPage() {
 function PatientFolder({ patient }: { patient: Patient }) {
   const navigate = useNavigate();
   const today = localDate(new Date());
+  const sessions = useRecords('session').filter((s) => s.patientId === patient.id);
   const episodes = useRecords('episode')
     .filter((e) => e.patientId === patient.id)
     .sort((a, b) => (a.status === b.status ? b.createdAt.localeCompare(a.createdAt) : a.status === 'active' ? -1 : 1));
@@ -59,6 +61,14 @@ function PatientFolder({ patient }: { patient: Patient }) {
           <ProtocolProgress episode={episode} today={today} />
         </Link>
       ))}
+
+      <div className="section-title-row">
+        <h2 className="section-heading">Sessions</h2>
+        <Link to={`/patients/${patient.id}/sessions/new`} className="button button-active">
+          ＋ New session
+        </Link>
+      </div>
+      <SessionList sessions={sessions} episodes={episodes} />
 
       <AttachmentsCard patientId={patient.id} episodeId={null} />
 
