@@ -1029,3 +1029,28 @@ section.add-to-programme {
   flex-shrink: 0;
   gap: 4px;
 }
+
+/* ---------- patients ---------- */
+
+.vault-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pin-input {
+  letter-spacing: 0.3em;
+  font-size: 1.2rem;
+}
+
+.error-banner {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-weight: 600;
+}
+
+.spaced-top {
+  margin-top: 10px;
+}

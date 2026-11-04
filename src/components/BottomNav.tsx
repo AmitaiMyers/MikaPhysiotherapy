@@ -46,6 +46,16 @@ const ITEMS = [
     label: 'Rehab',
     icon: icon(<path d="M3 10v4M6.5 7v10M17.5 7v10M21 10v4M6.5 12h11" />),
   },
+  {
+    to: '/patients',
+    label: 'Patients',
+    icon: icon(
+      <>
+        <circle cx="12" cy="7.5" r="3.5" />
+        <path d="M5 20c0-4 3.1-6.5 7-6.5s7 2.5 7 6.5" />
+      </>,
+    ),
+  },
 ] as const;
 
 export function BottomNav() {

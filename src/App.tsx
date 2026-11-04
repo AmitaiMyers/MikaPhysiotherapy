@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { HashRouter, Route, Routes, useLocation } from 'react-router';
 import { BottomNav } from './components/BottomNav';
 import { AboutPage } from './pages/AboutPage';
 import { BoneDetailPage, BonesJointsPage, JointDetailPage } from './pages/BonesJointsPages';
 import { MuscleDetailPage } from './pages/MuscleDetailPage';
 import { MusclesPage } from './pages/MusclesPage';
+import { PatientListPage } from './pages/patients/PatientListPage';
+import { PatientSettingsPage } from './pages/patients/SettingsPage';
+import { VaultGate } from './pages/patients/VaultGate';
+import { initVault, startAutoLock } from './patients/vault';
 import { NerveDetailPage, NervesPage } from './pages/NervesPages';
 import { ProgrammeDetailPage, ProgrammeListPage } from './pages/ProgrammePages';
 import { ProtocolDetailPage, ProtocolListPage } from './pages/ProtocolPages';
@@ -21,7 +25,14 @@ function ScrollToTop() {
   return null;
 }
 
+/** Patient screens open only when the vault is unlocked. */
+const gated = (page: ReactNode) => <VaultGate>{page}</VaultGate>;
+
 export function App() {
+  useEffect(() => {
+    void initVault();
+    return startAutoLock();
+  }, []);
   return (
     <HashRouter>
       <ScrollToTop />
@@ -44,6 +55,8 @@ export function App() {
             <Route path="/rehab/protocols/:id" element={<ProtocolDetailPage />} />
             <Route path="/rehab/programmes" element={<ProgrammeListPage />} />
             <Route path="/rehab/programmes/:id" element={<ProgrammeDetailPage />} />
+            <Route path="/patients" element={gated(<PatientListPage />)} />
+            <Route path="/patients/settings" element={gated(<PatientSettingsPage />)} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<p className="empty">Page not found.</p>} />
           </Routes>
