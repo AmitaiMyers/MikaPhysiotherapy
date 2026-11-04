@@ -9,6 +9,7 @@ import { EpisodeFormPage } from './pages/patients/EpisodeFormPage';
 import { PatientFolderPage } from './pages/patients/PatientFolderPage';
 import { PatientFormPage } from './pages/patients/PatientFormPage';
 import { PatientListPage } from './pages/patients/PatientListPage';
+import { ProgressPage } from './pages/patients/ProgressPage';
 import { CalendarPage } from './pages/patients/calendar/CalendarPage';
 import { CalendarImportPage } from './pages/patients/calendar/ImportPage';
 import { NewSessionPage } from './pages/patients/session/NewSessionPage';
@@ -73,6 +74,7 @@ export function App() {
             <Route path="/patients/:id/sessions/new" element={gated(<NewSessionPage />)} />
             <Route path="/patients/:id" element={gated(<PatientFolderPage />)} />
             <Route path="/patients/:id/edit" element={gated(<PatientFormPage />)} />
+            <Route path="/patients/:id/progress" element={gated(<ProgressPage />)} />
             <Route path="/patients/:id/episodes/:episodeId" element={gated(<EpisodeFormPage />)} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<p className="empty">Page not found.</p>} />

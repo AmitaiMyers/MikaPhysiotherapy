@@ -1559,3 +1559,70 @@ section.add-to-programme {
   align-items: center;
   margin-bottom: 8px;
 }
+
+/* ---------- progress charts ---------- */
+
+.chart-grid-layout {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 700px) {
+  .chart-grid-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chart-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.chart-change {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-grid {
+  stroke: var(--border);
+  stroke-dasharray: 3 3;
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.chart-dot {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.chart-label {
+  fill: var(--muted);
+  font-size: 10px;
+}
+
+.chart-value {
+  fill: var(--text);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.progress-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

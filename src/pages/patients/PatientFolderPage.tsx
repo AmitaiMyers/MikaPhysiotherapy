@@ -64,9 +64,14 @@ function PatientFolder({ patient }: { patient: Patient }) {
 
       <div className="section-title-row">
         <h2 className="section-heading">Sessions</h2>
-        <Link to={`/patients/${patient.id}/sessions/new`} className="button button-active">
-          ＋ New session
-        </Link>
+        <span className="button-row">
+          <Link to={`/patients/${patient.id}/progress`} className="button">
+            📈 Progress
+          </Link>
+          <Link to={`/patients/${patient.id}/sessions/new`} className="button button-active">
+            ＋ New
+          </Link>
+        </span>
       </div>
       <SessionList sessions={sessions} episodes={episodes} />
 
