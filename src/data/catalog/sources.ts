@@ -219,4 +219,110 @@ export const SOURCES: Source[] = [
     citation: 'Massachusetts General Hospital Foot & Ankle. Physical therapy guidelines for hallux valgus correction.',
     url: 'https://www.massgeneral.org/assets/MGH/pdf/orthopaedics/foot-ankle/PT-guidelines-hallux-valgus-correction-final.pdf',
   },
+  // ---------- Rehabilitation protocols: upper extremity and spine ----------
+  {
+    id: 'cuff-mobilisation-2023',
+    citation: 'Early versus delayed mobilization for arthroscopic rotator cuff repair (small to large sized tear): a meta-analysis of randomized controlled trials. BMC Musculoskelet Disord 2023.',
+    url: 'https://bmcmusculoskeletdisord.biomedcentral.com/articles/10.1186/s12891-023-07075-5',
+  },
+  {
+    id: 'instability-rts-2023',
+    citation: 'Majority of studies show similar rates of return to play after arthroscopic Bankart repair or Latarjet procedure: a systematic review. Arthroscopy 2023.',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/37146663/',
+  },
+  {
+    id: 'tsa-protocol-bwh',
+    citation: 'Brigham and Women’s Faulkner Hospital Rehabilitation Services. Total shoulder arthroplasty guideline.',
+    url: 'https://www.brighamandwomensfaulkner.org/assets/BWH/patients-and-families/rehabilitation-services/pdfs/total-shoulder-arthroplasty-guideline.pdf',
+  },
+  {
+    id: 'rtsa-sling-2023',
+    citation: 'No difference in complications between two-week vs. six-week duration of sling immobilization after reverse total shoulder arthroplasty (2023).',
+    url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10638591/',
+  },
+  {
+    id: 'profher-2015',
+    citation: 'Rangan A et al. Surgical vs nonsurgical treatment of adults with displaced fractures of the proximal humerus: the PROFHER randomized clinical trial. JAMA 2015;313(10):1037–47.',
+    url: 'https://www.openhealthgroup.com/publication-library/surgical-vs-nonsurgical-treatment-of-adults-with-displaced-fractures-of-the-proximal-humerus-the-profher-randomized-clinical-trial/',
+  },
+  {
+    id: 'phf-mobilisation-2025',
+    citation: 'Early versus delayed mobilisation for non-surgically treated proximal humerus fractures: a systematic review and meta-analysis of randomised trials. BMC Musculoskelet Disord 2025.',
+    url: 'https://link.springer.com/article/10.1186/s12891-025-08371-y',
+  },
+  {
+    id: 'fish-2020',
+    citation: 'Rämö L et al. Effect of surgery vs functional bracing on functional outcome among patients with closed displaced humeral shaft fractures: the FISH randomized clinical trial. JAMA 2020.',
+    url: 'https://jamanetwork.com/journals/jama/fullarticle/2765728',
+  },
+  {
+    id: 'olecranon-protocol',
+    citation: 'Rothman Orthopaedics. ORIF olecranon physical therapy protocol.',
+    url: 'https://www.rothmanortho.com/wp-content/uploads/files/post-op-protocols/brandon-j-erickson-md/ORIF%20Olecranon%20PT%20Protocol.pdf',
+  },
+  {
+    id: 'radial-head-review-2017',
+    citation: 'Radial head fractures: a review. Open Orthop J 2017;11:1405.',
+    url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5721345/',
+  },
+  {
+    id: 'distal-radius-elderly-2024',
+    citation: 'A meta-analysis comparing volar locking plates and cast immobilization for distal radius fractures in the elderly. J Orthop Surg Res 2024.',
+    url: 'https://link.springer.com/article/10.1186/s13018-024-05216-7',
+  },
+  {
+    id: 'drafft-2014',
+    citation: 'Costa ML et al. UK DRAFFT: a randomised controlled trial of percutaneous fixation with Kirschner wires versus volar locking-plate fixation in the treatment of adult patients with a dorsally displaced fracture of the distal radius. Health Technol Assess 2015.',
+    url: 'https://www.ncbi.nlm.nih.gov/books/NBK276570/',
+  },
+  {
+    id: 'swifft-2020',
+    citation: 'Dias JJ et al. Surgery versus cast immobilisation for adults with a bicortical fracture of the scaphoid waist (SWIFFT): a pragmatic, multicentre, open-label, randomised superiority trial. Lancet 2020.',
+    url: 'https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)30931-4/abstract',
+  },
+  {
+    id: 'boxer-fracture-2022',
+    citation: 'A systematic review and meta-analysis of the efficacy of buddy taping versus reduction and casting for non-operative management of closed fifth metacarpal neck fractures (2022).',
+    url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9512295/',
+  },
+  {
+    id: 'biceps-protocol-bwh',
+    citation: 'Brigham and Women’s Hospital. Distal biceps tendon repair rehabilitation protocol.',
+    url: 'https://www.brighamandwomens.org/assets/BWH/patients-and-families/pdfs/elbow---distal-biceps-repair-protocol.pdf',
+  },
+  {
+    id: 'ucl-protocol',
+    citation: 'Rothman Orthopaedics. UCL reconstruction (Tommy John) physical therapy protocol.',
+    url: 'https://www.rothmanortho.com/files/post-op-protocols/brandon-j-erickson-md/UCL%20Reconstruction%20(Tommy%20John)%20PT%20Protocol.pdf',
+  },
+  {
+    id: 'flexor-tendon-2024',
+    citation: 'Maximizing hand function following zone II flexor tendon repair: a systematic review and meta-analysis of rehabilitation strategies (2024).',
+    url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11632816/',
+  },
+  {
+    id: 'aaos-cts-2024',
+    citation: 'American Academy of Orthopaedic Surgeons. Management of carpal tunnel syndrome: evidence-based clinical practice guideline (2024).',
+    url: 'https://www.aaos.org/cts2cpg',
+  },
+  {
+    id: 'nogg-vertebral-fracture',
+    citation: 'National Osteoporosis Guideline Group (UK). Clinical guideline, section 8: management of symptomatic osteoporotic vertebral fractures.',
+    url: 'https://www.nogg.org.uk/full-guideline/section-8-management-symptomatic-osteoporotic-vertebral-fractures',
+  },
+  {
+    id: 'cochrane-discectomy-2014',
+    citation: 'Oosterhuis T et al. Rehabilitation after lumbar disc surgery. Cochrane Database Syst Rev 2014;CD003007.',
+    url: 'https://www.cochrane.org/CD003007/BACK_rehabilitation-after-surgery-for-herniation-of-the-lumbar-disc',
+  },
+  {
+    id: 'eras-fusion-2021',
+    citation: 'Consensus statement for perioperative care in lumbar spinal fusion: Enhanced Recovery After Surgery (ERAS®) Society recommendations. Spine J 2021.',
+    url: 'https://www.thespinejournalonline.com/article/S1529-9430(21)00002-4/fulltext',
+  },
+  {
+    id: 'acdf-restrictions-2020',
+    citation: 'Postoperative restrictions after anterior cervical discectomy and fusion (survey of surgeons, 2020).',
+    url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7466012/',
+  },
 ];

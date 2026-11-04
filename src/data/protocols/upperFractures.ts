@@ -517,7 +517,7 @@ export const UPPER_FRACTURE_PROTOCOLS: Protocol[] = [
     returnToActivity: UPPER_RETURN,
     outcomeMeasures: WRIST_OUTCOMES,
     notes: ['K-wire fixation gave similar results to volar plating in adults with dorsally displaced fractures in the UK DRAFFT trial; wires usually mean a cast for about 6 weeks.'],
-    sourceIds: ['distal-radius-elderly-2024', 'physiopedia'],
+    sourceIds: ['distal-radius-elderly-2024', 'drafft-2014', 'physiopedia'],
   },
   {
     id: 'scaphoid-fracture-cast',
