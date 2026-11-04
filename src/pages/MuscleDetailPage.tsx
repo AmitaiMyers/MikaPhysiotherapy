@@ -127,15 +127,30 @@ function OverviewTab({ muscle }: { muscle: Muscle }) {
       )}
       <BulletSection title="Anatomy & structure" items={muscle.structure} />
       <BulletSection title="Function" items={muscle.functions} />
-      <Card title="Sources">
-        <ul className="bullets sources">
-          {muscle.sourceIds.map((id) => {
-            const source = getSource(id);
-            return <li key={id}>{source.url ? <a href={source.url} target="_blank" rel="noreferrer">{source.citation}</a> : source.citation}</li>;
-          })}
-        </ul>
-      </Card>
+      <SourcesSection sourceIds={muscle.sourceIds} />
     </>
+  );
+}
+
+/** Sources are hidden behind a button so they do not crowd the overview. */
+function SourcesSection({ sourceIds }: { sourceIds: string[] }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <section className="sources-section">
+      <button type="button" className="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        {open ? 'Hide sources' : `Show sources (${sourceIds.length})`}
+      </button>
+      {open && (
+        <Card>
+          <ul className="bullets sources">
+            {sourceIds.map((id) => {
+              const source = getSource(id);
+              return <li key={id}>{source.url ? <a href={source.url} target="_blank" rel="noreferrer">{source.citation}</a> : source.citation}</li>;
+            })}
+          </ul>
+        </Card>
+      )}
+    </section>
   );
 }
 

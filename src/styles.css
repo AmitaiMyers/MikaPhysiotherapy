@@ -209,6 +209,12 @@ button {
   gap: 6px;
 }
 
+.sources-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .sources {
   font-size: 0.88rem;
 }
