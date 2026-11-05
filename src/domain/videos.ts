@@ -61,29 +61,50 @@ export function embedUrl(video: VideoRef): string {
   return `https://www.youtube-nocookie.com/embed/${video.id}?${params.toString()}`;
 }
 
-/** A YouTube search, to help find a video for an exercise without a default one. */
+/** The channels Mika prefers, in priority order: an exercise uses the first one that has a video for it. */
+export const VIDEO_CHANNELS = [
+  { id: 'squat-university', name: 'Squat University', handle: '@squatuniversity' },
+  { id: 'elite-performance-institute', name: 'Elite Performance Institute', handle: '@eliteperformanceinstitute' },
+  { id: 'evolution-pt', name: 'Evolution PT', handle: '@evolutionptfit' },
+] as const;
+
+export type ChannelId = (typeof VIDEO_CHANNELS)[number]['id'];
+
+/** A search across all of YouTube, the last resort. */
 export function searchUrl(exerciseName: string): string {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent(`${exerciseName} physiotherapy exercise`)}`;
+}
+
+/** A search inside one channel, to find a video for an exercise. */
+export function channelSearchUrl(handle: string, exerciseName: string): string {
+  return `https://www.youtube.com/${handle}/search?query=${encodeURIComponent(exerciseName)}`;
 }
 
 const video = (id: string): VideoRef => ({ id, startSec: 0 });
 
 /**
- * Default demo videos, keyed by exercise id. They are the same videos the workout app uses for
- * the same movements; every other exercise starts without a video and the user can add one.
+ * Videos from the preferred channels, keyed by channel and exercise id. Filled from each
+ * channel's video list (it has to be read from YouTube, which this build environment cannot
+ * reach yet). An exercise shows the video of the first channel in VIDEO_CHANNELS that has one.
  */
-export const BUILT_IN_VIDEOS: Readonly<Record<string, VideoRef>> = {
-  // CrossFit channel
+export const CHANNEL_VIDEOS: Readonly<Record<ChannelId, Readonly<Record<string, VideoRef>>>> = {
+  'squat-university': {},
+  'elite-performance-institute': {},
+  'evolution-pt': {},
+};
+
+/**
+ * Fallback videos (the workout app's, for the same movements) used until a preferred channel has
+ * a video for the exercise.
+ */
+export const FALLBACK_VIDEOS: Readonly<Record<string, VideoRef>> = {
   'push-up': video('0pkjOk0EiAk'),
   deadlift: video('1ZXobu7JvvE'),
   'forward-lunge': video('7EmwtpAI8cM'),
   'kettlebell-swing': video('vdezTMulJ-k'),
-  // CrossFit affiliates
   'goblet-squat': video('OwAh0sBFpec'),
   'hip-thrust': video('0WqJd_3REWc'),
-  // Concept2
   'rowing-ergometer': video('QPvYrfyGHi8'),
-  // Other coaching channels
   'dumbbell-chest-press': video('J-gWN5hYwRU'),
   'dumbbell-row': video('fURsHPHgssI'),
   'lat-pulldown': video('RTNmVfnRitA'),
@@ -101,3 +122,19 @@ export const BUILT_IN_VIDEOS: Readonly<Record<string, VideoRef>> = {
   'front-plank': video('3QZlgJ40LfU'),
   'stationary-bike': video('qJb-FOTPT4Q'),
 };
+
+export interface DefaultVideo {
+  video: VideoRef;
+  /** The preferred channel it comes from, or null for a fallback video. */
+  channel: (typeof VIDEO_CHANNELS)[number] | null;
+}
+
+/** The default video of an exercise: the first preferred channel that has one, else the fallback. */
+export function defaultVideo(exerciseId: string, channelVideos: typeof CHANNEL_VIDEOS = CHANNEL_VIDEOS): DefaultVideo | null {
+  for (const channel of VIDEO_CHANNELS) {
+    const found = channelVideos[channel.id][exerciseId];
+    if (found !== undefined) return { video: found, channel };
+  }
+  const fallback = FALLBACK_VIDEOS[exerciseId];
+  return fallback === undefined ? null : { video: fallback, channel: null };
+}

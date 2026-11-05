@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { findExercise } from '../data/exercises';
-import { BUILT_IN_VIDEOS, embedUrl, parseYouTubeLink, watchUrl } from './videos';
+import { CHANNEL_VIDEOS, channelSearchUrl, defaultVideo, embedUrl, FALLBACK_VIDEOS, parseYouTubeLink, VIDEO_CHANNELS, watchUrl } from './videos';
 
 describe('parseYouTubeLink', () => {
   it.each([
@@ -44,8 +44,29 @@ describe('video URLs', () => {
   });
 });
 
-describe('built-in videos', () => {
-  it.each(Object.keys(BUILT_IN_VIDEOS))('%s is a known exercise', (exerciseId) => {
+describe('default videos', () => {
+  const all = [...Object.values(CHANNEL_VIDEOS).flatMap((videos) => Object.keys(videos)), ...Object.keys(FALLBACK_VIDEOS)];
+  it.each(all)('%s is a known exercise', (exerciseId) => {
     expect(findExercise(exerciseId)).toBeDefined();
+  });
+
+  it('takes the first preferred channel that has a video, in Mika’s order', () => {
+    const videos = {
+      'squat-university': {},
+      'elite-performance-institute': { bridge: { id: 'AAAAAAAAAAA', startSec: 0 } },
+      'evolution-pt': { bridge: { id: 'BBBBBBBBBBB', startSec: 0 }, 'quad-set': { id: 'CCCCCCCCCCC', startSec: 0 } },
+    };
+    expect(defaultVideo('bridge', videos)).toMatchObject({ video: { id: 'AAAAAAAAAAA' }, channel: { name: 'Elite Performance Institute' } });
+    expect(defaultVideo('quad-set', videos)?.channel?.name).toBe('Evolution PT');
+    expect(defaultVideo('push-up', videos)?.channel).toBeNull();
+    expect(defaultVideo('clamshell', videos)).toBeNull();
+  });
+
+  it('lists Squat University first, then Elite Performance Institute, then Evolution PT', () => {
+    expect(VIDEO_CHANNELS.map((c) => c.handle)).toEqual(['@squatuniversity', '@eliteperformanceinstitute', '@evolutionptfit']);
+  });
+
+  it('searches inside a channel', () => {
+    expect(channelSearchUrl('@squatuniversity', 'Single-leg squat')).toBe('https://www.youtube.com/@squatuniversity/search?query=Single-leg%20squat');
   });
 });

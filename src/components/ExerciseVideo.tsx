@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Exercise, VideoRef } from '../data/exerciseTypes';
 import { resetVideoOverride, setVideoOverride, type ExerciseVideoState } from '../domain/videoOverrides';
-import { embedUrl, parseYouTubeLink, searchUrl, watchUrl } from '../domain/videos';
+import { channelSearchUrl, embedUrl, parseYouTubeLink, searchUrl, VIDEO_CHANNELS, watchUrl } from '../domain/videos';
 import { useOnlineStatus } from './useOnlineStatus';
 
 /** The demo video: a muted, looping YouTube player when there is a video and a connection. */
@@ -47,9 +47,12 @@ export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state
       {state.video === null ? (
         <p className="muted small">No video yet. Paste a YouTube link to show a demonstration here.</p>
       ) : (
-        <a href={watchUrl(state.video)} target="_blank" rel="noreferrer" className="small video-link">
-          {watchUrl(state.video)}
-        </a>
+        <>
+          {state.source !== null && <p className="small muted">{state.source.channel === null ? 'Default video' : `From ${state.source.channel.name}`}</p>}
+          <a href={watchUrl(state.video)} target="_blank" rel="noreferrer" className="small video-link">
+            {watchUrl(state.video)}
+          </a>
+        </>
       )}
       {editing ? (
         <form
@@ -75,9 +78,19 @@ export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state
             </button>
           </div>
           {showLinkError && <p className="field-error">That doesn’t look like a YouTube video link.</p>}
+          <p className="small muted">Find it in Mika’s channels, in order — then copy the video link and paste it above:</p>
+          <ol className="channel-list">
+            {VIDEO_CHANNELS.map((channel) => (
+              <li key={channel.id}>
+                <a className="button" href={channelSearchUrl(channel.handle, exercise.name)} target="_blank" rel="noreferrer">
+                  {channel.name} ↗
+                </a>
+              </li>
+            ))}
+          </ol>
           <div className="button-row">
             <a className="text-button" href={searchUrl(exercise.name)} target="_blank" rel="noreferrer">
-              Search YouTube ↗
+              All of YouTube ↗
             </a>
             <button type="button" className="text-button" onClick={() => setEditing(false)}>
               Cancel
