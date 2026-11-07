@@ -14,6 +14,8 @@ import { HomeProgrammeSection, ProtocolSection, ScoresSection, SubjectiveSection
 import { SessionSection } from './SessionSection';
 import { TechniquesSection } from './TechniquesSection';
 import { buzz, promptText, showToast, toastWithUndo } from '../../../feedback/store';
+import { JumpBar, type JumpItem } from '../../../components/JumpBar';
+import { Segmented } from '../../../components/Segmented';
 
 export function SessionPage() {
   const { sessionId = '' } = useParams();
@@ -23,17 +25,13 @@ export function SessionPage() {
   return <SessionEditor session={session} allSessions={sessions} />;
 }
 
-const SOAP_JUMPS = [
-  ['S', 'soap-s', 'Subjective'],
-  ['O', 'soap-o', 'Objective'],
-  ['T', 'soap-t', 'Treatment and exercises'],
-  ['A', 'soap-a', 'Assessment'],
-  ['P', 'soap-p', 'Plan'],
-] as const;
-
-function jumpTo(id: string): void {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
+const SOAP_JUMPS: JumpItem[] = [
+  { id: 'soap-s', label: 'S', ariaLabel: 'Subjective' },
+  { id: 'soap-o', label: 'O', ariaLabel: 'Objective' },
+  { id: 'soap-t', label: 'T', ariaLabel: 'Treatment and exercises' },
+  { id: 'soap-a', label: 'A', ariaLabel: 'Assessment' },
+  { id: 'soap-p', label: 'P', ariaLabel: 'Plan' },
+];
 
 function suggestedPhase(episode: Episode | undefined, date: string): number | null {
   if (episode?.protocolId == null || episode.startDate === null) return null;
@@ -58,20 +56,20 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
         title={patient === undefined ? 'Session' : <Link to={`/patients/${patient.id}`}>{patient.firstName}</Link>}
         subtitle={`${formatDate(session.date)} · ${session.startTime} · ${session.durationMin} min`}
       />
-      <div className="segmented status-toggle" role="group" aria-label="Status">
-        {(['planned', 'done'] as const).map((status) => (
-          <button key={status} type="button" className={session.status === status ? 'segment-active' : ''} aria-pressed={session.status === status} onClick={() => update({ status })}>
-            {status === 'planned' ? 'Planned' : 'Done'}
-          </button>
-        ))}
-      </div>
-      <nav className="soap-bar" aria-label="Jump to section">
-        {SOAP_JUMPS.map(([letter, target, label]) => (
-          <button key={target} type="button" className="soap-chip" aria-label={label} onClick={() => jumpTo(target)}>
-            {letter}
-          </button>
-        ))}
-      </nav>
+      <Segmented
+        className="status-toggle"
+        label="Status"
+        value={session.status}
+        onChange={(status) => {
+          if (status === 'done') buzz();
+          update({ status });
+        }}
+        options={[
+          { value: 'planned', label: 'Planned' },
+          { value: 'done', label: 'Done' },
+        ]}
+      />
+      <JumpBar items={SOAP_JUMPS} compact />
       <SessionSection title="Date, time & episode">
         <div className="field-row">
           <TextField label="Date" type="date" value={session.date} onChange={(date) => update({ date })} />

@@ -6,6 +6,7 @@ import { attachmentsOnBone, formatRoots } from '../domain/relations';
 import { Icon } from './Icon';
 import { useTechniqueViews } from './techniques';
 import { linkedTechniques, type AnatomyLink } from '../techniques/view';
+import { Segmented } from './Segmented';
 
 const { width: W, height: H } = BODY_SIZE;
 /** How far (in image pixels) a tap may miss a thin structure and still pick it. */
@@ -121,13 +122,7 @@ export function BodyExplorer() {
   return (
     <section className="body-explorer" aria-label="Interactive body">
       <div className="body-controls">
-        <div className="segmented on-stage" role="group" aria-label="Layer">
-          {(Object.keys(BODY_LAYER_LABELS) as BodyLayer[]).map((l) => (
-            <button key={l} type="button" className={layer === l ? 'segment-active' : ''} aria-pressed={layer === l} onClick={() => setLayer(l)}>
-              {BODY_LAYER_LABELS[l]}
-            </button>
-          ))}
-        </div>
+        <Segmented className="on-stage" label="Layer" value={layer} onChange={setLayer} options={(Object.keys(BODY_LAYER_LABELS) as BodyLayer[]).map((l) => ({ value: l, label: BODY_LAYER_LABELS[l] }))} />
         <div className="body-buttons">
           <button type="button" className="stage-button" aria-label={`Show the ${view === 'front' ? 'back' : 'front'}`} onClick={() => setView(view === 'front' ? 'back' : 'front')}>
             <Icon name="rotate" size={20} />

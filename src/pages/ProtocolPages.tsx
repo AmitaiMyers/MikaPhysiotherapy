@@ -1,7 +1,10 @@
 import { Link, useParams } from 'react-router';
 import { AddToProgramme } from '../components/AddToProgramme';
 import { RehabTabs } from '../components/RehabTabs';
-import { BulletSection, Disclaimer, Empty, PageHeader, ShareButton, SourcesSection } from '../components/ui';
+import { Icon } from '../components/Icon';
+import { JumpBar } from '../components/JumpBar';
+import { Segmented } from '../components/Segmented';
+import { BulletSection, Disclaimer, Empty, EmptyState, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { conditionsForProtocol } from '../techniques/view';
 import { useUrlParams } from '../components/useUrlParams';
 import { getExercise } from '../data/exercises';
@@ -11,32 +14,34 @@ import { matchesWords } from '../domain/search';
 import { itemFor } from '../domain/programmes';
 import { shareProtocol } from '../domain/share';
 
-const KIND_SUBTITLE: Record<ProtocolKind, string> = {
-  fracture: 'fracture protocols · by body region',
-  surgery: 'post-operative protocols · by body region',
-};
+type KindFilter = ProtocolKind | 'all';
+
+const KIND_OPTIONS: { value: KindFilter; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'fracture', label: 'Fractures' },
+  { value: 'surgery', label: 'Surgeries' },
+];
+
+const KIND_SINGULAR: Record<ProtocolKind, string> = { fracture: 'Fracture', surgery: 'Surgery' };
 
 const matchesProtocol = (protocol: Protocol, text: string) => matchesWords(text, [protocol.name, protocol.management, ...protocol.aliases]);
 
-export function ProtocolListPage({ kind }: { kind: ProtocolKind }) {
-  const [values, update] = useUrlParams({ text: 'q' });
+/** Fracture and surgery protocols in one list, filtered by kind and search, grouped by body region. */
+export function ProtocolListPage() {
+  const [values, update] = useUrlParams({ text: 'q', kind: 'kind' });
   const text = values.text ?? '';
-  const ofKind = PROTOCOLS.filter((p) => p.kind === kind);
+  const kind: KindFilter = values.kind === 'fracture' || values.kind === 'surgery' ? values.kind : 'all';
+  const ofKind = kind === 'all' ? PROTOCOLS : PROTOCOLS.filter((p) => p.kind === kind);
   const results = ofKind.filter((p) => matchesProtocol(p, text));
+  const fractures = PROTOCOLS.filter((p) => p.kind === 'fracture').length;
 
   return (
     <div className="page">
-      <PageHeader title="Rehab" subtitle={`${ofKind.length} ${KIND_SUBTITLE[kind]}`} />
+      <PageHeader title="Rehab" subtitle={`${PROTOCOLS.length} protocols · ${fractures} fractures, ${PROTOCOLS.length - fractures} surgeries`} />
       <RehabTabs />
-      <input
-        type="search"
-        className="search-input"
-        placeholder={`Search ${PROTOCOL_KIND_LABELS[kind].toLowerCase()}`}
-        value={text}
-        onChange={(event) => update({ text: event.target.value })}
-        aria-label={`Search ${PROTOCOL_KIND_LABELS[kind].toLowerCase()}`}
-      />
-      {results.length === 0 && <Empty>No protocol matches this search.</Empty>}
+      <Segmented label="Protocol type" value={kind} onChange={(k) => update({ kind: k === 'all' ? null : k })} options={KIND_OPTIONS} />
+      <input type="search" className="search-input" placeholder="Search protocols" value={text} onChange={(event) => update({ text: event.target.value })} aria-label="Search protocols" />
+      {results.length === 0 && <EmptyState icon="search">No protocol matches this search.</EmptyState>}
       {PROTOCOL_REGIONS.map((region) => {
         const inRegion = results.filter((p) => p.regionId === region.id);
         if (inRegion.length === 0) return null;
@@ -76,11 +81,11 @@ function ProtocolRow({ protocol }: { protocol: Protocol }) {
       <span className="muscle-row-text">
         <span className="muscle-row-name">{protocol.name}</span>
         <span className="muscle-row-meta">
-          {protocol.management} · {protocol.phases.length} phases
+          {KIND_SINGULAR[protocol.kind]} · {protocol.management} · {protocol.phases.length} phases
         </span>
       </span>
       <span className="chevron" aria-hidden="true">
-        ›
+        <Icon name="chevron" size={18} />
       </span>
     </Link>
   );
@@ -95,7 +100,7 @@ export function ProtocolDetailPage() {
     <div className="page" key={protocol.id}>
       <PageHeader back title={protocol.name} subtitle={protocol.management} actions={<ShareButton label="Share protocol" onShare={() => shareProtocol(protocol, disclaimer)} />} />
       <p className="breadcrumb">
-        <Link to={protocol.kind === 'fracture' ? '/rehab/fractures' : '/rehab/surgeries'}>{PROTOCOL_KIND_LABELS[protocol.kind]}</Link> › {getProtocolRegion(protocol.regionId).name} ›{' '}
+        <Link to={`/rehab/protocols?kind=${protocol.kind}`}>{PROTOCOL_KIND_LABELS[protocol.kind]}</Link> › {getProtocolRegion(protocol.regionId).name} ›{' '}
         {getProtocolArea(protocol.areaId).name}
       </p>
       <aside className="caution-box" role="note">
@@ -107,6 +112,7 @@ export function ProtocolDetailPage() {
           <strong>Also called:</strong> {protocol.aliases.join(', ')}
         </p>
       )}
+      <JumpBar items={protocol.phases.map((phase, index) => ({ id: `phase-${index + 1}`, label: `${index + 1}. ${phase.name}` }))} label="Jump to phase" />
       <BulletSection title="Key points" items={protocol.keyPoints} />
       <h2 className="section-heading">Phases</h2>
       {protocol.phases.map((phase, index) => (
@@ -124,7 +130,7 @@ export function ProtocolDetailPage() {
 
 function PhaseCard({ protocol, phase, number, defaultOpen }: { protocol: Protocol; phase: ProtocolPhase; number: number; defaultOpen: boolean }) {
   return (
-    <details className="card group phase" open={defaultOpen}>
+    <details id={`phase-${number}`} className="card group phase" open={defaultOpen}>
       <summary className="group-summary">
         <span className="phase-number" aria-hidden="true">
           {number}

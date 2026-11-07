@@ -52,7 +52,7 @@ export function HomePage() {
         <Tile to="/nerves" icon="nerve" title="Nerves" detail={`${NERVES.length} nerves & myotomes`} />
         <Tile to="/tests" icon="test" title="Special tests" detail={`${SPECIAL_TESTS.length} tests`} />
         <Tile to="/rehab" icon="dumbbell" title="Exercises" detail={`${EXERCISES.length} exercises`} />
-        <Tile to="/rehab/surgeries" icon="clipboard" title="Protocols" detail={`${PROTOCOLS.length} fractures & surgeries`} />
+        <Tile to="/rehab/protocols" icon="clipboard" title="Protocols" detail={`${PROTOCOLS.length} fractures & surgeries`} />
         <Tile to="/techniques" icon="layers" title="Techniques" detail={`${TECHNIQUES.length} techniques, evidence-graded`} />
       </div>
     </div>

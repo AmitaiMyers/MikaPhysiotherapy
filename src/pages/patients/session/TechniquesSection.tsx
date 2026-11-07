@@ -8,6 +8,7 @@ import type { CustomTechnique } from '../../../techniques/types';
 import { SIDE_LABELS } from '../EpisodeSummary';
 import { removeAt, replaceAt } from './listEdit';
 import { SessionSection } from './SessionSection';
+import { Icon } from '../../../components/Icon';
 
 /** Techniques applied in a session, each with its family's dosage fields. */
 export function TechniquesSection({ techniques, plan, defaultSide, onChange }: { techniques: SessionTechnique[]; plan: PlannedTechnique[]; defaultSide: EpisodeSide; onChange: (techniques: SessionTechnique[]) => void }) {
@@ -21,7 +22,7 @@ export function TechniquesSection({ techniques, plan, defaultSide, onChange }: {
       ))}
       {missingFromPlan.length > 0 && (
         <button type="button" className="text-button small" onClick={() => add(missingFromPlan.map((p) => p.techniqueId))}>
-          ＋ Add from the care plan ({missingFromPlan.map((p) => techniqueName(p.techniqueId, customs)).join(', ')})
+          <Icon name="plus" size={18} /> Add from the care plan ({missingFromPlan.map((p) => techniqueName(p.techniqueId, customs)).join(', ')})
         </button>
       )}
       <TechniquePicker customs={customs} onPick={(id) => add([id])} />
@@ -38,7 +39,7 @@ function TechniqueLog({ entry, customs, onChange, onRemove }: { entry: SessionTe
           <Link to={`/techniques/${entry.techniqueId}`}>{name}</Link>
         </span>
         <button type="button" className="icon-button small-icon" aria-label={`Remove ${name}`} onClick={onRemove}>
-          ×
+          <Icon name="close" size={18} />
         </button>
       </div>
       <div className="entry-fields technique-fields">
@@ -117,7 +118,7 @@ export function PlannedTechniquesCard({ plan, onChange }: { plan: PlannedTechniq
                 <Link to={`/techniques/${item.techniqueId}`}>{name}</Link>
               </span>
               <button type="button" className="icon-button small-icon" aria-label={`Remove ${name}`} onClick={() => onChange(removeAt(plan, index))}>
-                ×
+                <Icon name="close" size={18} />
               </button>
             </div>
             <input className="search-input" placeholder="Note, e.g. weekly for 4 weeks" value={item.note} onChange={(event) => onChange(replaceAt(plan, index, { note: event.target.value }))} aria-label={`${name} note`} />

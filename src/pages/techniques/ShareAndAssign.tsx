@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { ActionButton } from '../../components/feedback';
 import { Modal } from '../../components/Modal';
 import { shareOrDownloadFile } from '../../domain/share';
 import { formatDate, localDate } from '../../patients/dates';
@@ -9,6 +10,7 @@ import { saveRecord, useRecords, useVaultState } from '../../patients/vault';
 import { setAuthorName, useAuthorName } from '../../techniques/author';
 import { exportTechniques } from '../../techniques/exchangeIo';
 import { useTechniqueContent } from '../../techniques/store';
+import { Icon } from '../../components/Icon';
 
 /** Export a technique (with Mika's notes) as a file other physiotherapists can import. */
 export function ShareTechniqueCard({ techniqueId, name, hasOwnMedia }: { techniqueId: string; name: string; hasOwnMedia: boolean }) {
@@ -18,10 +20,10 @@ export function ShareTechniqueCard({ techniqueId, name, hasOwnMedia }: { techniq
   const [status, setStatus] = useState<string | null>(null);
   const noteCount = notes.filter((n) => n.techniqueId === techniqueId).length;
   const share = async () => {
-    setStatus('Preparing…');
+    setStatus(null);
     const file = await exportTechniques([techniqueId], includeMedia);
     const result = await shareOrDownloadFile(file, name);
-    setStatus(result === 'downloaded' ? `Saved ${file.name} — send it to a colleague to import.` : result === 'shared' ? 'Shared.' : null);
+    if (result === 'downloaded') setStatus(`Saved ${file.name} — send it to a colleague to import.`);
   };
   return (
     <section className="card">
@@ -38,9 +40,9 @@ export function ShareTechniqueCard({ techniqueId, name, hasOwnMedia }: { techniq
         <span>Shared as</span>
         <input className="search-input" defaultValue={author} onBlur={(event) => setAuthorName(event.target.value)} aria-label="Your name on shared files" />
       </label>
-      <button type="button" className="button button-primary" onClick={() => void share().catch((reason: unknown) => setStatus(reason instanceof Error ? reason.message : 'The file could not be shared.'))}>
+      <ActionButton onRun={share} done="Exported" icon="share">
         Export & share
-      </button>
+      </ActionButton>
       {status !== null && <p className="muted small">{status}</p>}
     </section>
   );
@@ -60,7 +62,7 @@ export function AddToPatientButton({ techniqueId, name }: { techniqueId: string;
   return (
     <>
       <button type="button" className="button button-primary" onClick={() => setOpen(true)}>
-        ＋ Add to a patient
+        <Icon name="plus" size={18} /> Add to a patient
       </button>
       {open && <AddToPatientSheet techniqueId={techniqueId} name={name} onClose={() => setOpen(false)} />}
     </>

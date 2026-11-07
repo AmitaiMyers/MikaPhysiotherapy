@@ -6,6 +6,7 @@ import { deleteProgramme, moveProgrammeItem, removeItem, restoreProgramme, updat
 import { programmeShareText, whatsAppUrl, type Programme } from '../domain/programmes';
 import { appUrl, shareContent } from '../domain/share';
 import { toastWithUndo } from '../feedback/store';
+import { Icon } from '../components/Icon';
 
 export function ProgrammeListPage() {
   const programmes = useProgrammes();
@@ -32,7 +33,7 @@ export function ProgrammeListPage() {
                     </span>
                   </span>
                   <span className="chevron" aria-hidden="true">
-                    ›
+                    <Icon name="chevron" size={18} />
                   </span>
                 </Link>
               </li>
@@ -97,7 +98,7 @@ function ProgrammeEditor({ programme }: { programme: Programme }) {
                   ↓
                 </button>
                 <button type="button" className="icon-button" aria-label={`Remove ${exercise.name}`} onClick={() => removeItem(programme.id, index)}>
-                  ×
+                  <Icon name="close" size={18} />
                 </button>
               </div>
             </div>

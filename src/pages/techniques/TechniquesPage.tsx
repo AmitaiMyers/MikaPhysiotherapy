@@ -6,6 +6,8 @@ import { useUrlParams } from '../../components/useUrlParams';
 import { findBone, findJoint, findMuscle, findNerve, REGIONS } from '../../data';
 import { CONDITIONS, GRADE_ORDER, TECHNIQUE_AREAS, TECHNIQUE_FAMILIES, TECHNIQUES } from '../../data/techniques';
 import { linkedTechniques, searchTechniques, type AnatomyLink, type TechniqueView } from '../../techniques/view';
+import { Segmented } from '../../components/Segmented';
+import { Icon } from '../../components/Icon';
 
 type DirectoryView = 'region' | 'family' | 'condition';
 const VIEW_LABELS: Record<DirectoryView, string> = { region: 'Body region', family: 'Technique', condition: 'Condition' };
@@ -40,11 +42,11 @@ export function TechniquesPage() {
         subtitle={`${TECHNIQUES.length} techniques · ${TECHNIQUE_FAMILIES.length} families · evidence-graded`}
         actions={
           <>
-            <Link to="/techniques/import" className="button">
-              Import
+            <Link to="/techniques/import" className="icon-button" aria-label="Import techniques from a file">
+              <Icon name="download" size={20} />
             </Link>
             <Link to="/techniques/new" className="button button-primary">
-              ＋ New
+              <Icon name="plus" size={18} /> New
             </Link>
           </>
         }
@@ -68,13 +70,7 @@ export function TechniquesPage() {
         </section>
       ) : (
         <>
-          <div className="segmented" role="group" aria-label="Group by">
-            {(Object.keys(VIEW_LABELS) as DirectoryView[]).map((v) => (
-              <button key={v} type="button" className={view === v ? 'segment-active' : ''} aria-pressed={view === v} onClick={() => update({ view: v === 'region' ? null : v })}>
-                {VIEW_LABELS[v]}
-              </button>
-            ))}
-          </div>
+          <Segmented label="Group by" value={view} onChange={(v) => update({ view: v === 'region' ? null : v })} options={(Object.keys(VIEW_LABELS) as DirectoryView[]).map((v) => ({ value: v, label: VIEW_LABELS[v] }))} />
           {customs.length > 0 && (
             <details className="card group" open>
               <summary className="group-summary">
@@ -134,7 +130,7 @@ function ByFamily({ views }: { views: TechniqueView[] }) {
             </summary>
             <p className="group-description">{family.summary}</p>
             <Link to={`/techniques/families/${family.id}`} className="text-button small">
-              About {family.name.toLowerCase()} — mechanism, evidence & safety ›
+              About {family.name.toLowerCase()} — mechanism, evidence & safety <Icon name="chevron" size={16} />
             </Link>
             <TechniqueRows views={inFamily} />
           </details>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { formatSize } from '../../domain/uploads';
 import { addMedia, deleteMedia, mediaBlob, useTechniqueContent } from '../../techniques/store';
 import type { MediaItem } from '../../techniques/types';
+import { Icon } from '../../components/Icon';
 
 /** Object URLs for stored media, revoked when the list changes or the screen closes. */
 function useMediaUrls(items: MediaItem[]): Record<string, string> {
@@ -68,7 +69,8 @@ export function MediaPicker({ onAdded }: { onAdded: (ids: string[]) => void }) {
   return (
     <div>
       <button type="button" className="button" disabled={busy} onClick={() => input.current?.click()}>
-        {busy ? 'Saving…' : '＋ Photo or video'}
+        {busy ? <Icon name="spinner" size={18} spin /> : <Icon name="plus" size={18} />}
+        {busy ? 'Saving…' : 'Photo or video'}
       </button>
       <input
         ref={input}

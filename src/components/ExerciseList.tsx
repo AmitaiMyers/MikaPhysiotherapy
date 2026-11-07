@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { DIFFICULTY_LABELS, EQUIPMENT_LABELS, EXERCISE_TYPE_LABELS } from '../data/exercises';
 import type { Exercise } from '../data/exerciseTypes';
 import { thumbnailUrl } from '../data/images';
+import { Icon } from './Icon';
 
 /** Equipment worth mentioning: "No equipment" only when nothing else is listed. */
 export function equipmentLabels(exercise: Exercise): string[] {
@@ -34,7 +35,7 @@ function ExerciseRow({ exercise }: { exercise: Exercise }) {
         </span>
       </span>
       <span className="chevron" aria-hidden="true">
-        ›
+        <Icon name="chevron" size={18} />
       </span>
     </Link>
   );

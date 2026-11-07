@@ -8,6 +8,7 @@ import type { CustomExercise, SessionExercise, SessionSet } from '../../../patie
 import { saveRecord, useRecords } from '../../../patients/vault';
 import { removeAt, replaceAt } from './listEdit';
 import { SessionSection } from './SessionSection';
+import { Icon } from '../../../components/Icon';
 
 /** A Rehab exercise name, or a custom exercise name. */
 export function exerciseLabel(exerciseId: string, customs: CustomExercise[]): string {
@@ -47,7 +48,7 @@ function ExerciseLog({ exercise, name, isCustom, onChange, onRemove }: { exercis
       <div className="entry-row-header">
         <span className="entry-title">{isCustom ? name : <Link to={`/rehab/exercises/${exercise.exerciseId}`}>{name}</Link>}</span>
         <button type="button" className="icon-button small-icon" aria-label={`Remove ${name}`} onClick={onRemove}>
-          ×
+          <Icon name="close" size={18} />
         </button>
       </div>
       <table className="set-table">
@@ -79,7 +80,7 @@ function ExerciseLog({ exercise, name, isCustom, onChange, onRemove }: { exercis
               ))}
               <td>
                 <button type="button" className="text-button small" aria-label={`Remove set ${index + 1}`} onClick={() => onChange({ sets: removeAt(exercise.sets, index) })}>
-                  ×
+                  <Icon name="close" size={18} />
                 </button>
               </td>
             </tr>
@@ -88,7 +89,7 @@ function ExerciseLog({ exercise, name, isCustom, onChange, onRemove }: { exercis
       </table>
       <div className="button-row">
         <button type="button" className="text-button small" onClick={() => onChange({ sets: [...exercise.sets, { ...(exercise.sets.at(-1) ?? emptySet()) }] })}>
-          ＋ Add set
+          <Icon name="plus" size={18} /> Add set
         </button>
       </div>
       <input className="search-input" placeholder="Note (side, cues, pain response…)" value={exercise.note} onChange={(event) => onChange({ note: event.target.value })} aria-label={`${name} note`} />
@@ -128,7 +129,7 @@ function ExercisePicker({ customs, onPick }: { customs: CustomExercise[]; onPick
             pick(custom.id);
           }}
         >
-          ＋ Create custom exercise “{text.trim()}”
+          <Icon name="plus" size={18} /> Create custom exercise “{text.trim()}”
         </button>
       )}
     </div>

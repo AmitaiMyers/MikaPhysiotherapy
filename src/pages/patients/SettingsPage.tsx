@@ -31,7 +31,7 @@ export function PatientSettingsPage() {
       <ChangePinCard />
       <BiometricCard enabled={vault.meta?.biometric != null} />
       <Card title="Automatic lock">
-        <p>Patient data locks after 5 minutes in the background or 15 minutes without use. Use 🔒 Lock to lock it straight away.</p>
+        <p>Patient data locks after 5 minutes in the background or 15 minutes without use. Use Lock, at the end of the Patients tabs, to lock it straight away.</p>
       </Card>
       <Card title="Erase">
         <button

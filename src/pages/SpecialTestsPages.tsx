@@ -3,6 +3,7 @@ import { LibraryTabs } from '../components/LibraryTabs';
 import { Link, useParams } from 'react-router';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, PageHeader } from '../components/ui';
 import { findSpecialTest, getSource, MUSCLES, SPECIAL_TESTS } from '../data';
+import { Icon } from '../components/Icon';
 
 const musclesTestedBy = (testId: string) => MUSCLES.filter((m) => m.specialTestIds.includes(testId));
 
@@ -28,7 +29,7 @@ export function SpecialTestsPage() {
                     <span className="muscle-row-meta">{test.purpose}</span>
                   </span>
                   <span className="chevron" aria-hidden="true">
-                    ›
+                    <Icon name="chevron" size={18} />
                   </span>
                 </Link>
               </li>

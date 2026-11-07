@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router';
 import { ExerciseList } from '../../components/ExerciseList';
 import { VideoLinkEditor, VideoPlayer } from '../../components/ExerciseVideo';
+import { JumpBar, type JumpItem } from '../../components/JumpBar';
 import { MuscleImageStrip } from '../../components/MuscleImageStrip';
 import { EvidenceBadge, ReferenceChips, ReferencesSection } from '../../components/techniques';
 import { BulletSection, Card, Disclaimer, Empty, PageHeader, ShareButton } from '../../components/ui';
@@ -19,6 +20,7 @@ import { MediaGallery } from './Media';
 import { NotesSection, originLabel } from './Notes';
 import { AddToPatientButton, ShareTechniqueCard } from './ShareAndAssign';
 import { buzz, confirmAction, showToast } from '../../feedback/store';
+import { Icon } from '../../components/Icon';
 
 export function TechniqueDetailPage() {
   const { id = '' } = useParams();
@@ -28,6 +30,14 @@ export function TechniqueDetailPage() {
   // Keyed so per-technique state resets when following a link to another technique.
   return <TechniqueDetail key={id} view={viewOf(resolved)} />;
 }
+
+const TECHNIQUE_JUMPS: JumpItem[] = [
+  { id: 'jump-video', label: 'Video' },
+  { id: 'jump-evidence', label: 'Used for' },
+  { id: 'jump-steps', label: 'Steps' },
+  { id: 'jump-safety', label: 'Safety' },
+  { id: 'jump-notes', label: 'My notes' },
+];
 
 function formatViews(views: number): string {
   return views >= 1_000_000 ? `${(views / 1_000_000).toFixed(1)}M` : views >= 1000 ? `${Math.round(views / 1000)}K` : String(views);
@@ -71,7 +81,9 @@ function TechniqueDetail({ view }: { view: TechniqueView }) {
         {family === null ? familyName(null) : <Link to={`/techniques/families/${family.id}`}>{family.name}</Link>} › {areaNames(view.areas)}
       </p>
       {view.custom !== null && <p className="muted small">{originLabel(view.custom.author, view.custom.origin)}</p>}
-      {family?.training != null && <p className="note">⚠ {family.training}</p>}
+      {family?.training != null && <p className="note"><Icon name="alert" size={16} /> {family.training}</p>}
+      <JumpBar items={TECHNIQUE_JUMPS.filter((item) => item.id !== 'jump-video' || video !== null)} />
+      <span id="jump-video" className="jump-anchor" />
       <VideoPlayer title={view.name} video={video} />
       {view.summary !== '' && (
         <aside className="tip-box">
@@ -83,12 +95,14 @@ function TechniqueDetail({ view }: { view: TechniqueView }) {
         <AddToPatientButton techniqueId={view.id} name={view.name} />
         {view.custom !== null && <CustomActions view={view} />}
       </div>
+      <span id="jump-evidence" className="jump-anchor" />
       <IndicationsCard view={view} />
       {view.position !== '' && (
         <Card title="Position">
           <p>{view.position}</p>
         </Card>
       )}
+      <span id="jump-steps" className="jump-anchor" />
       <Card title="How to do it">
         <ol className="steps">
           {view.steps.map((step) => (
@@ -102,6 +116,7 @@ function TechniqueDetail({ view }: { view: TechniqueView }) {
           <p>{view.dosage}</p>
         </Card>
       )}
+      <span id="jump-safety" className="jump-anchor" />
       <SafetyCard view={view} />
       <TargetsCard view={view} />
       <ReferenceImagesCard view={view} video={video} ownMedia={ownMedia} />
@@ -111,6 +126,7 @@ function TechniqueDetail({ view }: { view: TechniqueView }) {
           <ExerciseList exercises={view.exerciseIds.map(getExercise)} />
         </section>
       )}
+      <span id="jump-notes" className="jump-anchor" />
       <NotesSection techniqueId={view.id} />
       <ShareTechniqueCard techniqueId={view.id} name={view.name} hasOwnMedia={ownMedia.length > 0} />
       {view.custom === null && <VideoLinkEditor state={choice} searches={[{ label: 'Search YouTube', url: searchUrl(view.name.replace(' — ', ' ')) }]} hint="Search YouTube for a tutorial, then copy the video link and paste it above:" />}
@@ -154,7 +170,7 @@ function SafetyCard({ view }: { view: TechniqueView }) {
       )}
       {view.familyId !== null && (
         <Link to={`/techniques/families/${view.familyId}#safety`} className="small">
-          Contraindications and precautions for {getFamily(view.familyId).name.toLowerCase()} ›
+          Contraindications and precautions for {getFamily(view.familyId).name.toLowerCase()} <Icon name="chevron" size={16} />
         </Link>
       )}
     </section>

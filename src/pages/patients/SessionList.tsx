@@ -3,6 +3,7 @@ import { Empty, SessionStatusBadge } from '../../components/ui';
 import { formatDate } from '../../patients/dates';
 import { sortSessionsNewestFirst } from '../../patients/sessions';
 import type { Episode, Session } from '../../patients/types';
+import { Icon } from '../../components/Icon';
 
 function sessionSummary(session: Session): string {
   const pain = session.subjective.pain.activity ?? session.subjective.pain.rest;
@@ -39,7 +40,7 @@ export function SessionList({ sessions, episodes }: { sessions: Session[]; episo
                 <span className="muscle-row-meta">{[episodes.find((e) => e.id === session.episodeId)?.title, sessionSummary(session)].filter(Boolean).join(' · ') || '—'}</span>
               </span>
               <span className="chevron" aria-hidden="true">
-                ›
+                <Icon name="chevron" size={18} />
               </span>
             </Link>
           </li>

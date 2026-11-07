@@ -68,7 +68,7 @@ export function PatientListPage() {
                         <span className="muscle-row-meta">{[patientSummary(patient, today), active.map((e) => e.title).join(', ')].filter(Boolean).join(' · ') || 'No active episode'}</span>
                       </span>
                       <span className="chevron" aria-hidden="true">
-                        ›
+                        <Icon name="chevron" size={18} />
                       </span>
                     </Link>
                   </li>

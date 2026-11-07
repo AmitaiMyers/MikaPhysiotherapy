@@ -6,6 +6,7 @@ import type { EvidenceGrade } from '../data/techniqueTypes';
 import { familyName } from '../techniques/catalog';
 import { useTechniqueContent } from '../techniques/store';
 import { allTechniqueViews, linkedTechniques, type AnatomyLink, type TechniqueView } from '../techniques/view';
+import { Icon } from './Icon';
 
 /** Built-in and custom techniques, recomputed only when Mika's content changes. */
 export function useTechniqueViews(): TechniqueView[] {
@@ -40,7 +41,7 @@ export function TechniqueRows({ views }: { views: TechniqueView[] }) {
                 </span>
               </span>
               <span className="chevron" aria-hidden="true">
-                ›
+                <Icon name="chevron" size={18} />
               </span>
             </Link>
           </li>

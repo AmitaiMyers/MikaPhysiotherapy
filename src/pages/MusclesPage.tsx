@@ -193,7 +193,7 @@ function MuscleRow({ muscle, showGroup }: { muscle: Muscle; showGroup: boolean }
         </span>
       </span>
       <span className="chevron" aria-hidden="true">
-        ›
+        <Icon name="chevron" size={18} />
       </span>
     </Link>
   );

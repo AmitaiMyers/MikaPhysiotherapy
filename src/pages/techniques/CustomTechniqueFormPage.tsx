@@ -12,6 +12,7 @@ import { OTHER_FAMILY_LABEL } from '../../techniques/catalog';
 import { saveTechniqueRecord, useTechniqueContent } from '../../techniques/store';
 import type { CustomTechnique } from '../../techniques/types';
 import { MediaGallery, MediaPicker, useMediaEdits } from './Media';
+import { Icon } from '../../components/Icon';
 
 const lines = (text: string) =>
   text
@@ -161,7 +162,7 @@ function LinkPicker({ label, options, selected, onChange }: { label: string; opt
         <div className="chips">
           {selected.map((id) => (
             <button key={id} type="button" className="toggle-chip toggle-chip-on" aria-label={`Remove ${nameOf(id)}`} onClick={() => onChange(selected.filter((s) => s !== id))}>
-              {nameOf(id)} ×
+              {nameOf(id)} <Icon name="close" size={14} />
             </button>
           ))}
         </div>

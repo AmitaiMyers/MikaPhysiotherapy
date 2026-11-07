@@ -27,3 +27,12 @@
     line-height: var(--line-height-callout);
   }
 }
+
+@layer utilities {
+  /* Icons inside running text and links sit on the text's centre line. */
+  p > .icon,
+  a > .icon,
+  li > .icon {
+    vertical-align: -0.2em;
+  }
+}

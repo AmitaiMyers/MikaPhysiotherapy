@@ -6,6 +6,8 @@ import { findMuscle, getMuscle } from '../data';
 import { bestView } from '../data/images';
 import { loadAnatomyModel, type AnatomyModel } from './model';
 import { AnatomyScene, COLORS, muscleHasModel, REGION_VIEWS, VIEW_LABELS, type CameraView, type DisplayMode } from './scene';
+import { Segmented } from '../components/Segmented';
+import { Icon } from '../components/Icon';
 
 
 /** Interactive 3D view of one muscle: rotate, zoom, show attachments, tap other muscles. */
@@ -99,18 +101,12 @@ function ViewerCanvas({ model, muscleId }: { model: AnatomyModel; muscleId: stri
             {pickedMuscle.id === muscleId ? (
               <span>{pickedMuscle.name}</span>
             ) : (
-              <Link to={`/muscles/${pickedMuscle.id}?tab=3d`}>{pickedMuscle.name} ›</Link>
+              <Link to={`/muscles/${pickedMuscle.id}?tab=3d`}>{pickedMuscle.name} <Icon name="chevron" size={16} /></Link>
             )}
           </div>
         )}
       </div>
-      <div className="segmented" role="group" aria-label="Camera">
-        {REGION_VIEWS[getMuscle(muscleId).regionId].map((id) => (
-          <button key={id} type="button" className={id === view ? 'segment-active' : ''} aria-pressed={id === view} onClick={() => setView(id)}>
-            {VIEW_LABELS[id]}
-          </button>
-        ))}
-      </div>
+      <Segmented label="Camera" value={view} onChange={setView} options={REGION_VIEWS[getMuscle(muscleId).regionId].map((id) => ({ value: id, label: VIEW_LABELS[id] }))} />
       <div className="viewer-options">
         <label className="toggle">
           <input type="checkbox" checked={mode === 'attachments'} onChange={(e) => setMode(e.target.checked ? 'attachments' : 'muscle')} />

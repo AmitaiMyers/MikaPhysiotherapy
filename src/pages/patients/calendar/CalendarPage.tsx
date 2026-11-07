@@ -7,6 +7,8 @@ import { useSettings } from '../../../patients/settings';
 import type { Session } from '../../../patients/types';
 import { useRecords } from '../../../patients/vault';
 import { BookingSheet } from './BookingSheet';
+import { Icon } from '../../../components/Icon';
+import { Segmented } from '../../../components/Segmented';
 
 type View = 'day' | 'week';
 const SLOT_MIN = 30;
@@ -52,22 +54,24 @@ export function CalendarPage() {
         }
       />
       <div className="calendar-toolbar">
-        <div className="segmented" role="group" aria-label="View">
-          {(['day', 'week'] as const).map((v) => (
-            <button key={v} type="button" className={view === v ? 'segment-active' : ''} aria-pressed={view === v} onClick={() => go({ view: v })}>
-              {v === 'day' ? 'Day' : 'Week'}
-            </button>
-          ))}
-        </div>
+        <Segmented
+          label="View"
+          value={view}
+          onChange={(v) => go({ view: v })}
+          options={[
+            { value: 'day', label: 'Day' },
+            { value: 'week', label: 'Week' },
+          ]}
+        />
         <div className="button-row">
           <button type="button" className="icon-button" aria-label="Previous" onClick={() => go({ date: addDays(date, -step) })}>
-            ‹
+            <Icon name="back" size={20} />
           </button>
           <button type="button" className="button" onClick={() => go({ date: today })}>
             Today
           </button>
           <button type="button" className="icon-button" aria-label="Next" onClick={() => go({ date: addDays(date, step) })}>
-            ›
+            <Icon name="chevron" size={20} />
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import type { VideoRef } from '../data/exerciseTypes';
 import { resetVideoOverride, setVideoOverride, type VideoChoice } from '../domain/videoOverrides';
 import { embedUrl, parseYouTubeLink, watchUrl } from '../domain/videos';
 import { useOnlineStatus } from './useOnlineStatus';
+import { Icon } from './Icon';
 
 /** The demo video: a muted, looping YouTube player when there is a video and a connection. */
 export function VideoPlayer({ title, video }: { title: string; video: VideoRef | null }) {
@@ -15,7 +16,7 @@ export function VideoPlayer({ title, video }: { title: string; video: VideoRef |
         <iframe src={embedUrl(video)} title={`${title} video`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
       </div>
       <a href={watchUrl(video)} target="_blank" rel="noreferrer" className="text-button small align-end">
-        Open on YouTube ↗
+        Open on YouTube <Icon name="external" size={16} />
       </a>
     </div>
   );
@@ -89,7 +90,7 @@ export function VideoLinkEditor({ state, searches, hint }: { state: VideoChoice;
               {preferred.map((search) => (
                 <li key={search.url}>
                   <a className="button" href={search.url} target="_blank" rel="noreferrer">
-                    {search.label} ↗
+                    {search.label} <Icon name="external" size={16} />
                   </a>
                 </li>
               ))}
@@ -98,7 +99,7 @@ export function VideoLinkEditor({ state, searches, hint }: { state: VideoChoice;
           <div className="button-row">
             {last !== undefined && (
               <a className="text-button" href={last.url} target="_blank" rel="noreferrer">
-                {last.label} ↗
+                {last.label} <Icon name="external" size={16} />
               </a>
             )}
             <button type="button" className="text-button" onClick={() => setEditing(false)}>

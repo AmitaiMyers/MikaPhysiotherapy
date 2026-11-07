@@ -52,7 +52,7 @@ export function Card({ title, children }: { title?: string; children: ReactNode 
 export function Note({ children }: { children: ReactNode }) {
   return (
     <p className="note">
-      <span aria-hidden="true">ⓘ </span>
+      <Icon name="info" size={16} />
       {children}
     </p>
   );

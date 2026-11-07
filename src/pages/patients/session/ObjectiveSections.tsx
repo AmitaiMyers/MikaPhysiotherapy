@@ -5,6 +5,7 @@ import { OUTCOME_MEASURES } from '../../../patients/sessions';
 import { MMT_GRADES, type MmtGrade, type SessionContent, type Side, type TestResult } from '../../../patients/types';
 import { removeAt, replaceAt } from './listEdit';
 import { EntryRow, SessionSection, SideSelect } from './SessionSection';
+import { Segmented } from '../../../components/Segmented';
 
 type Objective = SessionContent['objective'];
 type Props = { objective: Objective; defaultSide: Side; onChange: (objective: Objective) => void };
@@ -133,13 +134,7 @@ function TestsSection({ objective, defaultSide, set }: SectionProps) {
       {tests.map((entry, index) => (
         <EntryRow key={`${entry.testId}-${index}`} title={getSpecialTest(entry.testId).name} onRemove={() => set({ tests: removeAt(tests, index) })}>
           <SideSelect value={entry.side} onChange={(side) => set({ tests: replaceAt(tests, index, { side }) })} />
-          <div className="segmented" role="group" aria-label="Result">
-            {(Object.keys(RESULT_LABELS) as TestResult[]).map((result) => (
-              <button key={result} type="button" className={entry.result === result ? 'segment-active' : ''} aria-pressed={entry.result === result} title={result} onClick={() => set({ tests: replaceAt(tests, index, { result }) })}>
-                {RESULT_LABELS[result]}
-              </button>
-            ))}
-          </div>
+          <Segmented label="Result" value={entry.result} onChange={(result) => set({ tests: replaceAt(tests, index, { result }) })} options={(Object.keys(RESULT_LABELS) as TestResult[]).map((result) => ({ value: result, label: RESULT_LABELS[result], ariaLabel: result }))} />
           <TextField label="Note" value={entry.note} onChange={(note) => set({ tests: replaceAt(tests, index, { note }) })} />
         </EntryRow>
       ))}

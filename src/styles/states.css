@@ -11,7 +11,7 @@
   .tab,
   .toggle-chip,
   .chip-link,
-  .soap-chip {
+  .jump-chip {
     transition:
       transform var(--duration-instant) var(--ease-standard),
       background-color var(--duration-quick) var(--ease-standard),
@@ -52,7 +52,7 @@
   .tab:active,
   .toggle-chip:active,
   .chip-link:active,
-  .soap-chip:active {
+  .jump-chip:active {
     transform: scale(0.96);
   }
 

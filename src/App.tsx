@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { HashRouter, Route, Routes, useLocation } from 'react-router';
+import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router';
 import { BottomNav } from './components/BottomNav';
 import { DialogHost, Toaster } from './components/feedback';
 import { OfflineBar } from './components/ui';
@@ -88,8 +88,9 @@ export function App() {
             <Route path="/tests/:id" element={<SpecialTestDetailPage />} />
             <Route path="/rehab" element={<ExercisesPage />} />
             <Route path="/rehab/exercises/:id" element={<ExerciseDetailPage />} />
-            <Route path="/rehab/fractures" element={<ProtocolListPage kind="fracture" />} />
-            <Route path="/rehab/surgeries" element={<ProtocolListPage kind="surgery" />} />
+            <Route path="/rehab/protocols" element={<ProtocolListPage />} />
+            <Route path="/rehab/fractures" element={<Navigate to="/rehab/protocols?kind=fracture" replace />} />
+            <Route path="/rehab/surgeries" element={<Navigate to="/rehab/protocols?kind=surgery" replace />} />
             <Route path="/rehab/protocols/:id" element={<ProtocolDetailPage />} />
             <Route path="/rehab/programmes" element={<ProgrammeListPage />} />
             <Route path="/rehab/programmes/:id" element={<ProgrammeDetailPage />} />

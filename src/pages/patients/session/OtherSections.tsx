@@ -8,6 +8,7 @@ import { MODALITIES } from '../../../patients/sessions';
 import type { SessionContent } from '../../../patients/types';
 import { removeAt, replaceAt } from './listEdit';
 import { SessionSection } from './SessionSection';
+import { Icon } from '../../../components/Icon';
 
 type Content = SessionContent;
 
@@ -164,7 +165,7 @@ export function ScoresSection({ scores, subjects, onChange }: { scores: Content[
           <input type="range" min={0} max={10} step={1} value={entry.value ?? 0} aria-label={`${entry.subject} score`} onChange={(event) => onChange(replaceAt(scores, index, { value: Number(event.target.value) }))} />
           <span className="score-value">{entry.value ?? '–'}</span>
           <button type="button" className="icon-button small-icon" aria-label={`Remove ${entry.subject}`} onClick={() => onChange(removeAt(scores, index))}>
-            ×
+            <Icon name="close" size={18} />
           </button>
         </div>
       ))}

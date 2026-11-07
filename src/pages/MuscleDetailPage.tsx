@@ -11,6 +11,7 @@ import type { Attachment, Muscle, MuscleAction } from '../data/types';
 import { agonists, antagonists, formatRoots, type RelatedMuscle } from '../domain/relations';
 import { required } from '../domain/assert';
 import { shareMuscle } from '../domain/share';
+import { Segmented } from '../components/Segmented';
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'));
 
@@ -97,13 +98,7 @@ function Gallery({ images }: { images: MuscleImage[] }) {
       </div>
       <figcaption>{current.caption}</figcaption>
       {images.length > 1 && (
-        <div className="segmented" role="group" aria-label="View">
-          {images.map((image, i) => (
-            <button key={image.url} type="button" className={i === index ? 'segment-active' : ''} onClick={() => setIndex(i)} aria-pressed={i === index}>
-              {image.label}
-            </button>
-          ))}
-        </div>
+        <Segmented label="View" value={String(index)} onChange={(i) => setIndex(Number(i))} options={images.map((image, i) => ({ value: String(i), label: image.label }))} />
       )}
     </figure>
   );

@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { Segmented } from '../../../components/Segmented';
+import { Icon } from '../../../components/Icon';
 
 /** A collapsible session section; the count shows how many entries it holds. */
 export function SessionSection({ letter, title, count, defaultOpen = false, children }: { letter?: string; title: string; count?: number; defaultOpen?: boolean; children: ReactNode }) {
@@ -25,7 +27,7 @@ export function EntryRow({ title, onRemove, children }: { title: ReactNode; onRe
       <div className="entry-row-header">
         <span className="entry-title">{title}</span>
         <button type="button" className="icon-button small-icon" aria-label="Remove" onClick={onRemove}>
-          ×
+          <Icon name="close" size={18} />
         </button>
       </div>
       <div className="entry-fields">{children}</div>
@@ -35,12 +37,14 @@ export function EntryRow({ title, onRemove, children }: { title: ReactNode; onRe
 
 export function SideSelect({ value, onChange }: { value: 'left' | 'right'; onChange: (side: 'left' | 'right') => void }) {
   return (
-    <div className="segmented" role="group" aria-label="Side">
-      {(['left', 'right'] as const).map((side) => (
-        <button key={side} type="button" className={value === side ? 'segment-active' : ''} aria-pressed={value === side} onClick={() => onChange(side)}>
-          {side === 'left' ? 'L' : 'R'}
-        </button>
-      ))}
-    </div>
+    <Segmented
+      label="Side"
+      value={value}
+      onChange={onChange}
+      options={[
+        { value: 'left', label: 'L', ariaLabel: 'Left' },
+        { value: 'right', label: 'R', ariaLabel: 'Right' },
+      ]}
+    />
   );
 }

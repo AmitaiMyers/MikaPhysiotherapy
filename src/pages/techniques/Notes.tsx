@@ -7,6 +7,8 @@ import { deleteNote, saveTechniqueRecord, useTechniqueContent } from '../../tech
 import type { Origin, TechniqueNote } from '../../techniques/types';
 import { MediaGallery, MediaPicker, useMediaEdits } from './Media';
 import { confirmAction, showToast } from '../../feedback/store';
+import { Segmented } from '../../components/Segmented';
+import { Icon } from '../../components/Icon';
 
 /** "By Mika" or "From Dana · imported 7 Nov 2026". */
 export function originLabel(author: string, origin: Origin): string {
@@ -30,7 +32,7 @@ export function NotesSection({ techniqueId }: { techniqueId: string }) {
         <NoteForm techniqueId={techniqueId} onDone={() => setAdding(false)} />
       ) : (
         <button type="button" className="button" onClick={() => setAdding(true)}>
-          ＋ Add note or variation
+          <Icon name="plus" size={18} /> Add note or variation
         </button>
       )}
     </section>
@@ -94,13 +96,15 @@ function NoteForm({ techniqueId, existing, onDone }: { techniqueId: string; exis
         onDone();
       }}
     >
-      <div className="segmented" role="group" aria-label="Type">
-        {(['note', 'variation'] as const).map((type) => (
-          <button key={type} type="button" className={note.type === type ? 'segment-active' : ''} aria-pressed={note.type === type} onClick={() => update({ type })}>
-            {type === 'note' ? 'Note' : 'Variation'}
-          </button>
-        ))}
-      </div>
+      <Segmented
+        label="Type"
+        value={note.type}
+        onChange={(type) => update({ type })}
+        options={[
+          { value: 'note', label: 'Note' },
+          { value: 'variation', label: 'Variation' },
+        ]}
+      />
       <TextField label="Title" value={note.title} placeholder={note.type === 'variation' ? 'e.g. Sitting version for older patients' : 'e.g. My landmarks'} onChange={(title) => update({ title })} required />
       <TextAreaField label="Explanation" rows={5} value={note.text} onChange={(text) => update({ text })} />
       <TextField label="YouTube link (optional)" type="url" value={link} onChange={setLink} placeholder="https://www.youtube.com/watch?v=…" />
