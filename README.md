@@ -86,9 +86,13 @@ npm test           # data integrity and lookup tests (Vitest)
 npm run typecheck
 npm run build      # production build in dist/
 npm run preview
+npm run tokens     # regenerate src/styles/tokens.css after editing src/styles/tokens.json
+npm run check:ui -- http://localhost:4180/MikaPhysiotherapy/ ./ui-check   # screenshots + axe scan, light and dark (app served by `npx vite preview --port 4180`)
 ```
 
 Stack: React 19, TypeScript, Vite, vite-plugin-pwa (Workbox), three.js (lazily loaded for the 3D tab).
+
+Design system (docs/design/design-system.md): tokens in `src/styles/tokens.json` (colours for light and dark, the Atkinson Hyperlegible type scale, 4px spacing, radii, shadows, motion) compile to `tokens.css`; styles live in cascade layers under `src/styles/` (tokens, base, layout, components, features, states, utilities). Tests fail on literal colours, font sizes, durations or off-scale spacing outside the tokens. Shared parts: `Segmented`, `JumpBar`, `Modal` (sheet), `Badge`, `EmptyState`, and the feedback layer in `src/feedback/` and `components/feedback.tsx` (toasts with Undo, confirm/prompt sheets, save status with retry, skeletons, action buttons).
 
 Offline: the app shell, all text and the list thumbnails (~3 MB) are installed on the first visit. Full-size images and the four regional 3D models (~30 MB together) are cached the first time they are opened, or all at once from **About → Save all images and 3D models**.
 

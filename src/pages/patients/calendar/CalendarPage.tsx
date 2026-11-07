@@ -41,6 +41,8 @@ export function CalendarPage() {
   const slots = Array.from({ length: Math.ceil((endMin - startMin) / SLOT_MIN) }, (_, i) => startMin + i * SLOT_MIN);
   const step = view === 'day' ? 1 : 7;
   const patientName = (session: Session) => patients.find((p) => p.id === session.patientId)?.firstName ?? '—';
+  // A slot under a session cannot be tapped; leaving it out keeps every target full size.
+  const isBooked = (day: string, slot: number) => visible.some((s) => s.date === day && timeToMinutes(s.startTime) <= slot && slot < timeToMinutes(s.startTime) + s.durationMin);
 
   return (
     <div className="page">
@@ -94,7 +96,7 @@ export function CalendarPage() {
         </div>
         {days.map((day) => (
           <div key={day} className="calendar-column" style={{ height: slots.length * SLOT_PX }}>
-            {slots.map((slot) => (
+            {slots.filter((slot) => !isBooked(day, slot)).map((slot) => (
               <button
                 key={slot}
                 type="button"
@@ -111,6 +113,7 @@ export function CalendarPage() {
                 key={item.session.id}
                 to={`/patients/sessions/${item.session.id}`}
                 className={`calendar-event calendar-event-${item.session.status}`}
+                aria-label={`${patientName(item.session)}, ${item.session.startTime}, ${item.session.durationMin} minutes, ${item.session.status}`}
                 style={{
                   top: ((item.start - startMin) / SLOT_MIN) * SLOT_PX,
                   height: Math.max(((item.end - item.start) / SLOT_MIN) * SLOT_PX - 2, 18),

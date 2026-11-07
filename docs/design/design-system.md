@@ -1,5 +1,24 @@
 # Mika Physio design system
 
+**Version 2 (current).** The source of truth is `src/styles/tokens.json`, also published as the private design-system reference (brand book, interaction and feedback spec, journeys, architecture and 14 component specs). `npm run tokens` writes `src/styles/tokens.css` from it.
+
+## What v2 changed
+
+| Area | v1 | v2 |
+|---|---|---|
+| Type | system font, 25 font sizes | Atkinson Hyperlegible Next and Mono (self-hosted, offline), 10 named styles |
+| Spacing and radius | ad-hoc px values, 11 radii | 4px scale (`space-1…space-12`), `radius-sm/md/lg/pill`; enforced by tests |
+| Colour | 15 tokens | 34 tokens incl. status pairs (success, attention, danger, info), input outlines at 3:1, on-stage colours; all text ≥ 4.5:1 in both themes |
+| States | almost none | press, hover (pointer only), focus ring, disabled, busy, success for every control (`states.css`) |
+| Feedback | native confirm/prompt, silent saves | sheets, toasts with Undo, save status with retry, skeletons, empty states, offline bar, Android haptics |
+| Navigation | 5 Rehab tabs | Exercises · Techniques · Protocols · Programmes; sticky tabs with an overflow fade; jump bars on long pages |
+| Accessibility | manual | radio-group segmented controls, focus moved to the page title, sheets that trap focus, axe scan of 34 screens × 2 themes |
+
+The v1 audit and tokens below are kept for history.
+
+---
+
+
 ## Audit (before this phase)
 
 **Scope:** `src/styles.css` and the React components. **Score:** 62/100.

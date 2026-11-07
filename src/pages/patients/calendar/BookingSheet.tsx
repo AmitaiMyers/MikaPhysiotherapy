@@ -8,6 +8,7 @@ import { localDate } from '../../../patients/dates';
 import { lastCompletedSession } from '../../../patients/sessions';
 import { useSettings } from '../../../patients/settings';
 import { saveRecord, useRecords } from '../../../patients/vault';
+import { showToast } from '../../../feedback/store';
 
 const WEEKDAY_LABELS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
@@ -53,6 +54,7 @@ export function BookingSheet({ date, startTime, onClose }: { date: string; start
     for (const session of buildSessions({ patientId, episodeId: episodeValue, dates, startTime: time, durationMin: Number(duration), content, today: localDate(new Date()) })) {
       saveRecord('session', session);
     }
+    showToast(dates.length === 1 ? 'Session booked' : `${dates.length} sessions booked`);
     onClose();
   };
 

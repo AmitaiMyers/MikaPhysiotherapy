@@ -9,6 +9,7 @@ import { emptyPatient } from '../../../patients/records';
 import { emptyContent } from '../../../patients/sessions';
 import { calendarTexts } from '../../../patients/zip';
 import { saveRecord, useRecords } from '../../../patients/vault';
+import { showToast } from '../../../feedback/store';
 
 const SKIP = 'skip';
 const NEW = 'new';
@@ -56,6 +57,7 @@ export function CalendarImportPage() {
         saveRecord('session', session);
       }
     }
+    showToast(`${toImport} ${toImport === 1 ? 'appointment' : 'appointments'} imported`);
     void navigate('/calendar', { replace: true });
   };
 
