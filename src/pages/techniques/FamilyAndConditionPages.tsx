@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router';
-import { EvidenceBadge, ReferenceChips, ReferenceList, TechniqueRows, useTechniqueViews } from '../../components/techniques';
+import { EvidenceBadge, ReferenceChips, ReferencesSection, TechniqueRows, useTechniqueViews } from '../../components/techniques';
 import { BulletSection, Card, Disclaimer, Empty, Note, PageHeader } from '../../components/ui';
 import { findProtocol } from '../../data/protocols';
 import { areaNames, EVIDENCE_GRADES, findCondition, findFamily, getCondition, GRADE_ORDER, TECHNIQUE_AREAS } from '../../data/techniques';
@@ -67,10 +67,7 @@ export function TechniqueFamilyPage() {
           </section>
         );
       })}
-      <Card title="References">
-        <ReferenceList refIds={family.refIds} />
-        <p className="muted small">Evidence reviewed {family.reviewed}.</p>
-      </Card>
+      <ReferencesSection refIds={family.refIds} reviewed={family.reviewed} />
       <Disclaimer />
     </div>
   );

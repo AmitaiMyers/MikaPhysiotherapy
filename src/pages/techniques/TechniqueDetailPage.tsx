@@ -2,7 +2,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { ExerciseList } from '../../components/ExerciseList';
 import { VideoLinkEditor, VideoPlayer } from '../../components/ExerciseVideo';
 import { MuscleImageStrip } from '../../components/MuscleImageStrip';
-import { EvidenceBadge, ReferenceChips, ReferenceList } from '../../components/techniques';
+import { EvidenceBadge, ReferenceChips, ReferencesSection } from '../../components/techniques';
 import { BulletSection, Card, Disclaimer, Empty, PageHeader, ShareButton } from '../../components/ui';
 import { getJoint, getMuscle, getNerve } from '../../data';
 import { getExercise } from '../../data/exercises';
@@ -113,12 +113,7 @@ function TechniqueDetail({ view }: { view: TechniqueView }) {
       <NotesSection techniqueId={view.id} />
       <ShareTechniqueCard techniqueId={view.id} name={view.name} hasOwnMedia={ownMedia.length > 0} />
       {view.custom === null && <VideoLinkEditor state={choice} searches={[{ label: 'Search YouTube', url: searchUrl(view.name.replace(' — ', ' ')) }]} hint="Search YouTube for a tutorial, then copy the video link and paste it above:" />}
-      {referenceIds.length > 0 && (
-        <Card title="References">
-          <ReferenceList refIds={referenceIds} />
-          {family !== null && <p className="muted small">Evidence reviewed {family.reviewed}.</p>}
-        </Card>
-      )}
+      <ReferencesSection refIds={referenceIds} reviewed={family?.reviewed ?? null} />
       <Disclaimer />
     </div>
   );

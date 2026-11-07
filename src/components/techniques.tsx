@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { thumbnailUrl } from '../data/images';
 import { areaNames, EVIDENCE_GRADES, getReference, REFERENCE_KINDS, TECHNIQUE_FAMILIES } from '../data/techniques';
@@ -112,4 +112,23 @@ export function ReferenceChips({ refIds }: { refIds: string[] }) {
 export function LinkedTechniquesCard({ link, title }: { link: AnatomyLink; title?: string }) {
   const views = linkedTechniques(useTechniqueViews(), link);
   return <TechniquesCard views={views} title={title} />;
+}
+
+/** References hidden behind a button, like the sources on other pages, so they do not crowd the page. */
+export function ReferencesSection({ refIds, reviewed }: { refIds: string[]; reviewed: string | null }) {
+  const [open, setOpen] = useState(false);
+  if (refIds.length === 0) return null;
+  return (
+    <section className="sources-section">
+      <button type="button" className="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        {open ? 'Hide references' : `Show references (${refIds.length})`}
+      </button>
+      {open && (
+        <section className="card">
+          <ReferenceList refIds={refIds} />
+          {reviewed !== null && <p className="muted small">Evidence reviewed {reviewed}.</p>}
+        </section>
+      )}
+    </section>
+  );
 }
