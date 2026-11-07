@@ -30,6 +30,7 @@ describe('design tokens', () => {
       [...text.matchAll(/(?:padding|margin|gap)(?:-[a-z]+)?:\s*([^;]+);/g)].flatMap((match) =>
         (match[1] ?? '')
           .split(/\s+/)
+          .map((value) => value.replace(/^-/, ''))
           .filter((value) => /^\d/.test(value) && !allowed.has(value) && !value.endsWith('%') && !value.endsWith('em'))
           .map((value) => `${path}: ${value}`),
       ),
