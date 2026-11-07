@@ -3,19 +3,20 @@ import { NumberField, TextAreaField, TextField } from '../../../components/forms
 import { getJoint, JOINTS, SPECIAL_TESTS, getSpecialTest } from '../../../data';
 import { OUTCOME_MEASURES } from '../../../patients/sessions';
 import { MMT_GRADES, type MmtGrade, type SessionContent, type Side, type TestResult } from '../../../patients/types';
-import { removeAt, replaceAt } from './listEdit';
+import { removeWithUndo, replaceAt } from './listEdit';
 import { EntryRow, SessionSection, SideSelect } from './SessionSection';
 import { Segmented } from '../../../components/Segmented';
 
 type Objective = SessionContent['objective'];
-type Props = { objective: Objective; defaultSide: Side; onChange: (objective: Objective) => void };
+/** `onChange` receives only the changed fields; the session merges them into its latest objective. */
+type Props = { objective: Objective; defaultSide: Side; onChange: (patch: Partial<Objective>) => void };
 
 /** Joints with measurable range: those with a normal range, plus the spine. */
 const JOINTS_WITH_ROM = JOINTS.filter((joint) => joint.movements.some((m) => m.rangeDegrees !== undefined) || ['cervical-spine', 'trunk'].includes(joint.id));
 const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
 export function ObjectiveSections({ objective, defaultSide, onChange }: Props) {
-  const set = (patch: Partial<Objective>) => onChange({ ...objective, ...patch });
+  const set = onChange;
   return (
     <>
       <RomSection objective={objective} defaultSide={defaultSide} set={set} />
@@ -46,7 +47,7 @@ function RomSection({ objective, defaultSide, set }: SectionProps) {
           <EntryRow
             key={`${entry.jointId}-${entry.movement}-${index}`}
             title={`${getJoint(entry.jointId).name}: ${capitalise(entry.movement)}${normal === undefined ? '' : ` (normal ${normal}°)`}`}
-            onRemove={() => set({ rom: removeAt(rom, index) })}
+            onRemove={() => removeWithUndo(rom, index, (next) => set({ rom: next }), 'Range of motion')}
           >
             <SideSelect value={entry.side} onChange={(side) => set({ rom: replaceAt(rom, index, { side }) })} />
             <NumberField label="Active °" value={entry.active} onChange={(active) => set({ rom: replaceAt(rom, index, { active }) })} />
@@ -90,7 +91,7 @@ function StrengthSection({ objective, defaultSide, set }: SectionProps) {
   return (
     <SessionSection title="Strength" count={strength.length}>
       {strength.map((entry, index) => (
-        <EntryRow key={`${entry.label}-${index}`} title={entry.label} onRemove={() => set({ strength: removeAt(strength, index) })}>
+        <EntryRow key={`${entry.label}-${index}`} title={entry.label} onRemove={() => removeWithUndo(strength, index, (next) => set({ strength: next }), 'Strength test')}>
           <SideSelect value={entry.side} onChange={(side) => set({ strength: replaceAt(strength, index, { side }) })} />
           <label className="field">
             <span>MMT</span>
@@ -132,7 +133,7 @@ function TestsSection({ objective, defaultSide, set }: SectionProps) {
   return (
     <SessionSection title="Special tests" count={tests.length}>
       {tests.map((entry, index) => (
-        <EntryRow key={`${entry.testId}-${index}`} title={getSpecialTest(entry.testId).name} onRemove={() => set({ tests: removeAt(tests, index) })}>
+        <EntryRow key={`${entry.testId}-${index}`} title={getSpecialTest(entry.testId).name} onRemove={() => removeWithUndo(tests, index, (next) => set({ tests: next }), 'Special test')}>
           <SideSelect value={entry.side} onChange={(side) => set({ tests: replaceAt(tests, index, { side }) })} />
           <Segmented label="Result" value={entry.result} onChange={(result) => set({ tests: replaceAt(tests, index, { result }) })} options={(Object.keys(RESULT_LABELS) as TestResult[]).map((result) => ({ value: result, label: RESULT_LABELS[result], ariaLabel: result }))} />
           <TextField label="Note" value={entry.note} onChange={(note) => set({ tests: replaceAt(tests, index, { note }) })} />
@@ -160,7 +161,7 @@ function OutcomesSection({ objective, set }: Omit<SectionProps, 'defaultSide'>) 
   return (
     <SessionSection title="Outcome measures" count={outcomes.length}>
       {outcomes.map((entry, index) => (
-        <EntryRow key={`${entry.measure}-${index}`} title={entry.measure} onRemove={() => set({ outcomes: removeAt(outcomes, index) })}>
+        <EntryRow key={`${entry.measure}-${index}`} title={entry.measure} onRemove={() => removeWithUndo(outcomes, index, (next) => set({ outcomes: next }), 'Outcome measure')}>
           <NumberField label="Score" step={0.1} value={entry.score} onChange={(score) => set({ outcomes: replaceAt(outcomes, index, { score }) })} />
         </EntryRow>
       ))}
@@ -192,7 +193,7 @@ function GirthSection({ objective, defaultSide, set }: SectionProps) {
   return (
     <SessionSection title="Girth & swelling" count={girth.length}>
       {girth.map((entry, index) => (
-        <EntryRow key={`${entry.site}-${index}`} title={entry.site} onRemove={() => set({ girth: removeAt(girth, index) })}>
+        <EntryRow key={`${entry.site}-${index}`} title={entry.site} onRemove={() => removeWithUndo(girth, index, (next) => set({ girth: next }), 'Girth measure')}>
           <SideSelect value={entry.side} onChange={(side) => set({ girth: replaceAt(girth, index, { side }) })} />
           <NumberField label="cm" step={0.1} value={entry.cm} onChange={(cm) => set({ girth: replaceAt(girth, index, { cm }) })} />
         </EntryRow>

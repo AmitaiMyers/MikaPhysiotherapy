@@ -332,3 +332,22 @@
   }
 
 }
+
+@layer features {
+  /* A wrong PIN shakes the field once. */
+  .pin-input[aria-invalid='true'] {
+    animation: shake var(--duration-slow) var(--ease-standard);
+  }
+
+  @keyframes shake {
+    20%,
+    60% {
+      transform: translateX(calc(-1 * var(--space-2)));
+    }
+
+    40%,
+    80% {
+      transform: translateX(var(--space-2));
+    }
+  }
+}

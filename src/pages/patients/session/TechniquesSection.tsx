@@ -6,7 +6,7 @@ import { sessionFieldsFor, techniqueName, techniqueOptions } from '../../../tech
 import { useTechniqueContent } from '../../../techniques/store';
 import type { CustomTechnique } from '../../../techniques/types';
 import { SIDE_LABELS } from '../EpisodeSummary';
-import { removeAt, replaceAt } from './listEdit';
+import { removeAt, removeWithUndo, replaceAt } from './listEdit';
 import { SessionSection } from './SessionSection';
 import { Icon } from '../../../components/Icon';
 
@@ -18,7 +18,7 @@ export function TechniquesSection({ techniques, plan, defaultSide, onChange }: {
   return (
     <SessionSection title="Techniques" count={techniques.length}>
       {techniques.map((entry, index) => (
-        <TechniqueLog key={`${entry.techniqueId}-${index}`} entry={entry} customs={customs} onChange={(patch) => onChange(replaceAt(techniques, index, patch))} onRemove={() => onChange(removeAt(techniques, index))} />
+        <TechniqueLog key={`${entry.techniqueId}-${index}`} entry={entry} customs={customs} onChange={(patch) => onChange(replaceAt(techniques, index, patch))} onRemove={() => removeWithUndo(techniques, index, onChange, 'Technique')} />
       ))}
       {missingFromPlan.length > 0 && (
         <button type="button" className="text-button small" onClick={() => add(missingFromPlan.map((p) => p.techniqueId))}>

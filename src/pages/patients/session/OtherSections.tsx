@@ -6,7 +6,7 @@ import type { Protocol } from '../../../data/protocolTypes';
 import { useProgrammes } from '../../../domain/programmeStore';
 import { MODALITIES } from '../../../patients/sessions';
 import type { SessionContent } from '../../../patients/types';
-import { removeAt, replaceAt } from './listEdit';
+import { removeWithUndo, replaceAt } from './listEdit';
 import { SessionSection } from './SessionSection';
 import { Icon } from '../../../components/Icon';
 
@@ -99,7 +99,7 @@ export function HomeProgrammeSection({ value, exercises, onChange }: { value: Co
             {value.items.map((item, index) => (
               <li key={item.exerciseId}>
                 {getExercise(item.exerciseId).name} — {item.dosage}
-                <button type="button" className="text-button small" onClick={() => onChange({ ...value, items: removeAt(value.items, index) })}>
+                <button type="button" className="text-button small" onClick={() => removeWithUndo(value.items, index, (items) => onChange({ ...value, items }), 'Exercise')}>
                   remove
                 </button>
               </li>
@@ -164,7 +164,7 @@ export function ScoresSection({ scores, subjects, onChange }: { scores: Content[
           <span className="entry-title">{entry.subject}</span>
           <input type="range" min={0} max={10} step={1} value={entry.value ?? 0} aria-label={`${entry.subject} score`} onChange={(event) => onChange(replaceAt(scores, index, { value: Number(event.target.value) }))} />
           <span className="score-value">{entry.value ?? '–'}</span>
-          <button type="button" className="icon-button small-icon" aria-label={`Remove ${entry.subject}`} onClick={() => onChange(removeAt(scores, index))}>
+          <button type="button" className="icon-button small-icon" aria-label={`Remove ${entry.subject}`} onClick={() => removeWithUndo(scores, index, onChange, 'Score')}>
             <Icon name="close" size={18} />
           </button>
         </div>

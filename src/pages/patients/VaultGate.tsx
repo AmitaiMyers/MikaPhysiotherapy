@@ -1,20 +1,30 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { Icon } from '../../components/Icon';
 import { Card, Note, PageHeader } from '../../components/ui';
 import { RestoreBackup } from './RestoreBackup';
 import { biometricAvailable } from '../../patients/biometric';
 import { MIN_PIN_LENGTH } from '../../patients/crypto';
-import { createVault, eraseVault, unlockWithBiometric, unlockWithPin, useVaultState } from '../../patients/vault';
+import { createVault, eraseVault, retryFailedWrites, unlockWithBiometric, unlockWithPin, useVaultState } from '../../patients/vault';
+import { SkeletonRows } from '../../components/feedback';
 import { buzz, confirmAction } from '../../feedback/store';
 
 /** Shows the set-up or unlock screen until the vault is open, then the patients screens. */
 export function VaultGate({ children }: { children: ReactNode }) {
   const vault = useVaultState();
-  if (vault.status === 'loading') return <p className="muted center">Opening…</p>;
+  if (vault.status === 'loading') return <SkeletonRows count={4} label="Opening patient data" />;
   if (vault.status === 'empty') return <SetupScreen />;
   if (vault.status === 'locked') return <UnlockScreen hasBiometric={vault.meta?.biometric != null} />;
   return (
     <>
-      {vault.storageError !== null && <p className="error-banner">Saving failed: {vault.storageError}. Make a backup and reload the app.</p>}
+      {vault.storageError !== null && (
+        <p className="error-banner" role="alert">
+          Saving failed: {vault.storageError}.{' '}
+          <button type="button" className="text-button" onClick={retryFailedWrites}>
+            Retry
+          </button>{' '}
+          If it keeps failing, make a backup and reload the app.
+        </p>
+      )}
       {children}
     </>
   );
@@ -22,7 +32,7 @@ export function VaultGate({ children }: { children: ReactNode }) {
 
 const pinValid = (pin: string) => /^\d+$/.test(pin) && pin.length >= MIN_PIN_LENGTH;
 
-export function PinInput({ label, value, onChange, autoFocus = false }: { label: string; value: string; onChange: (pin: string) => void; autoFocus?: boolean }) {
+export function PinInput({ label, value, onChange, autoFocus = false, errorId }: { label: string; value: string; onChange: (pin: string) => void; autoFocus?: boolean; errorId?: string }) {
   return (
     <label className="field">
       <span>{label}</span>
@@ -34,6 +44,8 @@ export function PinInput({ label, value, onChange, autoFocus = false }: { label:
         value={value}
         onChange={(event) => onChange(event.target.value.replace(/\D/g, ''))}
         autoFocus={autoFocus}
+        aria-invalid={errorId !== undefined}
+        aria-describedby={errorId}
       />
     </label>
   );
@@ -60,6 +72,7 @@ function SetupScreen() {
         <PinInput label="Repeat the PIN" value={confirm} onChange={setConfirm} />
         {mismatch && <p className="field-error">The PINs do not match.</p>}
         <button type="submit" className="button button-primary" disabled={busy || !pinValid(pin) || pin !== confirm}>
+          {busy && <Icon name="spinner" size={18} spin />}
           {busy ? 'Setting up…' : 'Create PIN'}
         </button>
         <Note>There is no way to recover a forgotten PIN — the data cannot be decrypted without it. Make regular backups (Settings).</Note>
@@ -99,14 +112,20 @@ function UnlockScreen({ hasBiometric }: { hasBiometric: boolean }) {
             setBusy(false);
             if (!ok) {
               setPin('');
-              setError('Wrong PIN.');
+              buzz();
+              setError('Wrong PIN — try again.');
             }
           });
         }}
       >
-        <PinInput label="PIN" value={pin} onChange={setPin} autoFocus />
-        {error !== null && <p className="field-error">{error}</p>}
+        <PinInput label="PIN" value={pin} onChange={setPin} autoFocus errorId={error === null ? undefined : 'unlock-error'} />
+        {error !== null && (
+          <p className="field-error" id="unlock-error" role="alert">
+            <Icon name="alert" size={16} /> {error}
+          </p>
+        )}
         <button type="submit" className="button button-primary" disabled={busy || pin.length < MIN_PIN_LENGTH}>
+          {busy && <Icon name="spinner" size={18} spin />}
           {busy ? 'Unlocking…' : 'Unlock'}
         </button>
         {canBiometric && (

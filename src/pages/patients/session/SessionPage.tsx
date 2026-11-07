@@ -14,6 +14,7 @@ import { HomeProgrammeSection, ProtocolSection, ScoresSection, SubjectiveSection
 import { SessionSection } from './SessionSection';
 import { TechniquesSection } from './TechniquesSection';
 import { buzz, promptText, showToast, toastWithUndo } from '../../../feedback/store';
+import { SaveStatus } from '../../../components/feedback';
 import { JumpBar, type JumpItem } from '../../../components/JumpBar';
 import { Segmented } from '../../../components/Segmented';
 
@@ -45,7 +46,9 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
   const episodes = useRecords('episode').filter((e) => e.patientId === session.patientId);
   const episode = episodes.find((e) => e.id === session.episodeId);
   // Every change is saved (encrypted) straight away.
-  const update = (patch: Partial<Session>) => saveRecord('session', { ...session, ...patch, updatedAt: nowIso() });
+  // Merge into the latest saved version, so quick successive edits (and Undo) never overwrite each other.
+  const latest = () => getRecord('session', session.id) ?? session;
+  const update = (patch: Partial<Session>) => saveRecord('session', { ...latest(), ...patch, updatedAt: nowIso() });
   const defaultSide: Side = episode?.side === 'left' ? 'left' : 'right';
   const protocol = episode?.protocolId == null ? null : getProtocol(episode.protocolId);
 
@@ -55,6 +58,7 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
         back
         title={patient === undefined ? 'Session' : <Link to={`/patients/${patient.id}`}>{patient.firstName}</Link>}
         subtitle={`${formatDate(session.date)} · ${session.startTime} · ${session.durationMin} min`}
+        actions={<SaveStatus />}
       />
       <Segmented
         className="status-toggle"
@@ -96,7 +100,7 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
       <h2 className="section-heading soap-heading" id="soap-o">
         <span className="soap-letter">O</span> Objective
       </h2>
-      <ObjectiveSections objective={session.objective} defaultSide={defaultSide} onChange={(objective) => update({ objective })} />
+      <ObjectiveSections objective={session.objective} defaultSide={defaultSide} onChange={(patch) => update({ objective: { ...latest().objective, ...patch } })} />
       <h2 className="section-heading soap-heading" id="soap-t">
         <span className="soap-letter">T</span> Treatment
       </h2>
@@ -116,7 +120,7 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
         <TextAreaField label="Other notes" value={session.notes} onChange={(notes) => update({ notes })} />
       </SessionSection>
 
-      <p className="muted small center">Saved automatically and encrypted.</p>
+      <p className="muted small center">Every change saves at once, encrypted on this device.</p>
       <div className="button-row">
         <button
           type="button"

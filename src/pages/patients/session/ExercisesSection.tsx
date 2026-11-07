@@ -6,7 +6,7 @@ import { newId } from '../../../patients/records';
 import { emptySet } from '../../../patients/sessions';
 import type { CustomExercise, SessionExercise, SessionSet } from '../../../patients/types';
 import { saveRecord, useRecords } from '../../../patients/vault';
-import { removeAt, replaceAt } from './listEdit';
+import { removeAt, removeWithUndo, replaceAt } from './listEdit';
 import { SessionSection } from './SessionSection';
 import { Icon } from '../../../components/Icon';
 
@@ -26,7 +26,7 @@ export function ExercisesSection({ exercises, onChange }: { exercises: SessionEx
           name={exerciseLabel(exercise.exerciseId, customs)}
           isCustom={findExercise(exercise.exerciseId) === undefined}
           onChange={(patch) => onChange(replaceAt(exercises, index, patch))}
-          onRemove={() => onChange(removeAt(exercises, index))}
+          onRemove={() => removeWithUndo(exercises, index, onChange, 'Exercise')}
         />
       ))}
       <ExercisePicker customs={customs} onPick={(exerciseId) => onChange([...exercises, { exerciseId, sets: [emptySet()], note: '' }])} />
