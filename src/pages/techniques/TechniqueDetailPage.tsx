@@ -18,6 +18,7 @@ import { referenceIdsOf, viewOf, type TechniqueView } from '../../techniques/vie
 import { MediaGallery } from './Media';
 import { NotesSection, originLabel } from './Notes';
 import { AddToPatientButton, ShareTechniqueCard } from './ShareAndAssign';
+import { buzz, confirmAction, showToast } from '../../feedback/store';
 
 export function TechniqueDetailPage() {
   const { id = '' } = useParams();
@@ -242,9 +243,13 @@ function CustomActions({ view }: { view: TechniqueView }) {
         type="button"
         className="text-button danger"
         onClick={() => {
-          if (!window.confirm(`Delete “${custom.name}” with its notes, photos and videos?`)) return;
-          deleteCustomTechnique(custom);
-          void navigate('/techniques', { replace: true });
+          void confirmAction({ title: `Delete “${custom.name}”?`, message: 'Its notes, photos and videos are deleted from this device too.', confirmLabel: 'Delete technique' }).then((confirmed) => {
+            if (!confirmed) return;
+            buzz();
+            deleteCustomTechnique(custom);
+            showToast('Technique deleted');
+            void navigate('/techniques', { replace: true });
+          });
         }}
       >
         Delete

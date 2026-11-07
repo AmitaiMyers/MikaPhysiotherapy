@@ -1,0 +1,334 @@
+@layer features {
+  /* ---------- patients ---------- */
+
+  .vault-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .pin-input {
+    letter-spacing: 0.3em;
+    font-size: var(--font-size-title-2);
+  }
+
+  .error-banner {
+    background: var(--danger-soft);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    font-weight: 600;
+  }
+
+  .spaced-top {
+    margin-top: var(--space-3);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--font-size-title-2);
+  }
+
+  .section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .section-title-row .section-heading {
+    margin: 0;
+  }
+
+  .episode-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .episode-title {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .attachment-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .attachment-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .attachment-preview {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .attachment-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .attachment-icon {
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .attachment-name {
+    font-size: var(--font-size-callout);
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .field-row.three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .soap-letter {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--on-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+  }
+
+  .soap-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .status-toggle {
+    align-self: flex-start;
+  }
+
+  .entry-row {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-3);
+    margin-bottom: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .entry-row-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .entry-title {
+    font-weight: 600;
+  }
+
+  .entry-fields {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+
+  .entry-fields .field {
+    flex: 1;
+    min-width: 90px;
+  }
+
+  .small-icon {
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+    font-size: var(--font-size-body);
+  }
+
+  .add-row {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-1);
+  }
+
+  .add-row select,
+  .field select {
+    min-height: var(--tap);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 var(--space-3);
+    max-width: 100%;
+  }
+
+  .add-row select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .set-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-callout);
+  }
+
+  .set-table th {
+    color: var(--muted);
+    font-weight: 600;
+    text-align: left;
+    padding: 2px var(--space-1);
+  }
+
+  .set-table td {
+    padding: 2px var(--space-1);
+  }
+
+  .set-input {
+    width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 var(--space-2);
+  }
+
+  .exercise-picker {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .picker-results {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .toggle-chip {
+    min-height: 34px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: var(--font-size-callout);
+  }
+
+  .toggle-chip-on {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .score-row {
+    display: grid;
+    grid-template-columns: minmax(80px, 1fr) 2fr 28px 32px;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .score-value {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .choice-list {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .choice-list legend {
+    color: var(--muted);
+    font-size: var(--font-size-callout);
+    padding: 0 var(--space-1);
+  }
+
+  .template-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .date-badge {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .date-badge-month {
+    font-size: var(--font-size-label);
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .date-badge-planned {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+}

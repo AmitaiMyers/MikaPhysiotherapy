@@ -4,6 +4,7 @@
  */
 import { useSyncExternalStore } from 'react';
 import { assert } from '../domain/assert';
+import { trackWrite } from '../feedback/store';
 import { preparedBytes } from '../domain/uploads';
 import { deleteBlob, deleteStoredRecord, readAllRecords, readBlob, writeBlob, writeRecord } from './db';
 import type { CustomTechnique, MediaItem, TechniqueNote, TechniqueRecord } from './types';
@@ -54,13 +55,17 @@ export const currentTechniqueContent = (): TechniqueContent => state;
 export function saveTechniqueRecord(record: TechniqueRecord): void {
   records.set(record.id, record);
   refresh();
-  void writeRecord(record).catch(reportError);
+  const write = writeRecord(record);
+  trackWrite(write);
+  void write.catch(reportError);
 }
 
 function removeRecord(id: string): void {
   records.delete(id);
   refresh();
-  void deleteStoredRecord(id).catch(reportError);
+  const write = deleteStoredRecord(id);
+  trackWrite(write);
+  void write.catch(reportError);
 }
 
 export function deleteMedia(id: string): void {

@@ -1,0 +1,227 @@
+@layer features {
+  /* ---------- techniques ---------- */
+
+  .grade {
+    display: inline-block;
+    font-size: var(--font-size-label);
+    font-weight: 700;
+    padding: 1px var(--space-2);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+
+  .grade-strong {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .grade-moderate {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    border-color: var(--accent);
+  }
+
+  .grade-limited {
+    background: var(--surface-2);
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  .grade-conflicting {
+    background: transparent;
+    color: var(--info);
+    border-color: var(--info);
+  }
+
+  .grade-expert {
+    background: transparent;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+  }
+
+  .indication-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .indication-list p {
+    margin: var(--space-1) 0;
+  }
+
+  .indication-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    font-weight: 600;
+  }
+
+  .reference-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .reference-chip {
+    font-size: var(--font-size-label);
+    color: var(--link);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 1px var(--space-2);
+    text-decoration: none;
+  }
+
+  .reference-list li {
+    margin-bottom: var(--space-2);
+  }
+
+  .grade-legend {
+    margin-top: var(--space-3);
+  }
+
+  .grade-legend li {
+    margin-bottom: var(--space-2);
+  }
+
+  .safety-card {
+    border-left: 4px solid var(--danger);
+  }
+
+  .trigger-points {
+    margin-top: var(--space-2);
+  }
+
+  .filter-chip-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .condition-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .video-still {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-decoration: none;
+  }
+
+  .video-still img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+
+  .media-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-3);
+    margin: var(--space-3) 0;
+  }
+
+  .media-item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .media-item img,
+  .media-item video {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+
+  .media-item figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    overflow-wrap: anywhere;
+  }
+
+  .media-loading {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    color: var(--muted);
+    font-size: var(--font-size-callout);
+  }
+
+  .note-entry {
+    border-top: 1px solid var(--border);
+    padding: var(--space-3) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .note-entry-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .tag-accent {
+    border-color: var(--accent);
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+  }
+
+  .pre-wrap {
+    white-space: pre-wrap;
+    margin: 0;
+  }
+
+  .note-form {
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-3);
+  }
+
+  .assign-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  fieldset.field {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  fieldset.field legend {
+    font-size: var(--font-size-callout);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+    padding: 0;
+  }
+
+  .entry-fields.technique-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: end;
+  }
+
+  .technique-fields .field {
+    min-width: 0;
+  }
+}

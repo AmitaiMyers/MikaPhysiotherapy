@@ -1,0 +1,63 @@
+@layer features {
+  /* ---------- 3D viewer ---------- */
+
+  .viewer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .viewer-stage {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--image-bg);
+  }
+
+  .viewer-canvas {
+    display: block;
+    width: 100%;
+    height: min(70vh, 560px);
+    touch-action: none;
+  }
+
+  .viewer-pick {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--scrim);
+    color: var(--on-accent);
+    font-weight: 600;
+  }
+
+  .viewer-pick a {
+    color: var(--on-accent);
+  }
+
+  .viewer-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap);
+  }
+
+  .toggle input {
+    width: 20px;
+    height: 20px;
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+}

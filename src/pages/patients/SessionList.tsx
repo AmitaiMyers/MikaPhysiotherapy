@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Empty } from '../../components/ui';
+import { Empty, SessionStatusBadge } from '../../components/ui';
 import { formatDate } from '../../patients/dates';
 import { sortSessionsNewestFirst } from '../../patients/sessions';
 import type { Episode, Session } from '../../patients/types';
@@ -34,7 +34,7 @@ export function SessionList({ sessions, episodes }: { sessions: Session[]; episo
               <span className="muscle-row-text">
                 <span className="muscle-row-name">
                   {formatDate(session.date)} · {session.startTime}
-                  {session.status === 'planned' && <span className="status-tag status-active">Planned</span>}
+                  {session.status === 'planned' && <SessionStatusBadge status="planned" />}
                 </span>
                 <span className="muscle-row-meta">{[episodes.find((e) => e.id === session.episodeId)?.title, sessionSummary(session)].filter(Boolean).join(' · ') || '—'}</span>
               </span>

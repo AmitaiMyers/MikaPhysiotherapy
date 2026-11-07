@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router';
 import { Icon } from '../../components/Icon';
-import { Card, Empty, PageHeader } from '../../components/ui';
+import { Badge, Card, Empty, PageHeader } from '../../components/ui';
 import { localDate } from '../../patients/dates';
 import { patientSummary } from '../../patients/patients';
 import { deletePatientAndRecords } from '../../patients/records';
@@ -9,6 +9,7 @@ import { getRecord, useRecords } from '../../patients/vault';
 import { AttachmentsCard } from './AttachmentsCard';
 import { ProtocolProgress, SIDE_LABELS } from './EpisodeSummary';
 import { SessionList } from './SessionList';
+import { buzz, confirmAction, showToast } from '../../feedback/store';
 
 export function PatientFolderPage() {
   const { id = '' } = useParams();
@@ -56,7 +57,7 @@ function PatientFolder({ patient }: { patient: Patient }) {
         <Link key={episode.id} to={`/patients/${patient.id}/episodes/${episode.id}`} className="card episode-card">
           <span className="episode-title">
             {episode.title}
-            <span className={`status-tag status-${episode.status}`}>{episode.status === 'active' ? 'Active' : 'Discharged'}</span>
+            <Badge tone={episode.status === 'active' ? 'accent' : 'neutral'}>{episode.status === 'active' ? 'Active' : 'Discharged'}</Badge>
           </span>
           <span className="muted small">{[episode.side === 'none' ? null : SIDE_LABELS[episode.side], episode.diagnosis].filter(Boolean).join(' · ')}</span>
           <ProtocolProgress episode={episode} today={today} />
@@ -82,9 +83,13 @@ function PatientFolder({ patient }: { patient: Patient }) {
         type="button"
         className="text-button danger"
         onClick={() => {
-          if (!window.confirm(`Delete ${patient.firstName} with all episodes, sessions and files? This cannot be undone.`)) return;
-          deletePatientAndRecords(patient.id);
-          void navigate('/patients', { replace: true });
+          void confirmAction({ title: `Delete ${patient.firstName}?`, message: 'All episodes, sessions and files of this patient are deleted from this device. This can’t be undone.', confirmLabel: 'Delete patient' }).then((confirmed) => {
+            if (!confirmed) return;
+            buzz();
+            deletePatientAndRecords(patient.id);
+            showToast(`${patient.firstName} deleted`);
+            void navigate('/patients', { replace: true });
+          });
         }}
       >
         Delete patient

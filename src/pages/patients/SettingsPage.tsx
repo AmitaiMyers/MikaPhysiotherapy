@@ -8,6 +8,7 @@ import { saveSettings, useSettings } from '../../patients/settings';
 import { changePin, disableBiometric, enableBiometric, eraseVault, useVaultState } from '../../patients/vault';
 import { RestoreBackup } from './RestoreBackup';
 import { PinInput } from './VaultGate';
+import { buzz, confirmAction } from '../../feedback/store';
 
 export function PatientSettingsPage() {
   const vault = useVaultState();
@@ -37,8 +38,11 @@ export function PatientSettingsPage() {
           type="button"
           className="text-button danger"
           onClick={() => {
-            if (!window.confirm('Permanently delete ALL patient data on this device?')) return;
-            void eraseVault();
+            void confirmAction({ title: 'Erase all patient data?', message: 'Every patient, session, file and template on this device is deleted. Only a backup can bring them back.', confirmLabel: 'Erase everything' }).then((confirmed) => {
+              if (!confirmed) return;
+              buzz();
+              void eraseVault();
+            });
           }}
         >
           Erase all patient data on this device

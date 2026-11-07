@@ -1,0 +1,284 @@
+@layer components {
+  /* ---------- sheet (Modal) ---------- */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-sheet);
+    background: var(--scrim);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fade-in var(--duration-base) var(--ease-standard);
+  }
+
+  .modal {
+    background: var(--surface);
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-3);
+    padding: var(--space-2) var(--space-5) calc(var(--space-5) + var(--safe-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    animation: sheet-up var(--duration-slow) var(--ease-standard);
+  }
+
+  .modal-grabber {
+    align-self: center;
+    width: 36px;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--border-strong);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .modal-header h2 {
+    margin: 0;
+  }
+
+  @media (min-width: 560px) {
+    .modal-backdrop {
+      align-items: center;
+    }
+
+    .modal {
+      border-radius: var(--radius-lg);
+    }
+
+    .modal-grabber {
+      display: none;
+    }
+  }
+
+  .sheet-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .button-destructive {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: var(--surface);
+  }
+
+  /* ---------- toast ---------- */
+  .toast-region {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(var(--nav-height) + var(--safe-bottom) + var(--space-3));
+    z-index: var(--z-toast);
+    display: flex;
+    justify-content: center;
+    padding: 0 var(--space-4);
+    pointer-events: none;
+  }
+
+  .toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 520px;
+    min-height: 52px;
+    padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--text);
+    color: var(--bg);
+    box-shadow: var(--shadow-3);
+    animation: toast-up var(--duration-slow) var(--ease-standard);
+  }
+
+  .toast-text {
+    flex: 1;
+    min-width: 0;
+    font-weight: 600;
+  }
+
+  .toast-action,
+  .toast-close {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--tap);
+    padding: 0 var(--space-3);
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--accent-soft);
+    font-weight: 700;
+  }
+
+  .toast-close {
+    min-width: var(--tap);
+    justify-content: center;
+    padding: 0;
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .toast-error {
+    background: var(--danger-soft);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+  }
+
+  .toast-error .toast-action {
+    color: var(--danger);
+  }
+
+  /* ---------- save status ---------- */
+  .save-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: 28px;
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-pill);
+    border: 0;
+    background: transparent;
+    font-size: var(--font-size-callout);
+    font-weight: 600;
+    color: var(--muted);
+    animation: fade-in var(--duration-quick) var(--ease-standard);
+  }
+
+  .save-status-idle {
+    visibility: hidden;
+  }
+
+  .save-status-saved {
+    color: var(--success);
+    background: var(--success-soft);
+  }
+
+  .save-status-failed {
+    color: var(--danger);
+    background: var(--danger-soft);
+    min-height: var(--tap);
+  }
+
+  /* ---------- skeleton ---------- */
+  .skeleton {
+    display: block;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+    background-size: 300% 100%;
+    animation: shimmer calc(var(--duration-slow) * 4) linear infinite;
+  }
+
+  .skeleton-text {
+    gap: var(--space-2);
+  }
+
+  .skeleton-title {
+    height: 16px;
+  }
+
+  .skeleton-line {
+    height: 12px;
+  }
+
+  .skeleton-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ---------- page enter ---------- */
+  .app-main > .page {
+    animation: page-in var(--duration-base) var(--ease-standard);
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sheet-up {
+    from {
+      transform: translateY(24px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes toast-up {
+    from {
+      transform: translateY(16px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes page-in {
+    from {
+      transform: translateY(8px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: 0 0;
+    }
+  }
+}
+
+@layer components {
+  /* ---------- empty state ---------- */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-6) var(--space-4);
+    text-align: center;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+
+  .empty-state-icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-pill);
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+
+  .empty-state-text {
+    max-width: 30ch;
+    color: var(--muted);
+  }
+
+  /* ---------- offline ---------- */
+  .offline-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--attention-soft);
+    color: var(--attention);
+    font-size: var(--font-size-callout);
+    font-weight: 600;
+  }
+}

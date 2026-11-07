@@ -2,6 +2,7 @@ import { PatientsTabs } from '../../components/PatientsTabs';
 import { Card, Note, PageHeader } from '../../components/ui';
 import type { SessionTemplate } from '../../patients/types';
 import { deleteRecord, saveRecord, useRecords } from '../../patients/vault';
+import { promptText, toastWithUndo } from '../../feedback/store';
 
 function describe(template: SessionTemplate): string {
   const c = template.content;
@@ -37,13 +38,17 @@ export function TemplatesPage() {
                   type="button"
                   className="text-button small"
                   onClick={() => {
-                    const name = window.prompt('Rename template', template.name);
-                    if (name !== null && name.trim() !== '') saveRecord('template', { ...template, name: name.trim() });
+                    void promptText({ title: 'Rename template', label: 'Name', initial: template.name, confirmLabel: 'Rename' }).then((name) => {
+                      if (name !== null) saveRecord('template', { ...template, name });
+                    });
                   }}
                 >
                   Rename
                 </button>
-                <button type="button" className="text-button danger small" onClick={() => window.confirm(`Delete “${template.name}”?`) && deleteRecord('template', template.id)}>
+                <button type="button" className="text-button danger small" onClick={() => {
+                    deleteRecord('template', template.id);
+                    toastWithUndo(`Template “${template.name}” deleted`, () => saveRecord('template', template));
+                  }}>
                   Delete
                 </button>
               </span>
@@ -61,8 +66,9 @@ export function TemplatesPage() {
                 type="button"
                 className="text-button small"
                 onClick={() => {
-                  const name = window.prompt('Rename exercise', custom.name);
-                  if (name !== null && name.trim() !== '') saveRecord('customExercise', { ...custom, name: name.trim() });
+                  void promptText({ title: 'Rename exercise', label: 'Name', initial: custom.name, confirmLabel: 'Rename' }).then((name) => {
+                    if (name !== null) saveRecord('customExercise', { ...custom, name });
+                  });
                 }}
               >
                 Rename

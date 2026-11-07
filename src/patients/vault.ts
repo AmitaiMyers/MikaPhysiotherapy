@@ -9,6 +9,7 @@ import { generateDataKey, keyFromPin, keyFromSecret, MIN_PIN_LENGTH, openBytes, 
 import { deleteStoredFile, deleteStoredRecord, eraseAll, readAllRecords, readFile, readMeta, recordKey, writeFile, writeMeta, writeRecord, type VaultMeta } from './db';
 import { upgradeRecord } from './migrate';
 import { RECORD_KINDS, type RecordKind, type RecordTypes } from './types';
+import { clearSaveError, trackWrite } from '../feedback/store';
 
 export type VaultStatus = 'loading' | 'empty' | 'locked' | 'unlocked';
 
@@ -115,6 +116,8 @@ export async function unlockWithBiometric(): Promise<void> {
 
 export function lockVault(): void {
   if (state.status !== 'unlocked') return;
+  // Writes cannot be retried without the key; the failure stays reported until the next unlock.
+  failedWrites.clear();
   dataKey = null;
   collections = emptyCollections();
   snapshots = emptySnapshots();
@@ -196,15 +199,42 @@ export function listRecords<K extends RecordKind>(kind: K): RecordTypes[K][] {
   return snapshots[kind];
 }
 
+/** Writes that failed, by record key, so they can be retried from the save status. */
+const failedWrites = new Map<string, () => void>();
+
+/** Run a storage write, show it in the save status, and remember how to retry it if it fails. */
+function track(recordKeyOf: string, write: Promise<unknown>, retry: () => void): void {
+  trackWrite(write);
+  write.then(
+    () => failedWrites.delete(recordKeyOf),
+    (error: unknown) => {
+      failedWrites.set(recordKeyOf, retry);
+      reportStorageError(error);
+    },
+  );
+}
+
+/** Try every failed write again (the latest value of each record). */
+export function retryFailedWrites(): void {
+  const retries = [...failedWrites.values()];
+  failedWrites.clear();
+  clearSaveError();
+  setState({ storageError: null });
+  for (const retry of retries) retry();
+}
+
 /** Update memory straight away, then encrypt and store; a failed write is reported in the UI. */
 export function saveRecord<K extends RecordKind>(kind: K, value: RecordTypes[K]): void {
   const key = currentKey();
   collections[kind].set(value.id, value);
   refreshSnapshot(kind);
   notify();
-  void sealJson(key, value)
-    .then((sealed) => writeRecord({ key: recordKey(kind, value.id), kind, ...sealed }))
-    .catch(reportStorageError);
+  const storeKey = recordKey(kind, value.id);
+  track(
+    storeKey,
+    sealJson(key, value).then((sealed) => writeRecord({ key: storeKey, kind, ...sealed })),
+    () => saveRecord(kind, value),
+  );
 }
 
 export function deleteRecord(kind: RecordKind, id: string): void {
@@ -212,7 +242,8 @@ export function deleteRecord(kind: RecordKind, id: string): void {
   collections[kind].delete(id);
   refreshSnapshot(kind);
   notify();
-  void deleteStoredRecord(recordKey(kind, id)).catch(reportStorageError);
+  const storeKey = recordKey(kind, id);
+  track(storeKey, deleteStoredRecord(storeKey), () => deleteRecord(kind, id));
 }
 
 // ---------- files (attachments) ----------

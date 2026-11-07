@@ -1,6 +1,8 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { HashRouter, Route, Routes, useLocation } from 'react-router';
 import { BottomNav } from './components/BottomNav';
+import { DialogHost, Toaster } from './components/feedback';
+import { OfflineBar } from './components/ui';
 import { AboutPage } from './pages/AboutPage';
 import { BoneDetailPage, BonesJointsPage, JointDetailPage } from './pages/BonesJointsPages';
 import { HomePage } from './pages/HomePage';
@@ -32,12 +34,27 @@ import { ProtocolDetailPage, ProtocolListPage } from './pages/ProtocolPages';
 import { ExerciseDetailPage, ExercisesPage } from './pages/RehabPages';
 import { SpecialTestDetailPage, SpecialTestsPage } from './pages/SpecialTestsPages';
 
-/** Start each new screen at the top (a hash router keeps the old scroll position otherwise). */
+/**
+ * Start each new screen at the top (a hash router keeps the old scroll position otherwise) and
+ * move focus to its title, so screen readers announce the new page.
+ */
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const first = useRef(true);
   // Block body on purpose: newer browsers return a Promise from scrollTo, which must not become the effect cleanup.
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    const frame = requestAnimationFrame(() => {
+      const title = document.querySelector('main h1');
+      if (!(title instanceof HTMLElement)) return;
+      title.tabIndex = -1;
+      title.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(frame);
   }, [pathname]);
   return null;
 }
@@ -56,6 +73,7 @@ export function App() {
       <ScrollToTop />
       <div className="app-shell">
         <main className="app-main">
+          <OfflineBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/search" element={<SearchPage />} />
@@ -98,6 +116,8 @@ export function App() {
             <Route path="*" element={<p className="empty">Page not found.</p>} />
           </Routes>
         </main>
+        <Toaster />
+        <DialogHost />
         <BottomNav />
       </div>
     </HashRouter>

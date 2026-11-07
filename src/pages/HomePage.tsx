@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { BodyExplorer } from '../components/BodyExplorer';
+import { SkeletonRows } from '../components/feedback';
+import { EmptyState, SessionStatusBadge } from '../components/ui';
 import { Icon, type IconName } from '../components/Icon';
 import { BONES, MUSCLES, NERVES, SPECIAL_TESTS } from '../data';
 import { EXERCISES } from '../data/exercises';
@@ -39,7 +41,7 @@ export function HomePage() {
         }}
       >
         <Icon name="search" size={20} />
-        <input type="search" placeholder="Search muscles, tests, exercises, techniques…" value={text} onChange={(event) => setText(event.target.value)} aria-label="Search everything" />
+        <input type="search" placeholder="Search everything" value={text} onChange={(event) => setText(event.target.value)} aria-label="Search everything" />
       </form>
       <BodyExplorer />
       <TodayCard />
@@ -84,7 +86,9 @@ function TodayCard() {
           Calendar <Icon name="chevron" size={16} />
         </Link>
       </div>
-      {vault.status !== 'unlocked' ? (
+      {vault.status === 'loading' ? (
+        <SkeletonRows count={2} label="Loading today’s sessions" />
+      ) : vault.status !== 'unlocked' ? (
         <>
           <p className="muted">{vault.status === 'empty' ? 'Set up the Patients tab to plan and record sessions.' : 'Unlock patient data to see today’s sessions.'}</p>
           <Link to="/calendar" className="button button-primary spaced-top">
@@ -92,7 +96,16 @@ function TodayCard() {
           </Link>
         </>
       ) : todays.length === 0 ? (
-        <p className="muted">No sessions today.</p>
+        <EmptyState
+          icon="calendar"
+          action={
+            <Link to="/calendar" className="button">
+              Open the calendar
+            </Link>
+          }
+        >
+          No sessions today.
+        </EmptyState>
       ) : (
         <ul className="today-list">
           {todays.map((session) => (
@@ -100,7 +113,7 @@ function TodayCard() {
               <Link to={`/patients/sessions/${session.id}`} className="today-row">
                 <span className="today-time">{session.startTime}</span>
                 <span className="today-name">{patients.find((p) => p.id === session.patientId)?.firstName ?? '—'}</span>
-                <span className={`status-tag ${session.status === 'done' ? 'status-discharged' : 'status-active'}`}>{session.status === 'done' ? 'Done' : 'Planned'}</span>
+                <SessionStatusBadge status={session.status} />
               </Link>
             </li>
           ))}

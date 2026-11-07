@@ -4,6 +4,7 @@ import { RestoreBackup } from './RestoreBackup';
 import { biometricAvailable } from '../../patients/biometric';
 import { MIN_PIN_LENGTH } from '../../patients/crypto';
 import { createVault, eraseVault, unlockWithBiometric, unlockWithPin, useVaultState } from '../../patients/vault';
+import { buzz, confirmAction } from '../../feedback/store';
 
 /** Shows the set-up or unlock screen until the vault is open, then the patients screens. */
 export function VaultGate({ children }: { children: ReactNode }) {
@@ -125,9 +126,15 @@ function ForgotPin() {
       type="button"
       className="text-button danger small"
       onClick={() => {
-        if (!window.confirm('Forgot the PIN? The data cannot be recovered without it. Erase all patient data on this device and start again (you can then restore a backup)?')) return;
-        if (!window.confirm('This permanently deletes all patients and sessions on this device. Continue?')) return;
-        void eraseVault();
+        void confirmAction({
+          title: 'Erase and start again?',
+          message: 'Without the PIN the data cannot be recovered. This permanently deletes all patients and sessions on this device; you can then restore a backup.',
+          confirmLabel: 'Erase all patient data',
+        }).then((confirmed) => {
+          if (!confirmed) return;
+          buzz();
+          void eraseVault();
+        });
       }}
     >
       Forgot PIN — erase and start again

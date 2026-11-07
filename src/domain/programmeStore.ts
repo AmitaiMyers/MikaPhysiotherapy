@@ -24,6 +24,11 @@ export function createProgramme(title: string, items: ProgrammeItem[] = [], note
   return programme;
 }
 
+/** Put back a deleted programme (Undo). */
+export function restoreProgramme(programme: Programme): void {
+  store.set([programme, ...store.get().filter((p) => p.id !== programme.id)]);
+}
+
 export function deleteProgramme(id: string): void {
   store.set(store.get().filter((p) => p.id !== id));
 }

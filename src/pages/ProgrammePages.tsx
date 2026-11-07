@@ -2,9 +2,10 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { RehabTabs } from '../components/RehabTabs';
 import { Card, Empty, Note, PageHeader, ShareButton } from '../components/ui';
 import { getExercise } from '../data/exercises';
-import { deleteProgramme, moveProgrammeItem, removeItem, updateItem, updateProgramme, useProgrammes } from '../domain/programmeStore';
+import { deleteProgramme, moveProgrammeItem, removeItem, restoreProgramme, updateItem, updateProgramme, useProgrammes } from '../domain/programmeStore';
 import { programmeShareText, whatsAppUrl, type Programme } from '../domain/programmes';
 import { appUrl, shareContent } from '../domain/share';
+import { toastWithUndo } from '../feedback/store';
 
 export function ProgrammeListPage() {
   const programmes = useProgrammes();
@@ -138,8 +139,8 @@ function ProgrammeEditor({ programme }: { programme: Programme }) {
           type="button"
           className="text-button danger"
           onClick={() => {
-            if (!window.confirm(`Delete “${programme.title}”?`)) return;
             deleteProgramme(programme.id);
+            toastWithUndo(`“${programme.title}” deleted`, () => restoreProgramme(programme));
             void navigate('/rehab/programmes', { replace: true });
           }}
         >

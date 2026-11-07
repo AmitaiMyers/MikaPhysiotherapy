@@ -79,13 +79,18 @@ const PATHS = {
     </>
   ),
   layers: <path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5" />,
+  check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
+  alert: <path d="M12 3.5l9.5 16.5h-19L12 3.5zM12 10v4.5M12 17.2v.3" />,
+  undo: <path d="M9 5l-5 5 5 5M4 10h10a5 5 0 0 1 0 10h-2" />,
+  trash: <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />,
+  spinner: <path d="M12 3a9 9 0 1 0 9 9" />,
 } as const;
 
 export type IconName = keyof typeof PATHS;
 
-export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {
+export function Icon({ name, size = 22, spin = false }: { name: IconName; size?: number; spin?: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="icon">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={spin ? 'icon spin' : 'icon'}>
       {PATHS[name] as ReactNode}
     </svg>
   );

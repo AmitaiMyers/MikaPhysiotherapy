@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
+import { useOnlineStatus } from './useOnlineStatus';
 import { Link, useNavigate } from 'react-router';
 import { getMuscle, getNerve, getSource } from '../data';
 import type { NerveSupply } from '../data/types';
@@ -77,6 +78,30 @@ export function Empty({ children }: { children: ReactNode }) {
   return <p className="empty">{children}</p>;
 }
 
+/** What a list shows before it has anything: an icon, one sentence, and the action that adds the first item. */
+export function EmptyState({ icon, children, action }: { icon: IconName; children: ReactNode; action?: ReactNode }) {
+  return (
+    <div className="empty-state">
+      <span className="empty-state-icon">
+        <Icon name={icon} size={26} />
+      </span>
+      <p className="empty-state-text">{children}</p>
+      {action}
+    </div>
+  );
+}
+
+/** A slim bar while the device is offline; everything stored on the device keeps working. */
+export function OfflineBar() {
+  const online = useOnlineStatus();
+  if (online) return null;
+  return (
+    <p className="offline-bar" role="status">
+      <Icon name="info" size={16} /> Offline — videos and web links open when you’re back online.
+    </p>
+  );
+}
+
 export const DISCLAIMER = 'For education and quick reference. Not a substitute for clinical assessment and judgement.';
 
 export function Disclaimer() {
@@ -129,4 +154,22 @@ export function ShareButton({ label, onShare }: { label: string; onShare: () => 
       {message ?? <Icon name="share" />}
     </button>
   );
+}
+
+export type BadgeTone = 'neutral' | 'accent' | 'success' | 'attention' | 'danger' | 'info';
+
+/** A small non-interactive label; status tones always carry an icon as well as the word. */
+export function Badge({ tone, children }: { tone: BadgeTone; children: ReactNode }) {
+  const icon: IconName | null = tone === 'success' ? 'check' : tone === 'danger' ? 'alert' : null;
+  return (
+    <span className={`badge badge-${tone}`}>
+      {icon !== null && <Icon name={icon} size={14} />}
+      {children}
+    </span>
+  );
+}
+
+/** "Planned" (needs Mika soon) or "Done". */
+export function SessionStatusBadge({ status }: { status: 'planned' | 'done' }) {
+  return status === 'done' ? <Badge tone="success">Done</Badge> : <Badge tone="attention">Planned</Badge>;
 }

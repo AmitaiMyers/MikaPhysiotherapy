@@ -1,0 +1,36 @@
+@layer features {
+  /* ---------- design refresh: navigation ---------- */
+
+  .bottom-nav {
+    box-shadow: 0 -1px 0 var(--border), var(--shadow-2);
+    border-top: none;
+    backdrop-filter: saturate(1.4) blur(12px);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+  }
+
+  .nav-item {
+    gap: 3px;
+  }
+
+  .nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 30px;
+    border-radius: var(--radius-pill);
+    transition: background var(--duration-quick) var(--ease-standard);
+  }
+
+  .nav-active .nav-icon {
+    background: var(--accent-soft);
+  }
+
+  .icon {
+    flex-shrink: 0;
+  }
+
+  .chevron {
+    display: inline-flex;
+  }
+}

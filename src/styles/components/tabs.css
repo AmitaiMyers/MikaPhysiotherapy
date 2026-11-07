@@ -1,0 +1,43 @@
+@layer components {
+  /* ---------- detail tabs ---------- */
+
+  .tabs {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0 -16px;
+    padding: 2px var(--space-4) var(--space-1);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg);
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text);
+    text-decoration: none;
+    flex-shrink: 0;
+    min-height: var(--tap);
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: var(--font-size-callout);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .tab-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+}

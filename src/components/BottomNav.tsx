@@ -2,8 +2,8 @@ import { NavLink, useLocation } from 'react-router';
 import { Icon, type IconName } from './Icon';
 
 const ITEMS: { to: string; label: string; icon: IconName; prefixes: string[] }[] = [
-  { to: '/', label: 'Home', icon: 'home', prefixes: [] },
-  { to: '/muscles', label: 'Library', icon: 'book', prefixes: ['/muscles', '/bones', '/joints', '/nerves', '/tests', '/library', '/search'] },
+  { to: '/', label: 'Home', icon: 'home', prefixes: ['/search', '/about'] },
+  { to: '/muscles', label: 'Library', icon: 'book', prefixes: ['/muscles', '/bones', '/joints', '/nerves', '/tests', '/library'] },
   { to: '/rehab', label: 'Rehab', icon: 'dumbbell', prefixes: ['/rehab', '/techniques'] },
   { to: '/patients', label: 'Patients', icon: 'user', prefixes: ['/patients'] },
   { to: '/calendar', label: 'Calendar', icon: 'calendar', prefixes: ['/calendar'] },
@@ -11,7 +11,7 @@ const ITEMS: { to: string; label: string; icon: IconName; prefixes: string[] }[]
 
 export function BottomNav() {
   const { pathname } = useLocation();
-  const isActive = (item: (typeof ITEMS)[number]) => (item.to === '/' ? pathname === '/' : item.prefixes.some((prefix) => pathname.startsWith(prefix)));
+  const isActive = (item: (typeof ITEMS)[number]) => (item.to === '/' && pathname === '/') || item.prefixes.some((prefix) => pathname.startsWith(prefix));
   return (
     <nav className="bottom-nav" aria-label="Main">
       {ITEMS.map((item) => (

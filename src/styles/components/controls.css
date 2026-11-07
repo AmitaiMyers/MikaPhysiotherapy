@@ -1,0 +1,109 @@
+@layer components {
+  /* ---------- buttons, inputs ---------- */
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap);
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .button-active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+
+  .button-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .button-primary:disabled {
+    opacity: 0.45;
+  }
+
+  .text-button.danger,
+  .danger {
+    color: var(--danger);
+  }
+
+  .text-button {
+    background: none;
+    border: none;
+    color: var(--link);
+    font-weight: 600;
+    min-height: var(--tap);
+    padding: 0 var(--space-1);
+  }
+
+  .search-row {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .filter-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 560px) {
+    .filter-panel {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--font-size-callout);
+    color: var(--muted);
+  }
+
+  .field select {
+    width: 100%;
+    min-width: 0;
+    min-height: var(--tap);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    padding: 0 var(--space-3);
+    color: var(--text);
+    font-size: var(--font-size-body);
+  }
+
+  .list-card-title {
+    padding: var(--space-2) var(--space-4) 0;
+  }
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-1) var(--space-4) 0;
+  }
+
+  .results-header h2 {
+    margin: 0;
+  }
+}

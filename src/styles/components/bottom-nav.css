@@ -1,0 +1,47 @@
+@layer components {
+  /* ---------- bottom navigation ---------- */
+
+  .bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+    height: calc(var(--nav-height) + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-item {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    line-height: 1.15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: var(--font-size-label);
+    font-weight: 600;
+  }
+
+  .nav-active {
+    color: var(--accent);
+  }
+
+  .pre-line {
+    white-space: pre-line;
+  }
+
+  .programme-item-header .button-row {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: var(--space-1);
+  }
+}

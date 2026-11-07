@@ -13,6 +13,7 @@ import { ObjectiveSections } from './ObjectiveSections';
 import { HomeProgrammeSection, ProtocolSection, ScoresSection, SubjectiveSection, TreatmentSection } from './OtherSections';
 import { SessionSection } from './SessionSection';
 import { TechniquesSection } from './TechniquesSection';
+import { buzz, promptText, showToast, toastWithUndo } from '../../../feedback/store';
 
 export function SessionPage() {
   const { sessionId = '' } = useParams();
@@ -123,9 +124,11 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
           type="button"
           className="button"
           onClick={() => {
-            const name = window.prompt('Template name', episode?.title ?? 'Session template');
-            if (name === null || name.trim() === '') return;
-            saveRecord('template', { id: newId(), name: name.trim(), content: contentOf(session), createdAt: nowIso() });
+            void promptText({ title: 'Save as template', label: 'Template name', initial: episode?.title ?? 'Session template', confirmLabel: 'Save template' }).then((name) => {
+              if (name === null) return;
+              saveRecord('template', { id: newId(), name, content: contentOf(session), createdAt: nowIso() });
+              showToast(`Template “${name}” saved`);
+            });
           }}
         >
           Save as template
@@ -137,8 +140,9 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
           type="button"
           className="text-button danger"
           onClick={() => {
-            if (!window.confirm('Delete this session?')) return;
+            buzz();
             deleteRecord('session', session.id);
+            toastWithUndo('Session deleted', () => saveRecord('session', session));
             void navigate(`/patients/${session.patientId}`, { replace: true });
           }}
         >

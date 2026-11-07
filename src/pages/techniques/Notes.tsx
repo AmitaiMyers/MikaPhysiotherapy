@@ -6,6 +6,7 @@ import { useAuthorName } from '../../techniques/author';
 import { deleteNote, saveTechniqueRecord, useTechniqueContent } from '../../techniques/store';
 import type { Origin, TechniqueNote } from '../../techniques/types';
 import { MediaGallery, MediaPicker, useMediaEdits } from './Media';
+import { confirmAction, showToast } from '../../feedback/store';
 
 /** "By Mika" or "From Dana · imported 7 Nov 2026". */
 export function originLabel(author: string, origin: Origin): string {
@@ -57,7 +58,11 @@ function NoteView({ note }: { note: TechniqueNote }) {
           type="button"
           className="text-button small danger"
           onClick={() => {
-            if (window.confirm('Delete this note with its photos and videos?')) deleteNote(note);
+            void confirmAction({ title: 'Delete this note?', message: 'Its photos and videos are deleted from this device too.', confirmLabel: 'Delete note' }).then((confirmed) => {
+              if (!confirmed) return;
+              deleteNote(note);
+              showToast('Note deleted');
+            });
           }}
         >
           Delete

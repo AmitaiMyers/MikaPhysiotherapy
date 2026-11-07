@@ -8,3 +8,4 @@ __pycache__/
 
 # Downloaded Z-Anatomy source files (see scripts/anatomy)
 scripts/anatomy/.cache/
+ui-check/

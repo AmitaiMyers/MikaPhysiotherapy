@@ -3,6 +3,7 @@ import { Card } from '../../components/ui';
 import { addAttachment, attachmentUrl, formatSize } from '../../patients/attachments';
 import type { Attachment } from '../../patients/types';
 import { deleteFileBytes, deleteRecord, useRecords } from '../../patients/vault';
+import { confirmAction, showToast } from '../../feedback/store';
 
 /** Photos and PDFs of a patient, stored encrypted; tap to open. */
 export function AttachmentsCard({ patientId, episodeId }: { patientId: string; episodeId: string | null }) {
@@ -80,9 +81,12 @@ function AttachmentTile({ attachment }: { attachment: Attachment }) {
         type="button"
         className="text-button danger small"
         onClick={() => {
-          if (!window.confirm(`Delete ${attachment.name}?`)) return;
-          deleteRecord('attachment', attachment.id);
-          deleteFileBytes(attachment.id);
+          void confirmAction({ title: `Delete ${attachment.name}?`, message: 'The file is removed from this device.', confirmLabel: 'Delete file' }).then((confirmed) => {
+            if (!confirmed) return;
+            deleteRecord('attachment', attachment.id);
+            deleteFileBytes(attachment.id);
+            showToast('File deleted');
+          });
         }}
       >
         Delete

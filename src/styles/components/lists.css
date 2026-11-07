@@ -1,0 +1,149 @@
+@layer components {
+  /* ---------- grouped list ---------- */
+
+  .region {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .region > summary,
+  .group > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .region > summary::-webkit-details-marker,
+  .group > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .region-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--tap);
+    font-size: var(--font-size-title-2);
+    font-weight: 700;
+    padding: var(--space-1) 2px;
+  }
+
+  .region-summary::after,
+  .group-summary::after {
+    content: '▾';
+    color: var(--muted);
+    margin-left: var(--space-2);
+    transition: transform var(--duration-quick) var(--ease-standard);
+  }
+
+  .region:not([open]) > .region-summary::after,
+  .group:not([open]) > .group-summary::after {
+    transform: rotate(-90deg);
+  }
+
+  .region + .region {
+    margin-top: var(--space-2);
+  }
+
+  .region-summary .count {
+    margin-left: auto;
+  }
+
+  .count {
+    color: var(--muted);
+    font-size: var(--font-size-callout);
+    font-weight: 500;
+  }
+
+  .group {
+    padding: 0;
+    margin-bottom: var(--space-2);
+  }
+
+  .group-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 52px;
+    padding: var(--space-2) var(--space-4);
+    font-weight: 600;
+  }
+
+  .group-name {
+    flex: 1;
+  }
+
+  .group-description {
+    color: var(--muted);
+    font-size: var(--font-size-callout);
+    padding: 0 var(--space-4) var(--space-2);
+  }
+
+  .muscle-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .muscle-list li + li {
+    border-top: 1px solid var(--border);
+  }
+
+  .muscle-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    min-height: 64px;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .thumb {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    background: var(--image-bg);
+    object-fit: cover;
+  }
+
+  .thumb-empty {
+    display: inline-block;
+  }
+
+  .muscle-row-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .muscle-row-name {
+    font-weight: 600;
+  }
+
+  .muscle-row-meta {
+    color: var(--muted);
+    font-size: var(--font-size-callout);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .layer-tag {
+    margin-left: var(--space-2);
+    font-size: var(--font-size-label);
+    font-weight: 500;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 0 var(--space-2);
+    vertical-align: 2px;
+  }
+
+  .chevron {
+    color: var(--muted);
+    font-size: var(--font-size-title-1);
+  }
+}

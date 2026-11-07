@@ -147,7 +147,7 @@ export function BodyExplorer() {
             height={H}
             draggable={false}
           />
-          <canvas ref={overlay} width={W} height={H} className="body-overlay" aria-hidden="true" />
+          <canvas key={selectedIndex} ref={overlay} width={W} height={H} className="body-overlay" aria-hidden="true" />
         </div>
       </div>
       <p className="body-hint">{layer === 'skeleton' ? 'Tap a bone' : 'Muscles on the body’s right side, bones on the left — tap to explore'}</p>

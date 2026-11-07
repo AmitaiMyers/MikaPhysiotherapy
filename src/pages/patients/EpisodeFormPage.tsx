@@ -10,6 +10,7 @@ import { getRecord, saveRecord } from '../../patients/vault';
 import { AttachmentsCard } from './AttachmentsCard';
 import { ProtocolProgress, SIDE_LABELS } from './EpisodeSummary';
 import { PlannedTechniquesCard } from './session/TechniquesSection';
+import { buzz, confirmAction, showToast } from '../../feedback/store';
 
 /** New episode (/episodes/new) or edit an existing one. */
 export function EpisodeFormPage() {
@@ -84,9 +85,13 @@ function EpisodeForm({ initial, isNew, patientName }: { initial: Episode; isNew:
           type="button"
           className="text-button danger"
           onClick={() => {
-            if (!window.confirm('Delete this episode? Its sessions and files stay in the patient folder.')) return;
-            deleteEpisode(episode.id);
-            backToFolder();
+            void confirmAction({ title: 'Delete this episode?', message: 'Its sessions and files stay in the patient folder, without an episode.', confirmLabel: 'Delete episode' }).then((confirmed) => {
+              if (!confirmed) return;
+              buzz();
+              deleteEpisode(episode.id);
+              showToast('Episode deleted');
+              backToFolder();
+            });
           }}
         >
           Delete episode

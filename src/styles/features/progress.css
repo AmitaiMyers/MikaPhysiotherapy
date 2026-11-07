@@ -1,0 +1,68 @@
+@layer features {
+  /* ---------- progress charts ---------- */
+
+  .chart-grid-layout {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 700px) {
+    .chart-grid-layout {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .chart-title {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    font-size: var(--font-size-callout);
+  }
+
+  .chart-change {
+    color: var(--accent);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .chart {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .chart-grid {
+    stroke: var(--border);
+    stroke-dasharray: 3 3;
+  }
+
+  .chart-line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+
+  .chart-dot {
+    fill: var(--surface);
+    stroke: var(--accent);
+    stroke-width: 2;
+  }
+
+  .chart-label {
+    fill: var(--muted);
+    font-size: var(--font-size-label);
+  }
+
+  .chart-value {
+    fill: var(--text);
+    font-size: var(--font-size-label);
+    font-weight: 700;
+  }
+
+  .progress-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
