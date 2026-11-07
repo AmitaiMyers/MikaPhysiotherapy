@@ -11,7 +11,7 @@ describe('technique data', () => {
     expect(TECHNIQUE_FAMILIES).toHaveLength(12);
     expect(TECHNIQUES.length).toBeGreaterThanOrEqual(100);
     for (const family of TECHNIQUE_FAMILIES) expect(techniquesInFamily(family.id).length, family.id).toBeGreaterThan(0);
-    expect(techniquesInFamily('dry-needling')).toHaveLength(30);
+    expect(techniquesInFamily('dry-needling')).toHaveLength(40);
   });
 
   it('links techniques only to known anatomy, exercises and conditions', () => {
