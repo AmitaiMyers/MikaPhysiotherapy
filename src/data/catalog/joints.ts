@@ -253,3 +253,13 @@ export const JOINTS: Joint[] = [
     ],
   },
 ];
+
+/** Joints grouped by body area, in the order of the muscle regions. */
+export const JOINT_GROUPS: { name: string; jointIds: string[] }[] = [
+  { name: 'Head & neck', jointIds: ['craniovertebral', 'cervical-spine', 'tmj', 'hyoid', 'face'] },
+  { name: 'Spine, thorax & pelvis', jointIds: ['trunk', 'thorax', 'pelvis', 'pelvic-floor'] },
+  { name: 'Shoulder & arm', jointIds: ['sternoclavicular', 'scapulothoracic', 'glenohumeral', 'elbow', 'radioulnar'] },
+  { name: 'Wrist & hand', jointIds: ['wrist', 'thumb-cmc', 'thumb-mcp', 'thumb-ip', 'fifth-cmc', 'finger-mcp', 'finger-pip', 'finger-dip'] },
+  { name: 'Hip & knee', jointIds: ['hip', 'knee'] },
+  { name: 'Ankle & foot', jointIds: ['ankle', 'subtalar', 'hallux-mtp', 'hallux-ip', 'toe-mtp', 'toe-ip'] },
+];

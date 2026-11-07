@@ -23,7 +23,7 @@ There is no account and no server; all data ships with the app.
   - **Assessment**: palpation, manual muscle test, linked special tests, stretching, strengthening.
   - **3D**: rotate, zoom, region-specific views (front, back, side, inner side, below), origin/insertion overlay, other muscles faded, tap a muscle to name it.
 - **Search and reverse lookup**: by name, Latin name or synonym, and filters for nerve, spinal root, action and attaching bone ("which muscles abduct the hip", "what does the tibial nerve supply", "what attaches to the pisiform"). Filters are kept in the URL.
-- **Bones & joints tab**: each bone's origins and insertions; each joint's movements with normal ROM (AAOS) and the muscles that produce them, including the pelvis, pelvic floor, TMJ, hyoid and facial expression.
+- **Bones & joints tab**: joints grouped by body area and bones by region, each with a picture of it highlighted on the skeleton (rendered from the 3D model by `node scripts/anatomy/render-bones.mjs`; joints are framed where their bones meet); search across both. Each bone's page shows its origins and insertions; each joint's page its movements with normal ROM (AAOS) and the muscles that produce them, including the pelvis, pelvic floor, TMJ, hyoid and facial expression.
 - **Nerves tab**: course, muscles supplied directly and through branches (e.g. sciatic → tibial → plantar nerves), sensory area, lesions; key myotomes (screening movement and ASIA key muscle); muscles by root.
 - **Special tests tab**: 56 muscle-related tests with procedure, positive finding, notes and related muscles.
 - **Share**: sends a muscle card (text, link and the first image where supported) through the phone's share sheet, or copies it.

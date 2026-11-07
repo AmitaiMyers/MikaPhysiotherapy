@@ -32,12 +32,12 @@ export default defineConfig({
       },
       workbox: {
         // The app shell and the list thumbnails are installed up front (a few MB).
-        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,woff2}', 'images/muscles/*-thumb.webp', 'images/body/*.webp'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,woff2}', 'images/muscles/*-thumb.webp', 'images/bones/*-thumb.webp', 'images/joints/*-thumb.webp', 'images/body/*.webp'],
         // Full-size images and the 3D models (about 30 MB together) are cached the first time they
         // are opened, or all at once from the About screen ("Save for offline use").
         runtimeCaching: [
           {
-            urlPattern: ({ url }) => url.pathname.includes('/images/muscles/'),
+            urlPattern: ({ url }) => /\/images\/(muscles|bones|joints)\//.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: OFFLINE_CACHES.images },
           },

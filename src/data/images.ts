@@ -1,4 +1,5 @@
 import generated from './generated/muscleImages.json';
+import skeletonGenerated from './generated/boneImages.json';
 
 export type ImageView = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior';
 
@@ -58,4 +59,23 @@ export function thumbnailUrl(muscleId: string): string | null {
 /** The view that shows most of the muscle (used as the 3D viewer's starting camera). */
 export function bestView(muscleId: string): ImageView {
   return IMAGES[muscleId]?.views[0] ?? 'anterior';
+}
+
+// ---------- bones and joints ----------
+
+/** Written by scripts/anatomy/render-bones.mjs: the view chosen for each bone and joint (absent: no mesh). */
+const SKELETON_IMAGES = skeletonGenerated as { bones: Record<string, ImageView>; joints: Record<string, ImageView> };
+
+export type SkeletonKind = 'bones' | 'joints';
+
+const skeletonUrl = (kind: SkeletonKind, file: string) => `${import.meta.env.BASE_URL}images/${kind}/${file}.webp`;
+
+/** The picture of a bone, or of a joint's bones, highlighted on the skeleton. */
+export function skeletonImage(kind: SkeletonKind, id: string): MuscleImage | null {
+  const view = SKELETON_IMAGES[kind][id];
+  return view === undefined ? null : { url: skeletonUrl(kind, id), caption: VIEW_CAPTION[view], label: VIEW_LABEL[view] };
+}
+
+export function skeletonThumbnail(kind: SkeletonKind, id: string): string | null {
+  return id in SKELETON_IMAGES[kind] ? skeletonUrl(kind, `${id}-thumb`) : null;
 }

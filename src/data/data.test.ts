@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { skeletonImage } from './images';
 import { formatRoots, oppositeMovement } from '../domain/relations';
-import { BONES, findBone, findJoint, findNerve, findSpecialTest, JOINTS, MUSCLES, NERVES, REGIONS, SOURCES, SPECIAL_TESTS } from './index';
+import { BONES, findBone, findJoint, findNerve, findSpecialTest, JOINT_GROUPS, JOINTS, MUSCLES, NERVES, REGIONS, SOURCES, SPECIAL_TESTS } from './index';
 
 const groupIds = new Set(REGIONS.flatMap((region) => region.groups.map((group) => `${region.id}/${group.id}`)));
 const sourceIds = new Set(SOURCES.map((source) => source.id));
@@ -114,5 +115,17 @@ describe('formatRoots', () => {
     expect(formatRoots(['C8', 'T1'])).toBe('C8, T1');
     expect(formatRoots(['C3', 'C4', 'C6'])).toBe('C3, C4, C6');
     expect(formatRoots(['CN XI'])).toBe('CN XI');
+  });
+});
+
+describe('bone and joint pictures', () => {
+  it('files every joint in exactly one group', () => {
+    const grouped = JOINT_GROUPS.flatMap((group) => group.jointIds);
+    expect([...grouped].sort()).toEqual(JOINTS.map((j) => j.id).sort());
+  });
+
+  it('has a picture for every joint and every bone with a 3D mesh', () => {
+    expect(JOINTS.filter((j) => skeletonImage('joints', j.id) === null).map((j) => j.id)).toEqual([]);
+    expect(BONES.filter((b) => skeletonImage('bones', b.id) === null).map((b) => b.id)).toEqual(['nasal']);
   });
 });
