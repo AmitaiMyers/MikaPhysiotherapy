@@ -1,7 +1,7 @@
 import { assert, required } from '../domain/assert';
 import { BONES } from './catalog/bones';
 import { JOINT_GROUPS, JOINTS } from './catalog/joints';
-import { NERVES } from './catalog/nerves';
+import { NERVE_GROUPS, NERVES } from './catalog/nerves';
 import { REGIONS } from './catalog/regions';
 import { SOURCES } from './catalog/sources';
 import { SPECIAL_TESTS } from './catalog/specialTests';
@@ -23,7 +23,7 @@ import { HEAD_MUSCLES } from './muscles/headNeck/head';
 import { NECK_MUSCLES } from './muscles/headNeck/neck';
 import type { Bone, Joint, Muscle, Nerve, Region, Source, SpecialTest } from './types';
 
-export { BONES, JOINT_GROUPS, JOINTS, NERVES, REGIONS, SOURCES, SPECIAL_TESTS };
+export { BONES, JOINT_GROUPS, JOINTS, NERVE_GROUPS, NERVES, REGIONS, SOURCES, SPECIAL_TESTS };
 
 export const MUSCLES: Muscle[] = [
   ...NECK_MUSCLES,

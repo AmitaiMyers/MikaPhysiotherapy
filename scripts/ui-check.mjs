@@ -10,7 +10,7 @@ const [base = 'http://localhost:4180/MikaPhysiotherapy/', out = 'ui-check', only
 
 const SCREENS = {
   home: ['/', '/search?q=deltoid', '/search'],
-  library: ['/muscles', '/muscles/deltoid', '/muscles/deltoid?tab=techniques', '/bones', '/bones/talus', '/joints/knee', '/nerves', '/nerves/median', '/tests', '/tests/empty-can'],
+  library: ['/muscles', '/muscles/deltoid', '/muscles/deltoid?tab=techniques', '/bones', '/bones/talus', '/joints/knee', '/nerves', '/nerves?q=C5', '/nerves/median', '/nerves/phrenic', '/tests', '/tests/empty-can'],
   rehab: ['/rehab', '/rehab/exercises/bridge', '/rehab/protocols', '/rehab/protocols/tka', '/rehab/programmes', '/techniques', '/techniques?view=condition', '/techniques/dn-upper-trapezius', '/techniques/families/mulligan', '/techniques/conditions/neck-pain', '/techniques/new'],
   patients: ['/patients', '/patients/{patient}', '/patients/{patient}/episodes/{episode}', '/patients/sessions/{session}', '/patients/{patient}/progress', '/patients/templates', '/patients/settings'],
   calendar: ['/calendar', '/calendar?view=week', '/calendar/import'],

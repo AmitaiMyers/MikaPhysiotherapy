@@ -1,0 +1,210 @@
+{
+ "accessory": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "cervical-c3-c4": {
+  "view": "posterior",
+  "drawn": false
+ },
+ "dorsal-scapular": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "long-thoracic": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "suprascapular": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "nerve-to-subclavius": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "lateral-pectoral": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "medial-pectoral": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "upper-subscapular": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "thoracodorsal": {
+  "view": "lateral",
+  "drawn": true
+ },
+ "lower-subscapular": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "axillary": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "musculocutaneous": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "radial": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "posterior-interosseous": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "median": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "anterior-interosseous": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "median-recurrent": {
+  "view": "anterior",
+  "drawn": false
+ },
+ "median-digital": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "ulnar": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "ulnar-deep": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "ulnar-superficial": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "lumbar-ventral-rami": {
+  "view": "anterior",
+  "drawn": false
+ },
+ "femoral": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "obturator": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "superior-gluteal": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "inferior-gluteal": {
+  "view": "posterior",
+  "drawn": false
+ },
+ "nerve-to-piriformis": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "nerve-to-obturator-internus": {
+  "view": "posterior",
+  "drawn": false
+ },
+ "nerve-to-quadratus-femoris": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "sciatic": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "sciatic-tibial": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "sciatic-fibular": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "tibial": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "common-fibular": {
+  "view": "lateral",
+  "drawn": true
+ },
+ "deep-fibular": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "superficial-fibular": {
+  "view": "lateral",
+  "drawn": true
+ },
+ "medial-plantar": {
+  "view": "inferior",
+  "drawn": true
+ },
+ "lateral-plantar": {
+  "view": "inferior",
+  "drawn": true
+ },
+ "dorsal-rami": {
+  "view": "posterior",
+  "drawn": false
+ },
+ "intercostal": {
+  "view": "posterior",
+  "drawn": true
+ },
+ "iliohypogastric-ilioinguinal": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "phrenic": {
+  "view": "anterior",
+  "drawn": false
+ },
+ "nerve-to-levator-ani": {
+  "view": "posterior",
+  "drawn": false
+ },
+ "pudendal": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "inferior-rectal": {
+  "view": "anterior",
+  "drawn": false
+ },
+ "cervical-ventral-rami": {
+  "view": "anterior",
+  "drawn": true
+ },
+ "ansa-cervicalis": {
+  "view": "anterior",
+  "drawn": false
+ },
+ "c1-via-hypoglossal": {
+  "view": "lateral",
+  "drawn": true
+ },
+ "suboccipital-nerve": {
+  "view": "posterior",
+  "drawn": false
+ },
+ "mandibular": {
+  "view": "lateral",
+  "drawn": true
+ },
+ "facial": {
+  "view": "lateral",
+  "drawn": true
+ }
+}

@@ -18,6 +18,8 @@ export const SOURCE_FILES = {
   skeleton: { url: `${RAW}/FBX/SkeletalSystem100.fbx`, file: 'SkeletalSystem100.fbx' },
   license: { url: `${RAW}/License.txt`, file: 'License.txt' },
 };
+/** Used only for the nerve pictures (render-nerves.mjs), not for the 3D models. */
+export const NERVE_SOURCE = { url: `${RAW}/FBX/NervousSystem100.fbx`, file: 'NervousSystem100.fbx' };
 
 /**
  * Z-Anatomy mesh name (without the trailing side letter "r"/"l") → app bone id.

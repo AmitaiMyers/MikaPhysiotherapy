@@ -1,5 +1,5 @@
-import { MUSCLES, REGIONS } from '../data';
-import { attachmentImage, muscleViews } from '../data/images';
+import { BONES, JOINTS, MUSCLES, NERVES, REGIONS } from '../data';
+import { attachmentImage, muscleViews, nerveImage, skeletonImage, type MuscleImage } from '../data/images';
 import { OFFLINE_CACHES } from '../offlineCaches';
 import { modelUrls } from '../viewer/modelUrls';
 
@@ -10,10 +10,13 @@ interface OfflineItem {
 
 /** Every full-size image and 3D model file the app can show. */
 function offlineItems(): OfflineItem[] {
-  const images = MUSCLES.flatMap((m) => {
-    const attachments = attachmentImage(m.id);
-    return [...muscleViews(m.id), ...(attachments ? [attachments] : [])];
-  }).map((image) => ({ cacheName: OFFLINE_CACHES.images, url: image.url }));
+  const pictures: (MuscleImage | null)[] = [
+    ...MUSCLES.flatMap((m) => [...muscleViews(m.id), attachmentImage(m.id)]),
+    ...BONES.map((b) => skeletonImage('bones', b.id)),
+    ...JOINTS.map((j) => skeletonImage('joints', j.id)),
+    ...NERVES.map((n) => nerveImage(n.id)),
+  ];
+  const images = pictures.filter((image) => image !== null).map((image) => ({ cacheName: OFFLINE_CACHES.images, url: image.url }));
   const models = REGIONS.flatMap((region) => {
     const urls = modelUrls(region.id);
     return [urls.manifest, urls.geometry];

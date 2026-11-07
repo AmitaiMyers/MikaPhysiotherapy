@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { skeletonImage } from './images';
+import { nerveImage, skeletonImage } from './images';
 import { formatRoots, oppositeMovement } from '../domain/relations';
-import { BONES, findBone, findJoint, findNerve, findSpecialTest, JOINT_GROUPS, JOINTS, MUSCLES, NERVES, REGIONS, SOURCES, SPECIAL_TESTS } from './index';
+import { BONES, findBone, findJoint, findNerve, findSpecialTest, JOINT_GROUPS, JOINTS, MUSCLES, NERVE_GROUPS, NERVES, REGIONS, SOURCES, SPECIAL_TESTS } from './index';
 
 const groupIds = new Set(REGIONS.flatMap((region) => region.groups.map((group) => `${region.id}/${group.id}`)));
 const sourceIds = new Set(SOURCES.map((source) => source.id));
@@ -127,5 +127,18 @@ describe('bone and joint pictures', () => {
   it('has a picture for every joint and every bone with a 3D mesh', () => {
     expect(JOINTS.filter((j) => skeletonImage('joints', j.id) === null).map((j) => j.id)).toEqual([]);
     expect(BONES.filter((b) => skeletonImage('bones', b.id) === null).map((b) => b.id)).toEqual(['nasal']);
+  });
+});
+
+describe('nerve pictures', () => {
+  it('files every nerve in exactly one group', () => {
+    const grouped = NERVE_GROUPS.flatMap((group) => group.nerveIds);
+    expect([...grouped].sort()).toEqual(NERVES.map((n) => n.id).sort());
+  });
+
+  it('has a picture for every nerve the 3D model can show', () => {
+    expect(NERVES.filter((n) => nerveImage(n.id) === null).map((n) => n.id)).toEqual(['perineal-nerve']);
+    expect(nerveImage('median')?.caption).toContain('nerve yellow');
+    expect(nerveImage('phrenic')?.caption).toContain('not in the 3D model');
   });
 });

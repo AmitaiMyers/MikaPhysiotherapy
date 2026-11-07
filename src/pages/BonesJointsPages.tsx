@@ -1,13 +1,12 @@
 import { LinkedTechniquesCard } from '../components/techniques';
 import { Link, useParams } from 'react-router';
 import { LibraryTabs } from '../components/LibraryTabs';
-import type { ReactNode } from 'react';
-import { Icon } from '../components/Icon';
+import { ImageRow, ResultCard, RowGroup, StructureFigure } from '../components/ImageRows';
 import { Card, Disclaimer, Empty, EmptyState, MuscleLink, Note, PageHeader } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
-import { skeletonImage, skeletonThumbnail, type SkeletonKind } from '../data/images';
+import { skeletonImage, skeletonThumbnail } from '../data/images';
 import { matchesWords } from '../domain/search';
-import { BONES, findBone, findJoint, JOINT_GROUPS, JOINTS } from '../data';
+import { BONES, findBone, findJoint, getJoint, JOINT_GROUPS, JOINTS } from '../data';
 import type { Bone, BoneRegion, Joint } from '../data/types';
 import { attachmentsOnBone, musclesPerforming } from '../domain/relations';
 
@@ -55,18 +54,11 @@ export function BonesJointsPage() {
               <span className="count">{JOINTS.length}</span>
             </summary>
             {JOINT_GROUPS.map((group) => (
-              <details key={group.name} className="card group">
-                <summary className="group-summary">
-                  <span className="group-name">{group.name}</span>
-                  <span className="count">{group.jointIds.length}</span>
-                </summary>
-                <ul className="muscle-list">
-                  {group.jointIds.map((id) => {
-                    const joint = findJoint(id);
-                    return joint === undefined ? null : <JointRow key={id} joint={joint} />;
-                  })}
-                </ul>
-              </details>
+              <RowGroup key={group.name} name={group.name} count={group.jointIds.length}>
+                {group.jointIds.map((id) => (
+                  <JointRow key={id} joint={getJoint(id)} />
+                ))}
+              </RowGroup>
             ))}
           </details>
           <details className="region" open>
@@ -78,17 +70,11 @@ export function BonesJointsPage() {
               const inRegion = BONES.filter((bone) => bone.region === region);
               if (inRegion.length === 0) return null;
               return (
-                <details key={region} className="card group">
-                  <summary className="group-summary">
-                    <span className="group-name">{BONE_REGION_NAMES[region]}</span>
-                    <span className="count">{inRegion.length}</span>
-                  </summary>
-                  <ul className="muscle-list">
-                    {inRegion.map((bone) => (
-                      <BoneRow key={bone.id} bone={bone} />
-                    ))}
-                  </ul>
-                </details>
+                <RowGroup key={region} name={BONE_REGION_NAMES[region]} count={inRegion.length}>
+                  {inRegion.map((bone) => (
+                    <BoneRow key={bone.id} bone={bone} />
+                  ))}
+                </RowGroup>
               );
             })}
           </details>
@@ -96,33 +82,6 @@ export function BonesJointsPage() {
       )}
       <Disclaimer />
     </div>
-  );
-}
-
-function ResultCard({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="card list-card">
-      <h2>{title}</h2>
-      <ul className="muscle-list">{children}</ul>
-    </section>
-  );
-}
-
-/** A list row with the structure's thumbnail, like a muscle row. */
-function ImageRow({ to, thumb, name, meta }: { to: string; thumb: string | null; name: string; meta: string }) {
-  return (
-    <li>
-      <Link to={to} className="muscle-row">
-        {thumb !== null ? <img src={thumb} alt="" className="thumb" loading="lazy" width={56} height={56} /> : <span className="thumb thumb-empty" aria-hidden="true" />}
-        <span className="muscle-row-text">
-          <span className="muscle-row-name">{name}</span>
-          <span className="muscle-row-meta">{meta}</span>
-        </span>
-        <span className="chevron" aria-hidden="true">
-          <Icon name="chevron" size={18} />
-        </span>
-      </Link>
-    </li>
   );
 }
 
@@ -136,20 +95,6 @@ function BoneRow({ bone }: { bone: Bone }) {
   return <ImageRow to={`/bones/${bone.id}`} thumb={skeletonThumbnail('bones', bone.id)} name={bone.name} meta={`${BONE_REGION_NAMES[bone.region]} · ${attachments} muscle ${attachments === 1 ? 'attachment' : 'attachments'}`} />;
 }
 
-/** The structure's picture at the top of its page, like a muscle's. */
-function SkeletonFigure({ kind, id, name }: { kind: SkeletonKind; id: string; name: string }) {
-  const image = skeletonImage(kind, id);
-  if (image === null) return null;
-  return (
-    <figure className="gallery">
-      <div className="image-frame">
-        <img src={image.url} alt={`${name} highlighted on the skeleton, ${image.caption.toLowerCase()}`} width={800} height={1000} />
-      </div>
-      <figcaption>{image.caption}</figcaption>
-    </figure>
-  );
-}
-
 export function BoneDetailPage() {
   const { id = '' } = useParams();
   const bone = findBone(id);
@@ -159,7 +104,7 @@ export function BoneDetailPage() {
   return (
     <div className="page">
       <PageHeader back title={bone.name} subtitle={BONE_REGION_NAMES[bone.region]} />
-      <SkeletonFigure kind="bones" id={bone.id} name={bone.name} />
+      <StructureFigure image={skeletonImage('bones', bone.id)} alt={`${bone.name} highlighted on the skeleton`} />
       <Card title={`Origins (${origins.length})`}>
         {origins.length === 0 ? <p className="muted">None in the current data.</p> : <span className="chips">{origins.map((m) => <MuscleLink key={m.id} id={m.id} />)}</span>}
       </Card>
@@ -193,7 +138,7 @@ export function JointDetailPage() {
   return (
     <div className="page">
       <PageHeader back title={joint.name} subtitle={joint.type} />
-      <SkeletonFigure kind="joints" id={joint.id} name={joint.name} />
+      <StructureFigure image={skeletonImage('joints', joint.id)} alt={`${joint.name} highlighted on the skeleton`} />
       {joint.movements.map((movement) => {
         const movers = musclesPerforming(joint.id, movement.name);
         return (

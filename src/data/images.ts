@@ -1,5 +1,6 @@
 import generated from './generated/muscleImages.json';
 import skeletonGenerated from './generated/boneImages.json';
+import nerveGenerated from './generated/nerveImages.json';
 
 export type ImageView = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior';
 
@@ -34,7 +35,9 @@ const VIEW_CAPTION: Record<ImageView, string> = {
   inferior: 'Inferior view (from below)',
 };
 
-const imageUrl = (file: string) => `${import.meta.env.BASE_URL}images/muscles/${file}.webp`;
+/** A rendered picture in public/images/<folder>/. */
+const assetUrl = (folder: 'muscles' | 'bones' | 'joints' | 'nerves', file: string) => `${import.meta.env.BASE_URL}images/${folder}/${file}.webp`;
+const imageUrl = (file: string) => assetUrl('muscles', file);
 
 export function hasImages(muscleId: string): boolean {
   return muscleId in IMAGES;
@@ -68,14 +71,29 @@ const SKELETON_IMAGES = skeletonGenerated as { bones: Record<string, ImageView>;
 
 export type SkeletonKind = 'bones' | 'joints';
 
-const skeletonUrl = (kind: SkeletonKind, file: string) => `${import.meta.env.BASE_URL}images/${kind}/${file}.webp`;
-
 /** The picture of a bone, or of a joint's bones, highlighted on the skeleton. */
 export function skeletonImage(kind: SkeletonKind, id: string): MuscleImage | null {
   const view = SKELETON_IMAGES[kind][id];
-  return view === undefined ? null : { url: skeletonUrl(kind, id), caption: VIEW_CAPTION[view], label: VIEW_LABEL[view] };
+  return view === undefined ? null : { url: assetUrl(kind, id), caption: VIEW_CAPTION[view], label: VIEW_LABEL[view] };
 }
 
 export function skeletonThumbnail(kind: SkeletonKind, id: string): string | null {
-  return id in SKELETON_IMAGES[kind] ? skeletonUrl(kind, `${id}-thumb`) : null;
+  return id in SKELETON_IMAGES[kind] ? assetUrl(kind, `${id}-thumb`) : null;
+}
+
+// ---------- nerves ----------
+
+/** Written by scripts/anatomy/render-nerves.mjs: the view of each nerve, and whether the 3D model has the nerve itself (absent: no picture). */
+const NERVE_IMAGES = nerveGenerated as Record<string, { view: ImageView; drawn: boolean }>;
+
+/** The picture of a nerve on the skeleton with the muscles it supplies. */
+export function nerveImage(nerveId: string): MuscleImage | null {
+  const entry = NERVE_IMAGES[nerveId];
+  if (entry === undefined) return null;
+  const legend = entry.drawn ? 'nerve yellow, the muscles it supplies red' : 'the muscles it supplies in red (the nerve itself is not in the 3D model)';
+  return { url: assetUrl('nerves', nerveId), caption: `${VIEW_CAPTION[entry.view]} — ${legend}`, label: VIEW_LABEL[entry.view] };
+}
+
+export function nerveThumbnail(nerveId: string): string | null {
+  return nerveId in NERVE_IMAGES ? assetUrl('nerves', `${nerveId}-thumb`) : null;
 }

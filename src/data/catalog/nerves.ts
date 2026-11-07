@@ -601,3 +601,14 @@ export const NERVES: Nerve[] = [
     sourceIds: ANATOMY,
   },
 ];
+
+/** Nerves grouped by body area for the list, in the order of the muscle list. */
+export const NERVE_GROUPS: { name: string; nerveIds: string[] }[] = [
+  { name: 'Head & neck', nerveIds: ['facial', 'mandibular', 'accessory', 'suboccipital-nerve', 'c1-via-hypoglossal', 'ansa-cervicalis', 'cervical-c3-c4', 'cervical-ventral-rami', 'phrenic'] },
+  { name: 'Shoulder (brachial plexus)', nerveIds: ['dorsal-scapular', 'long-thoracic', 'suprascapular', 'nerve-to-subclavius', 'lateral-pectoral', 'medial-pectoral', 'upper-subscapular', 'thoracodorsal', 'lower-subscapular', 'axillary'] },
+  { name: 'Arm & hand', nerveIds: ['musculocutaneous', 'radial', 'posterior-interosseous', 'median', 'anterior-interosseous', 'median-recurrent', 'median-digital', 'ulnar', 'ulnar-deep', 'ulnar-superficial'] },
+  { name: 'Trunk', nerveIds: ['dorsal-rami', 'intercostal', 'iliohypogastric-ilioinguinal', 'lumbar-ventral-rami'] },
+  { name: 'Hip & thigh', nerveIds: ['femoral', 'obturator', 'superior-gluteal', 'inferior-gluteal', 'nerve-to-piriformis', 'nerve-to-obturator-internus', 'nerve-to-quadratus-femoris', 'sciatic', 'sciatic-tibial', 'sciatic-fibular'] },
+  { name: 'Leg & foot', nerveIds: ['tibial', 'common-fibular', 'deep-fibular', 'superficial-fibular', 'medial-plantar', 'lateral-plantar'] },
+  { name: 'Pelvic floor', nerveIds: ['pudendal', 'inferior-rectal', 'perineal-nerve', 'nerve-to-levator-ani'] },
+];
