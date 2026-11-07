@@ -93,3 +93,32 @@ export function protocolShareText(protocol: Protocol, disclaimer: string): strin
 export function shareProtocol(protocol: Protocol, disclaimer: string): Promise<ShareResult> {
   return shareContent({ title: protocol.name, text: protocolShareText(protocol, disclaimer), url: appUrl(`/rehab/protocols/${protocol.id}`) });
 }
+
+/** Save a file through the browser's download. */
+export function downloadBlob(blob: Blob, fileName: string): void {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Send a file through the share sheet (WhatsApp, email, Drive…) where the browser can share files,
+ * otherwise download it.
+ */
+export async function shareOrDownloadFile(file: File, title: string): Promise<'shared' | 'downloaded' | 'cancelled'> {
+  if (typeof navigator.share === 'function' && navigator.canShare?.({ files: [file] }) === true) {
+    try {
+      await navigator.share({ title, files: [file] });
+      return 'shared';
+    } catch (error) {
+      // The user closing the share sheet is not an error.
+      if (error instanceof DOMException && error.name === 'AbortError') return 'cancelled';
+      throw error;
+    }
+  }
+  downloadBlob(file, file.name);
+  return 'downloaded';
+}

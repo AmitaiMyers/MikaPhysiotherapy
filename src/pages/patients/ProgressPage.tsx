@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { LineChart } from '../../components/LineChart';
 import { Card, Empty, PageHeader } from '../../components/ui';
 import { getJoint } from '../../data';
-import { progressSeries, seriesChange, SERIES_GROUPS } from '../../patients/progress';
+import { formatDate } from '../../patients/dates';
+import { progressSeries, seriesChange, SERIES_GROUPS, techniqueTimeline } from '../../patients/progress';
+import type { Session } from '../../patients/types';
+import { techniqueName } from '../../techniques/catalog';
+import { useTechniqueContent } from '../../techniques/store';
 import { getRecord, useRecords } from '../../patients/vault';
 
 export function ProgressPage() {
@@ -33,6 +37,7 @@ export function ProgressPage() {
           </select>
         </label>
       )}
+      <TechniquesUsed sessions={inScope} />
       {series.length === 0 && <Empty>No measurements yet. Record pain, scores, range of motion, strength or outcome measures in completed sessions to see them here.</Empty>}
       {SERIES_GROUPS.map((group) => {
         const inGroup = series.filter((s) => s.group === group);
@@ -55,5 +60,27 @@ export function ProgressPage() {
         );
       })}
     </div>
+  );
+}
+
+/** The techniques used in completed sessions: how often and between which dates. */
+function TechniquesUsed({ sessions }: { sessions: Session[] }) {
+  const { techniques: customs } = useTechniqueContent();
+  const uses = techniqueTimeline(sessions);
+  if (uses.length === 0) return null;
+  return (
+    <Card title="Techniques used">
+      <ul className="link-list">
+        {uses.map((use) => (
+          <li key={use.techniqueId}>
+            <Link to={`/techniques/${use.techniqueId}`}>{techniqueName(use.techniqueId, customs)}</Link>{' '}
+            <span className="muted small">
+              {use.dates.length}× · {formatDate(use.dates[0] ?? '')}
+              {use.dates.length > 1 ? ` – ${formatDate(use.dates.at(-1) ?? '')}` : ''}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </Card>
   );
 }

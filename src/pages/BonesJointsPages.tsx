@@ -1,3 +1,4 @@
+import { LinkedTechniquesCard } from '../components/techniques';
 import { Link, useParams } from 'react-router';
 import { LibraryTabs } from '../components/LibraryTabs';
 import { Card, Disclaimer, Empty, MuscleLink, Note, PageHeader } from '../components/ui';
@@ -80,7 +81,8 @@ export function BoneDetailPage() {
           </ul>
         </Card>
       )}
-      <Link to={`/?bone=${bone.id}`} className="button">
+      <LinkedTechniquesCard link={{ kind: 'bone', id: bone.id }} title="Techniques for its joints" />
+      <Link to={`/muscles?bone=${bone.id}`} className="button">
         Show these muscles in the list
       </Link>
       <Disclaimer />
@@ -117,6 +119,7 @@ export function JointDetailPage() {
         );
       })}
       <Note>Movers are worked out from the action lists of all muscles in the app.</Note>
+      <LinkedTechniquesCard link={{ kind: 'joint', id: joint.id }} />
       <Disclaimer />
     </div>
   );

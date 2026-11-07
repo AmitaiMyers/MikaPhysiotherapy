@@ -1,3 +1,4 @@
+import { LinkedTechniquesCard } from '../components/techniques';
 import { Link, useParams } from 'react-router';
 import { LibraryTabs } from '../components/LibraryTabs';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, PageHeader } from '../components/ui';
@@ -105,6 +106,7 @@ export function NerveDetailPage() {
           </ul>
         </Card>
       )}
+      <LinkedTechniquesCard link={{ kind: 'nerve', id: nerve.id }} />
       <Disclaimer />
     </div>
   );

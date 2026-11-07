@@ -4,7 +4,7 @@ import { Icon, type IconName } from './Icon';
 const ITEMS: { to: string; label: string; icon: IconName; prefixes: string[] }[] = [
   { to: '/', label: 'Home', icon: 'home', prefixes: [] },
   { to: '/muscles', label: 'Library', icon: 'book', prefixes: ['/muscles', '/bones', '/joints', '/nerves', '/tests', '/library', '/search'] },
-  { to: '/rehab', label: 'Rehab', icon: 'dumbbell', prefixes: ['/rehab'] },
+  { to: '/rehab', label: 'Rehab', icon: 'dumbbell', prefixes: ['/rehab', '/techniques'] },
   { to: '/patients', label: 'Patients', icon: 'user', prefixes: ['/patients'] },
   { to: '/calendar', label: 'Calendar', icon: 'calendar', prefixes: ['/calendar'] },
 ];

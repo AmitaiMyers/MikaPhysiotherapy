@@ -30,7 +30,15 @@ export interface Episode {
   startDate: string | null;
   status: 'active' | 'discharged';
   notes: string;
+  /** The care plan: techniques to use in this episode's sessions. */
+  plannedTechniques: PlannedTechnique[];
   createdAt: string;
+}
+
+export interface PlannedTechnique {
+  /** A built-in technique id or one of Mika's own techniques. */
+  techniqueId: string;
+  note: string;
 }
 
 /** A photo or PDF; the file itself is stored encrypted separately under the same id. */
@@ -117,6 +125,16 @@ export interface SessionExercise {
   note: string;
 }
 
+/** A therapeutic technique applied in a session, with its family's dosage fields. */
+export interface SessionTechnique {
+  techniqueId: string;
+  side: EpisodeSide;
+  /** Dosage by the family's session field key, e.g. { needles: "3", twitches: "6" }. */
+  values: Record<string, string>;
+  response: string;
+  adverseEvent: string;
+}
+
 export interface HomeProgrammeItem {
   exerciseId: string;
   dosage: string;
@@ -137,6 +155,7 @@ export interface SessionContent {
     notes: string;
   };
   treatment: { modalities: string[]; manualTherapy: string; education: string; notes: string };
+  techniques: SessionTechnique[];
   exercises: SessionExercise[];
   /** Protocol phase this session is in, and the criteria to progress that were met. */
   protocol: { phaseIndex: number | null; criteriaMet: string[] };

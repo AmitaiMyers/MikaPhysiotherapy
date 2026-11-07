@@ -5,6 +5,7 @@ import { Icon, type IconName } from '../components/Icon';
 import { BONES, MUSCLES, NERVES, SPECIAL_TESTS } from '../data';
 import { EXERCISES } from '../data/exercises';
 import { PROTOCOLS } from '../data/protocols';
+import { TECHNIQUES } from '../data/techniques';
 import { localDate } from '../patients/dates';
 import { useRecords, useVaultState } from '../patients/vault';
 
@@ -38,7 +39,7 @@ export function HomePage() {
         }}
       >
         <Icon name="search" size={20} />
-        <input type="search" placeholder="Search muscles, tests, exercises, protocols…" value={text} onChange={(event) => setText(event.target.value)} aria-label="Search everything" />
+        <input type="search" placeholder="Search muscles, tests, exercises, techniques…" value={text} onChange={(event) => setText(event.target.value)} aria-label="Search everything" />
       </form>
       <BodyExplorer />
       <TodayCard />
@@ -50,6 +51,7 @@ export function HomePage() {
         <Tile to="/tests" icon="test" title="Special tests" detail={`${SPECIAL_TESTS.length} tests`} />
         <Tile to="/rehab" icon="dumbbell" title="Exercises" detail={`${EXERCISES.length} exercises`} />
         <Tile to="/rehab/surgeries" icon="clipboard" title="Protocols" detail={`${PROTOCOLS.length} fractures & surgeries`} />
+        <Tile to="/techniques" icon="layers" title="Techniques" detail={`${TECHNIQUES.length} techniques, evidence-graded`} />
       </div>
     </div>
   );

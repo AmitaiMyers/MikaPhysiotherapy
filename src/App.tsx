@@ -20,6 +20,12 @@ import { PatientSettingsPage } from './pages/patients/SettingsPage';
 import { TemplatesPage } from './pages/patients/TemplatesPage';
 import { VaultGate } from './pages/patients/VaultGate';
 import { initVault, startAutoLock } from './patients/vault';
+import { CustomTechniqueFormPage } from './pages/techniques/CustomTechniqueFormPage';
+import { TechniqueConditionPage, TechniqueFamilyPage } from './pages/techniques/FamilyAndConditionPages';
+import { TechniqueImportPage } from './pages/techniques/ImportPage';
+import { TechniqueDetailPage } from './pages/techniques/TechniqueDetailPage';
+import { TechniquesPage } from './pages/techniques/TechniquesPage';
+import { initTechniqueStore } from './techniques/store';
 import { NerveDetailPage, NervesPage } from './pages/NervesPages';
 import { ProgrammeDetailPage, ProgrammeListPage } from './pages/ProgrammePages';
 import { ProtocolDetailPage, ProtocolListPage } from './pages/ProtocolPages';
@@ -42,6 +48,7 @@ const gated = (page: ReactNode) => <VaultGate>{page}</VaultGate>;
 export function App() {
   useEffect(() => {
     void initVault();
+    void initTechniqueStore();
     return startAutoLock();
   }, []);
   return (
@@ -68,6 +75,13 @@ export function App() {
             <Route path="/rehab/protocols/:id" element={<ProtocolDetailPage />} />
             <Route path="/rehab/programmes" element={<ProgrammeListPage />} />
             <Route path="/rehab/programmes/:id" element={<ProgrammeDetailPage />} />
+            <Route path="/techniques" element={<TechniquesPage />} />
+            <Route path="/techniques/new" element={<CustomTechniqueFormPage />} />
+            <Route path="/techniques/import" element={<TechniqueImportPage />} />
+            <Route path="/techniques/families/:id" element={<TechniqueFamilyPage />} />
+            <Route path="/techniques/conditions/:id" element={<TechniqueConditionPage />} />
+            <Route path="/techniques/:id" element={<TechniqueDetailPage />} />
+            <Route path="/techniques/:id/edit" element={<CustomTechniqueFormPage />} />
             <Route path="/patients" element={gated(<PatientListPage />)} />
             <Route path="/patients/settings" element={gated(<PatientSettingsPage />)} />
             <Route path="/patients/templates" element={gated(<TemplatesPage />)} />

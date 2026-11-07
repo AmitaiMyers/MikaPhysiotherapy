@@ -4,6 +4,8 @@ import { getBone, getJoint, getMuscle, getNerve } from '../data';
 import { BODY_LAYER_LABELS, BODY_SIZE, bodyIdMapUrl, bodyImageUrl, bodyTarget, isVisible, targetIndex, type BodyLayer, type BodyTarget, type BodyView } from '../data/bodyMap';
 import { attachmentsOnBone, formatRoots } from '../domain/relations';
 import { Icon } from './Icon';
+import { useTechniqueViews } from './techniques';
+import { linkedTechniques, type AnatomyLink } from '../techniques/view';
 
 const { width: W, height: H } = BODY_SIZE;
 /** How far (in image pixels) a tap may miss a thin structure and still pick it. */
@@ -193,6 +195,7 @@ function MuscleSummary({ id }: { id: string }) {
         <Link to={`/muscles/${id}?tab=exercises`} className="button">
           Exercises
         </Link>
+        <TechniquesButton link={{ kind: 'muscle', id }} />
       </div>
     </>
   );
@@ -219,7 +222,19 @@ function BoneSummary({ id }: { id: string }) {
         <Link to={`/bones/${id}`} className="button button-primary">
           Open bone
         </Link>
+        <TechniquesButton link={{ kind: 'bone', id }} />
       </div>
     </>
+  );
+}
+
+/** "Techniques (n)" for the tapped muscle or bone, when the directory has any. */
+function TechniquesButton({ link }: { link: AnatomyLink }) {
+  const count = linkedTechniques(useTechniqueViews(), link).length;
+  if (count === 0) return null;
+  return (
+    <Link to={`/techniques?${link.kind}=${link.id}`} className="button">
+      Techniques ({count})
+    </Link>
   );
 }

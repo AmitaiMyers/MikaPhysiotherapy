@@ -12,6 +12,7 @@ import { ExercisesSection } from './ExercisesSection';
 import { ObjectiveSections } from './ObjectiveSections';
 import { HomeProgrammeSection, ProtocolSection, ScoresSection, SubjectiveSection, TreatmentSection } from './OtherSections';
 import { SessionSection } from './SessionSection';
+import { TechniquesSection } from './TechniquesSection';
 
 export function SessionPage() {
   const { sessionId = '' } = useParams();
@@ -101,6 +102,7 @@ function SessionEditor({ session, allSessions }: { session: Session; allSessions
         <span className="soap-letter">T</span> Treatment
       </h2>
       <TreatmentSection treatment={session.treatment} onChange={(treatment) => update({ treatment })} />
+      <TechniquesSection techniques={session.techniques} plan={episode?.plannedTechniques ?? []} defaultSide={episode?.side ?? 'none'} onChange={(techniques) => update({ techniques })} />
       <ExercisesSection exercises={session.exercises} onChange={(exercises) => update({ exercises })} />
       {protocol !== null && <ProtocolSection protocol={protocol} value={session.protocol} suggestedPhase={suggestedPhase(episode, session.date)} onChange={(value) => update({ protocol: value })} />}
       <HomeProgrammeSection value={session.homeProgramme} exercises={session.exercises} onChange={(homeProgramme) => update({ homeProgramme })} />

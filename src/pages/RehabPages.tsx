@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { equipmentLabels, ExerciseList } from '../components/ExerciseList';
-import { ExerciseVideoPlayer, VideoLinkEditor } from '../components/ExerciseVideo';
+import { VideoLinkEditor, VideoPlayer } from '../components/ExerciseVideo';
 import { AddToProgramme } from '../components/AddToProgramme';
+import { MuscleImageStrip } from '../components/MuscleImageStrip';
 import { RehabTabs } from '../components/RehabTabs';
+import { LinkedTechniquesCard } from '../components/techniques';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, Note, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
-import { getMuscle, getNerve, MUSCLES, REGIONS } from '../data';
+import { getNerve, MUSCLES, REGIONS } from '../data';
 import {
   DIFFICULTY_LABELS,
   EQUIPMENT_LABELS,
@@ -19,12 +21,12 @@ import {
   getExerciseRegion,
 } from '../data/exercises';
 import type { Difficulty, Equipment, Exercise, ExerciseType } from '../data/exerciseTypes';
-import { muscleViews } from '../data/images';
 import { protocolsUsingExercise } from '../data/protocols';
 import { filterExercises, hasActiveExerciseFilters, type ExerciseFilters } from '../domain/exerciseSearch';
 import { itemFor } from '../domain/programmes';
 import { shareExercise } from '../domain/share';
 import { useExerciseVideo } from '../domain/videoOverrides';
+import { channelSearchUrl, searchUrl, VIDEO_CHANNELS } from '../domain/videos';
 
 const isTargeted = (muscleId: string) => EXERCISES.some((e) => e.primaryMuscles.includes(muscleId) || e.secondaryMuscles.includes(muscleId));
 const MUSCLE_OPTIONS = REGIONS.map((region) => ({
@@ -172,6 +174,11 @@ function GroupedExercises() {
   );
 }
 
+/** Mika's channels in priority order, then all of YouTube. */
+function exerciseVideoSearches(name: string) {
+  return [...VIDEO_CHANNELS.map((channel) => ({ label: channel.name, url: channelSearchUrl(channel.handle, name) })), { label: 'All of YouTube', url: searchUrl(name) }];
+}
+
 export function ExerciseDetailPage() {
   const { id = '' } = useParams();
   const exercise = findExercise(id);
@@ -200,7 +207,7 @@ function ExerciseDetail({ exercise }: { exercise: Exercise }) {
           </span>
         ))}
       </div>
-      <ExerciseVideoPlayer exercise={exercise} video={video.video} />
+      <VideoPlayer title={exercise.name} video={video.video} />
       <aside className="tip-box">
         <span className="tip-label">Physio tip</span>
         <p>{exercise.tip}</p>
@@ -231,7 +238,8 @@ function ExerciseDetail({ exercise }: { exercise: Exercise }) {
         </Card>
       )}
       <UsedInProtocols exerciseId={exercise.id} />
-      <VideoLinkEditor exercise={exercise} state={video} />
+      <LinkedTechniquesCard link={{ kind: 'exercise', id: exercise.id }} title="Hands-on techniques it continues" />
+      <VideoLinkEditor state={video} searches={exerciseVideoSearches(exercise.name)} hint="Find it in Mika’s channels, in order — then copy the video link and paste it above:" />
       <SourcesSection sourceIds={exercise.sourceIds} />
       <Disclaimer />
     </div>
@@ -242,19 +250,7 @@ function ExerciseDetail({ exercise }: { exercise: Exercise }) {
 function TargetsCard({ exercise }: { exercise: Exercise }) {
   return (
     <Card title={exercise.primaryMuscles.length > 0 ? 'Target muscles' : 'Targets'}>
-      {exercise.primaryMuscles.length > 0 && (
-        <div className="target-strip">
-          {exercise.primaryMuscles.map((muscleId) => {
-            const image = muscleViews(muscleId)[0];
-            return (
-              <Link key={muscleId} to={`/muscles/${muscleId}`} className="target-card">
-                {image ? <img src={image.url} alt="" loading="lazy" width={120} height={150} /> : <span className="target-image-empty" aria-hidden="true" />}
-                <span>{getMuscle(muscleId).name}</span>
-              </Link>
-            );
-          })}
-        </div>
-      )}
+      <MuscleImageStrip muscleIds={exercise.primaryMuscles} />
       {exercise.primaryMuscles.length === 0 && exercise.nerveIds.length === 0 && (
         <p className="muted">A passive or assisted movement: the muscles below relax or help rather than drive it.</p>
       )}

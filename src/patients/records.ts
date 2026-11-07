@@ -10,7 +10,7 @@ export function emptyPatient(today: string): Patient {
 }
 
 export function emptyEpisode(patientId: string): Episode {
-  return { id: newId(), patientId, title: '', side: 'none', diagnosis: '', protocolId: null, startDate: null, status: 'active', notes: '', createdAt: nowIso() };
+  return { id: newId(), patientId, title: '', side: 'none', diagnosis: '', protocolId: null, startDate: null, status: 'active', notes: '', plannedTechniques: [], createdAt: nowIso() };
 }
 
 /** Delete a patient with all their episodes, sessions and attachments. */

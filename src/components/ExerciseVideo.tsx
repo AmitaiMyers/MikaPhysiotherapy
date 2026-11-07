@@ -1,24 +1,18 @@
 import { useState } from 'react';
-import type { Exercise, VideoRef } from '../data/exerciseTypes';
-import { resetVideoOverride, setVideoOverride, type ExerciseVideoState } from '../domain/videoOverrides';
-import { channelSearchUrl, embedUrl, parseYouTubeLink, searchUrl, VIDEO_CHANNELS, watchUrl } from '../domain/videos';
+import type { VideoRef } from '../data/exerciseTypes';
+import { resetVideoOverride, setVideoOverride, type VideoChoice } from '../domain/videoOverrides';
+import { embedUrl, parseYouTubeLink, watchUrl } from '../domain/videos';
 import { useOnlineStatus } from './useOnlineStatus';
 
 /** The demo video: a muted, looping YouTube player when there is a video and a connection. */
-export function ExerciseVideoPlayer({ exercise, video }: { exercise: Exercise; video: VideoRef | null }) {
+export function VideoPlayer({ title, video }: { title: string; video: VideoRef | null }) {
   const online = useOnlineStatus();
   if (video === null) return null;
   if (!online) return <p className="note">Offline — the demonstration video plays when you are back online.</p>;
   return (
     <div className="exercise-media">
       <div className="video-frame">
-        <iframe
-          src={embedUrl(video)}
-          title={`${exercise.name} video`}
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
+        <iframe src={embedUrl(video)} title={`${title} video`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
       </div>
       <a href={watchUrl(video)} target="_blank" rel="noreferrer" className="text-button small align-end">
         Open on YouTube ↗
@@ -27,16 +21,27 @@ export function ExerciseVideoPlayer({ exercise, video }: { exercise: Exercise; v
   );
 }
 
-/** Change, remove or reset the YouTube video shown for an exercise (saved on this device). */
-export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state: ExerciseVideoState }) {
+/** A place to look for a video, shown as a button while the editor is open. */
+export interface VideoSearchLink {
+  label: string;
+  url: string;
+}
+
+/**
+ * Change, remove or reset a YouTube video (saved on this device). The search links are listed in
+ * order of preference; the last is shown as a plain text link.
+ */
+export function VideoLinkEditor({ state, searches, hint }: { state: VideoChoice; searches: VideoSearchLink[]; hint: string }) {
   const [editing, setEditing] = useState(false);
   const [link, setLink] = useState('');
   const parsed = parseYouTubeLink(link);
   const showLinkError = link.trim() !== '' && parsed === null;
+  const preferred = searches.slice(0, -1);
+  const last = searches.at(-1);
 
   const save = () => {
     if (parsed === null) return;
-    setVideoOverride(exercise.id, parsed);
+    setVideoOverride(state.key, parsed);
     setEditing(false);
     setLink('');
   };
@@ -48,7 +53,7 @@ export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state
         <p className="muted small">No video yet. Paste a YouTube link to show a demonstration here.</p>
       ) : (
         <>
-          {state.source !== null && <p className="small muted">{state.source.channel === null ? 'Default video' : `From ${state.source.channel.name}`}</p>}
+          {state.sourceLabel !== null && <p className="small muted">{state.sourceLabel}</p>}
           <a href={watchUrl(state.video)} target="_blank" rel="noreferrer" className="small video-link">
             {watchUrl(state.video)}
           </a>
@@ -78,20 +83,24 @@ export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state
             </button>
           </div>
           {showLinkError && <p className="field-error">That doesn’t look like a YouTube video link.</p>}
-          <p className="small muted">Find it in Mika’s channels, in order — then copy the video link and paste it above:</p>
-          <ol className="channel-list">
-            {VIDEO_CHANNELS.map((channel) => (
-              <li key={channel.id}>
-                <a className="button" href={channelSearchUrl(channel.handle, exercise.name)} target="_blank" rel="noreferrer">
-                  {channel.name} ↗
-                </a>
-              </li>
-            ))}
-          </ol>
+          <p className="small muted">{hint}</p>
+          {preferred.length > 0 && (
+            <ol className="channel-list">
+              {preferred.map((search) => (
+                <li key={search.url}>
+                  <a className="button" href={search.url} target="_blank" rel="noreferrer">
+                    {search.label} ↗
+                  </a>
+                </li>
+              ))}
+            </ol>
+          )}
           <div className="button-row">
-            <a className="text-button" href={searchUrl(exercise.name)} target="_blank" rel="noreferrer">
-              All of YouTube ↗
-            </a>
+            {last !== undefined && (
+              <a className="text-button" href={last.url} target="_blank" rel="noreferrer">
+                {last.label} ↗
+              </a>
+            )}
             <button type="button" className="text-button" onClick={() => setEditing(false)}>
               Cancel
             </button>
@@ -103,12 +112,12 @@ export function VideoLinkEditor({ exercise, state }: { exercise: Exercise; state
             {state.video === null ? 'Add video' : 'Change video'}
           </button>
           {state.video !== null && (
-            <button type="button" className="text-button danger" onClick={() => setVideoOverride(exercise.id, null)}>
+            <button type="button" className="text-button danger" onClick={() => setVideoOverride(state.key, null)}>
               Remove
             </button>
           )}
           {state.hasDefault && state.overridden && (
-            <button type="button" className="text-button" onClick={() => resetVideoOverride(exercise.id)}>
+            <button type="button" className="text-button" onClick={() => resetVideoOverride(state.key)}>
               Reset to default
             </button>
           )}

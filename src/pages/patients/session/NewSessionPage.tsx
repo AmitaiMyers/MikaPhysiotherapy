@@ -39,7 +39,7 @@ export function NewSessionPage() {
       dates: [date],
       startTime,
       durationMin: Number(durationMin),
-      content: startingContent(sessionStart, sessions, templates, patient.id, episode),
+      content: startingContent(sessionStart, sessions, templates, patient.id, episodes.find((e) => e.id === episode) ?? null),
       today,
     });
     if (session === undefined) throw new Error('No session was built');

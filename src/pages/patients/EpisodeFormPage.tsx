@@ -9,6 +9,7 @@ import type { Episode, EpisodeSide } from '../../patients/types';
 import { getRecord, saveRecord } from '../../patients/vault';
 import { AttachmentsCard } from './AttachmentsCard';
 import { ProtocolProgress, SIDE_LABELS } from './EpisodeSummary';
+import { PlannedTechniquesCard } from './session/TechniquesSection';
 
 /** New episode (/episodes/new) or edit an existing one. */
 export function EpisodeFormPage() {
@@ -72,6 +73,7 @@ function EpisodeForm({ initial, isNew, patientName }: { initial: Episode; isNew:
         </SelectField>
         <TextField label="Surgery or injury date (week 0 of the protocol)" type="date" value={episode.startDate ?? ''} onChange={(value) => update({ startDate: value === '' ? null : value })} />
         <TextAreaField label="Notes" value={episode.notes} onChange={(notes) => update({ notes })} />
+        <PlannedTechniquesCard plan={episode.plannedTechniques} onChange={(plannedTechniques) => update({ plannedTechniques })} />
         <button type="submit" className="button button-primary" disabled={episode.title.trim() === ''}>
           {isNew ? 'Create episode' : 'Save'}
         </button>

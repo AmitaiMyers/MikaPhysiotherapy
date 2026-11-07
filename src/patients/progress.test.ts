@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { progressSeries, seriesChange } from './progress';
+import { progressSeries, seriesChange, techniqueTimeline } from './progress';
 import { emptyContent } from './sessions';
 import type { Session } from './types';
 
@@ -46,5 +46,21 @@ describe('progress series', () => {
   it('describes the change since the first value', () => {
     expect(seriesChange(find('rom:knee:flexion:right:active') ?? series[0]!)).toBe('+20°');
     expect(seriesChange(find('pain:activity') ?? series[0]!)).toBe('-3/10');
+  });
+});
+
+describe('technique timeline', () => {
+  const used = (techniqueId: string) => ({ techniqueId, side: 'none' as const, values: {}, response: '', adverseEvent: '' });
+
+  it('lists techniques of completed sessions by first use, with their dates', () => {
+    const sessions = [
+      session('2026-03-08', { techniques: [used('dn-upper-trapezius'), used('mulligan-cervical-snag')] }),
+      session('2026-03-01', { techniques: [used('mulligan-cervical-snag'), used('mulligan-cervical-snag')] }),
+      session('2026-03-15', { status: 'planned', techniques: [used('dn-masseter')] }),
+    ];
+    expect(techniqueTimeline(sessions)).toEqual([
+      { techniqueId: 'mulligan-cervical-snag', dates: ['2026-03-01', '2026-03-08'] },
+      { techniqueId: 'dn-upper-trapezius', dates: ['2026-03-08'] },
+    ]);
   });
 });

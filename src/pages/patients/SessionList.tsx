@@ -8,6 +8,7 @@ function sessionSummary(session: Session): string {
   const pain = session.subjective.pain.activity ?? session.subjective.pain.rest;
   const parts = [
     pain === null ? null : `Pain ${pain}/10`,
+    session.techniques.length > 0 ? `${session.techniques.length} ${session.techniques.length === 1 ? 'technique' : 'techniques'}` : null,
     session.exercises.length > 0 ? `${session.exercises.length} exercises` : null,
     session.objective.tests.length > 0 ? `${session.objective.tests.length} tests` : null,
     session.assessment.split('\n')[0] || null,

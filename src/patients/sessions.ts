@@ -12,6 +12,7 @@ export function emptyContent(): SessionContent {
     subjective: { notes: '', pain: { rest: null, activity: null, worst: null } },
     objective: { rom: [], strength: [], tests: [], outcomes: [], girth: [], movement: '', notes: '' },
     treatment: { modalities: [], manualTherapy: '', education: '', notes: '' },
+    techniques: [],
     exercises: [],
     protocol: { phaseIndex: null, criteriaMet: [] },
     homeProgramme: null,
@@ -26,8 +27,8 @@ export const emptySet = (): SessionSet => ({ reps: null, weightKg: null, duratio
 
 /**
  * The plan of a session without this session's findings: what to measure, test and do next time.
- * Measurements, results and free text are cleared; exercises keep their sets (they are the plan);
- * treatment choices, the home programme, the protocol phase and the score subjects are kept.
+ * Measurements, results and free text are cleared; exercises keep their sets and techniques their
+ * dosage (they are the plan); treatment choices, the home programme, the protocol phase and the score subjects are kept.
  */
 export function sessionStructure(content: SessionContent): SessionContent {
   return {
@@ -42,6 +43,7 @@ export function sessionStructure(content: SessionContent): SessionContent {
       notes: '',
     },
     treatment: { ...content.treatment, modalities: [...content.treatment.modalities] },
+    techniques: content.techniques.map((entry) => ({ ...entry, values: { ...entry.values }, response: '', adverseEvent: '' })),
     exercises: content.exercises.map((exercise) => ({ ...exercise, sets: exercise.sets.map((set) => ({ ...set })), note: exercise.note })),
     protocol: { phaseIndex: content.protocol.phaseIndex, criteriaMet: [] },
     homeProgramme: content.homeProgramme === null ? null : { ...content.homeProgramme, items: content.homeProgramme.items.map((item) => ({ ...item })) },
@@ -54,8 +56,8 @@ export function sessionStructure(content: SessionContent): SessionContent {
 
 /** Only the clinical content of a session (drops ids, dates and status). */
 export function contentOf(session: Session): SessionContent {
-  const { subjective, objective, treatment, exercises, protocol, homeProgramme, scores, assessment, plan, notes } = session;
-  return { subjective, objective, treatment, exercises, protocol, homeProgramme, scores, assessment, plan, notes };
+  const { subjective, objective, treatment, techniques, exercises, protocol, homeProgramme, scores, assessment, plan, notes } = session;
+  return { subjective, objective, treatment, techniques, exercises, protocol, homeProgramme, scores, assessment, plan, notes };
 }
 
 const chronological = (a: Session, b: Session) => `${a.date} ${a.startTime}`.localeCompare(`${b.date} ${b.startTime}`);

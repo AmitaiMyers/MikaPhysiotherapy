@@ -2,6 +2,7 @@ import { NavLink } from 'react-router';
 
 const SECTIONS = [
   { to: '/rehab', label: 'Exercises' },
+  { to: '/techniques', label: 'Techniques' },
   { to: '/rehab/fractures', label: 'Fractures' },
   { to: '/rehab/surgeries', label: 'Surgeries' },
   { to: '/rehab/programmes', label: 'Programmes' },

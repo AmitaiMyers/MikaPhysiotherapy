@@ -1,38 +1,50 @@
 import type { VideoRef } from '../data/exerciseTypes';
 import { createLocalStore } from './localStore';
-import { defaultVideo, type DefaultVideo } from './videos';
+import { defaultVideo } from './videos';
 
-/** exerciseId → the user's chosen video; null means the user removed the video on purpose. */
+/** Key (exercise id, or "technique:<id>") → the user's chosen video; null means removed on purpose. */
 type VideoOverrides = Readonly<Record<string, VideoRef | null>>;
 
 const store = createLocalStore<VideoOverrides>('mika.videoOverrides', {});
 
-export function setVideoOverride(exerciseId: string, video: VideoRef | null): void {
-  store.set({ ...store.get(), [exerciseId]: video });
+export function setVideoOverride(key: string, video: VideoRef | null): void {
+  store.set({ ...store.get(), [key]: video });
 }
 
-/** Go back to the exercise's built-in default video (or none). */
-export function resetVideoOverride(exerciseId: string): void {
+/** Go back to the built-in default video (or none). */
+export function resetVideoOverride(key: string): void {
   const next = { ...store.get() };
-  delete next[exerciseId];
+  delete next[key];
   store.set(next);
 }
 
-export interface ExerciseVideoState {
+/** A built-in video and where it comes from, e.g. "From Squat University". */
+export interface VideoDefault {
+  video: VideoRef;
+  label: string;
+}
+
+export interface VideoChoice {
+  /** The key the user's choice is saved under. */
+  key: string;
   /** The user's video, else the built-in default, else null. */
   video: VideoRef | null;
   hasDefault: boolean;
   /** Whether the user replaced or removed the default. */
   overridden: boolean;
-  /** The default video and its channel, when the user has not replaced it. */
-  source: DefaultVideo | null;
+  /** Where the shown video comes from, when it is the built-in default. */
+  sourceLabel: string | null;
 }
 
-export function useExerciseVideo(exerciseId: string): ExerciseVideoState {
+export function useVideoChoice(key: string, fallback: VideoDefault | null): VideoChoice {
   const overrides = store.use();
-  const overridden = exerciseId in overrides;
+  const overridden = key in overrides;
   // An override holding null means the user removed the video, so it must win over the default.
-  const fallback = defaultVideo(exerciseId);
-  const video = overridden ? (overrides[exerciseId] ?? null) : (fallback?.video ?? null);
-  return { video, hasDefault: fallback !== null, overridden, source: overridden ? null : fallback };
+  const video = overridden ? (overrides[key] ?? null) : (fallback?.video ?? null);
+  return { key, video, hasDefault: fallback !== null, overridden, sourceLabel: overridden || fallback === null ? null : fallback.label };
+}
+
+export function useExerciseVideo(exerciseId: string): VideoChoice {
+  const found = defaultVideo(exerciseId);
+  return useVideoChoice(exerciseId, found === null ? null : { video: found.video, label: found.channel === null ? 'Default video' : `From ${found.channel.name}` });
 }

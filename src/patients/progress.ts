@@ -66,3 +66,18 @@ export function seriesChange(series: Series): string {
   const delta = Math.round((last.value - first.value) * 10) / 10;
   return `${delta > 0 ? '+' : ''}${delta}${series.unit}`;
 }
+
+export interface TechniqueUse {
+  techniqueId: string;
+  /** Dates of the completed sessions that used it, oldest first. */
+  dates: string[];
+}
+
+/** Which techniques were used in completed sessions and when, in order of first use. */
+export function techniqueTimeline(sessions: Session[]): TechniqueUse[] {
+  const uses = new Map<string, string[]>();
+  for (const session of [...sessions].filter((s) => s.status === 'done').sort((a, b) => a.date.localeCompare(b.date))) {
+    for (const techniqueId of new Set(session.techniques.map((t) => t.techniqueId))) uses.set(techniqueId, [...(uses.get(techniqueId) ?? []), session.date]);
+  }
+  return [...uses.entries()].map(([techniqueId, dates]) => ({ techniqueId, dates }));
+}

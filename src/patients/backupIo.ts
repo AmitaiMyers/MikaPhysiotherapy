@@ -2,17 +2,13 @@ import { readAllFiles, readAllRecords, readMeta, replaceAll } from './db';
 import { backupFileName, parseBackup, serializeBackup } from './backup';
 import { markBackedUp, reloadAfterRestore } from './vault';
 import { required } from '../domain/assert';
+import { downloadBlob } from '../domain/share';
 
 /** Download the vault as a backup file and remember when. */
 export async function downloadBackup(): Promise<void> {
   const now = new Date();
   const text = serializeBackup({ meta: required(await readMeta(), 'No vault'), records: await readAllRecords(), files: await readAllFiles() }, now.toISOString());
-  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = backupFileName(now);
-  link.click();
-  URL.revokeObjectURL(url);
+  downloadBlob(new Blob([text], { type: 'application/json' }), backupFileName(now));
   await markBackedUp();
 }
 

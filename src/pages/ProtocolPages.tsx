@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router';
 import { AddToProgramme } from '../components/AddToProgramme';
 import { RehabTabs } from '../components/RehabTabs';
 import { BulletSection, Disclaimer, Empty, PageHeader, ShareButton, SourcesSection } from '../components/ui';
+import { conditionsForProtocol } from '../techniques/view';
 import { useUrlParams } from '../components/useUrlParams';
 import { getExercise } from '../data/exercises';
 import type { Protocol, ProtocolKind, ProtocolPhase } from '../data/protocolTypes';
@@ -114,6 +115,7 @@ export function ProtocolDetailPage() {
       <BulletSection title="Return to activity and sport" items={protocol.returnToActivity} />
       <BulletSection title="Outcome measures" items={protocol.outcomeMeasures} />
       <BulletSection title="Where protocols differ" items={protocol.notes} />
+      <ProtocolConditions protocolId={protocol.id} />
       <SourcesSection sourceIds={protocol.sourceIds} />
       <Disclaimer />
     </div>
@@ -168,5 +170,24 @@ function PhaseList({ title, items }: { title: string; items: string[] }) {
         ))}
       </ul>
     </>
+  );
+}
+
+/** Conditions linked to the protocol (e.g. knee stiffness after TKA), opening their techniques. */
+function ProtocolConditions({ protocolId }: { protocolId: string }) {
+  const conditions = conditionsForProtocol(protocolId);
+  if (conditions.length === 0) return null;
+  return (
+    <section className="card">
+      <h2>Hands-on techniques</h2>
+      <p className="small muted">Evidence-graded techniques for related problems:</p>
+      <ul className="link-list">
+        {conditions.map((condition) => (
+          <li key={condition.id}>
+            <Link to={`/techniques/conditions/${condition.id}`}>{condition.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

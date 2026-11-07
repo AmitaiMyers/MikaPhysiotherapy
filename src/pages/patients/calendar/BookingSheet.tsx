@@ -49,7 +49,7 @@ export function BookingSheet({ date, startTime, onClose }: { date: string; start
   const book = () => {
     const sessionStart: SessionStart =
       startChoice === 'last' ? { kind: 'last' } : startChoice.startsWith('template:') ? { kind: 'template', templateId: startChoice.slice('template:'.length) } : { kind: 'blank' };
-    const content = startingContent(sessionStart, sessions, templates, patientId, episodeValue);
+    const content = startingContent(sessionStart, sessions, templates, patientId, patientEpisodes.find((e) => e.id === episodeValue) ?? null);
     for (const session of buildSessions({ patientId, episodeId: episodeValue, dates, startTime: time, durationMin: Number(duration), content, today: localDate(new Date()) })) {
       saveRecord('session', session);
     }

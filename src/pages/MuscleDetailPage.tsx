@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import { ExerciseList } from '../components/ExerciseList';
+import { TechniquesCard, useTechniqueViews } from '../components/techniques';
+import { linkedTechniques } from '../techniques/view';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, NerveSupplyLine, Note, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { findMuscle, getBone, getJoint, getRegion, getSpecialTest } from '../data';
 import { exercisesForMuscle } from '../data/exercises';
@@ -20,6 +22,7 @@ const TABS = [
   { id: 'clinical', label: 'Clinical' },
   { id: 'assessment', label: 'Assessment' },
   { id: 'exercises', label: 'Exercises' },
+  { id: 'techniques', label: 'Techniques' },
   { id: '3d', label: '3D' },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
@@ -48,6 +51,7 @@ export function MuscleDetailPage() {
       {tab === 'clinical' && <ClinicalTab muscle={muscle} />}
       {tab === 'assessment' && <AssessmentTab muscle={muscle} />}
       {tab === 'exercises' && <ExercisesTab muscle={muscle} />}
+      {tab === 'techniques' && <TechniquesTab muscleId={muscle.id} />}
       {tab === '3d' && (
         <Suspense fallback={<p className="muted center">Loading 3D viewer…</p>}>
           <AnatomyViewer muscleId={muscle.id} />
@@ -315,4 +319,10 @@ function ExercisesTab({ muscle }: { muscle: Muscle }) {
       )}
     </>
   );
+}
+
+function TechniquesTab({ muscleId }: { muscleId: string }) {
+  const views = linkedTechniques(useTechniqueViews(), { kind: 'muscle', id: muscleId });
+  if (views.length === 0) return <Empty>No technique in the directory targets this muscle yet. You can add your own in Techniques.</Empty>;
+  return <TechniquesCard views={views} />;
 }

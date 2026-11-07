@@ -7,6 +7,7 @@ import { assert, required } from '../domain/assert';
 import { biometricSecret, enrolBiometric } from './biometric';
 import { generateDataKey, keyFromPin, keyFromSecret, MIN_PIN_LENGTH, openBytes, openJson, randomBytes, sealBytes, sealJson, unwrapDataKey, wrapDataKey } from './crypto';
 import { deleteStoredFile, deleteStoredRecord, eraseAll, readAllRecords, readFile, readMeta, recordKey, writeFile, writeMeta, writeRecord, type VaultMeta } from './db';
+import { upgradeRecord } from './migrate';
 import { RECORD_KINDS, type RecordKind, type RecordTypes } from './types';
 
 export type VaultStatus = 'loading' | 'empty' | 'locked' | 'unlocked';
@@ -74,7 +75,7 @@ export const useVaultState = (): VaultState => useSyncExternalStore(subscribe, (
 async function loadRecords(key: CryptoKey, meta: VaultMeta): Promise<void> {
   const loaded = emptyCollections();
   for (const stored of await readAllRecords()) {
-    const value = await openJson<{ id: string }>(key, stored);
+    const value = upgradeRecord(stored.kind, await openJson<Record<string, unknown>>(key, stored)) as { id: string };
     (loaded[stored.kind] as Map<string, unknown>).set(value.id, value);
   }
   dataKey = key;
