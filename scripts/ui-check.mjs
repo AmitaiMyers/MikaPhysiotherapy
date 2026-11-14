@@ -50,7 +50,8 @@ const paths = only === '' ? Object.values(SCREENS).flat() : SCREENS[only];
 if (paths === undefined) throw new Error(`Unknown journey "${only}"`);
 mkdirSync(out, { recursive: true });
 
-const browser = await chromium.launch();
+// Software WebGL, so the 3D body on Home is checked as well as its picture fallback.
+const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 const problems = [];
 for (const scheme of ['light', 'dark']) {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: scheme, reducedMotion: 'reduce' });

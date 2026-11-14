@@ -4,27 +4,17 @@
  * camera that frames a box from one of the four views.
  */
 import { AmbientLight, Box3, Color, DirectionalLight, LinearSRGBColorSpace, MeshBasicMaterial, NoToneMapping, OrthographicCamera, Scene, Vector3, WebGLRenderer } from 'three';
-import type { RegionId } from '../../src/data/types';
-import { loadAnatomyModel, type ModelPart } from '../../src/viewer/model';
+import { loadBodyParts, type ModelPart } from '../../src/viewer/model';
 
 export type View = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior';
 
-const REGIONS: RegionId[] = ['head-neck', 'trunk-pelvis', 'upper-limb', 'lower-limb'];
-
-/** Bones and muscles of all four regional models, each once (the models overlap at their borders). */
+/** Mapped bones and muscles of the whole body. */
 export async function loadBody(): Promise<{ bones: ModelPart[]; muscles: ModelPart[] }> {
-  const models = await Promise.all(REGIONS.map((region) => loadAnatomyModel(region)));
-  const seen = new Set<string>();
-  const bones: ModelPart[] = [];
-  const muscles: ModelPart[] = [];
-  for (const part of models.flatMap((model) => model.parts)) {
-    const key = `${part.kind}|${part.name}|${part.side}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    if (part.kind === 'bone' && part.boneId !== null && !/muscle/i.test(part.name)) bones.push(part);
-    if (part.kind === 'muscle' && part.muscleId !== null) muscles.push(part);
-  }
-  return { bones, muscles };
+  const parts = await loadBodyParts();
+  return {
+    bones: parts.filter((part) => part.kind === 'bone' && part.boneId !== null && !/muscle/i.test(part.name)),
+    muscles: parts.filter((part) => part.kind === 'muscle' && part.muscleId !== null),
+  };
 }
 
 /** Which way the body's right side lies (right-side bones sit on one side of the midline), and the skeleton's bounds. */
@@ -87,13 +77,18 @@ export function createStage() {
       fill.position.copy(centre).add(new Vector3(0.6, -0.3, 0.4).multiplyScalar(300)).addScaledVector(dir, 200);
       return camera;
     },
-    /** Pixels drawn with TARGET_ID in an ID render: how much of the target a view shows. */
-    countTarget(camera: OrthographicCamera, width: number, height: number): number {
+    /** The ID render's pixels (RGBA, bottom row first). */
+    readIds(camera: OrthographicCamera, width: number, height: number): Uint8Array {
       ids.setSize(width, height, false);
       ids.render(scene, camera);
       const gl = ids.getContext();
       const pixels = new Uint8Array(width * height * 4);
       gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+      return pixels;
+    },
+    /** Pixels drawn with TARGET_ID in an ID render: how much of the target a view shows. */
+    countTarget(camera: OrthographicCamera, width: number, height: number): number {
+      const pixels = this.readIds(camera, width, height);
       let count = 0;
       for (let i = 0; i < pixels.length; i += 4) if ((pixels[i] as number) > 200 && (pixels[i + 3] as number) > 0) count++;
       return count;

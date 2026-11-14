@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { BodyExplorer } from '../components/BodyExplorer';
+import { BodyPoster } from '../components/BodyExplorer';
 import { SkeletonRows } from '../components/feedback';
 import { EmptyState, SessionStatusBadge } from '../components/ui';
 import { Icon, type IconName } from '../components/Icon';
@@ -10,6 +10,9 @@ import { PROTOCOLS } from '../data/protocols';
 import { TECHNIQUES } from '../data/techniques';
 import { localDate } from '../patients/dates';
 import { useRecords, useVaultState } from '../patients/vault';
+
+/** The 3D body (three.js and the models) loads after the page; a still picture stands in meanwhile. */
+const BodyExplorer3D = lazy(() => import('../viewer/BodyExplorer3D'));
 
 function greeting(hour: number): string {
   if (hour < 12) return 'Good morning';
@@ -43,7 +46,9 @@ export function HomePage() {
         <Icon name="search" size={20} />
         <input type="search" placeholder="Search everything" value={text} onChange={(event) => setText(event.target.value)} aria-label="Search everything" />
       </form>
-      <BodyExplorer />
+      <Suspense fallback={<BodyPoster />}>
+        <BodyExplorer3D />
+      </Suspense>
       <TodayCard />
       <h2 className="section-heading">Explore</h2>
       <div className="tile-grid">

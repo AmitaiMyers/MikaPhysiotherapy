@@ -6,7 +6,7 @@ There is no account and no server; all data ships with the app.
 
 ## Contents
 
-- **Home**: an interactive human body (front and back; muscles, deep muscles or skeleton — muscles on the body's right side, bones on the left). Tap a muscle or bone to highlight it and see its key facts, then open its page. Also a search across everything, today's sessions and quick links. The body is pre-rendered from the 3D model with an "ID map" for tapping, so it works offline (`node scripts/anatomy/render-body.mjs`).
+- **Home**: an interactive 3D human body (muscles on the body's right side, bones on the left): drag to rotate, pinch to zoom, and peel muscle layers with a slider from all muscles down to the skeleton (layers come from `node scripts/anatomy/muscle-depth.mjs`, which peels the model like an onion). Tap a muscle or bone to select it, then **Focus** (fade everything else and fly to it), make it **See-through** (what lies beneath shows and can be tapped) or open its details and page. Layers, selection, see-through muscles and the camera are kept when you leave Home and come back. While the model loads (about 9 MB, cached after the first time) a still picture stands in; without WebGL or the model, the pre-rendered tappable picture is used (`node scripts/anatomy/render-body.mjs`). Also a search across everything, today's sessions and quick links.
 - **Navigation**: Home · Library (Muscles, Bones & joints, Nerves, Special tests) · Rehab (Exercises, Techniques, Protocols, Programmes) · Patients · Calendar. Design notes: `docs/design/critique.md` and `docs/design/design-system.md`.
 
 - **Muscles** (Library): 166 physiotherapy-relevant skeletal muscles in four regions, each grouped by compartment and layer:

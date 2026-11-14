@@ -1,4 +1,5 @@
 import { BufferAttribute, BufferGeometry } from 'three';
+import { REGIONS } from '../data/catalog/regions';
 import type { RegionId } from '../data/types';
 import { assert } from '../domain/assert';
 import { modelUrls } from './modelUrls';
@@ -72,4 +73,21 @@ function decodePart(part: ManifestPart, buffer: ArrayBuffer, bounds: Manifest['b
   geometry.computeBoundingBox();
   const { kind, name, side, boneId, muscleId, attachment } = part;
   return { kind, name, side, boneId, muscleId, attachment, geometry };
+}
+
+/**
+ * Bones and muscles of the whole body: all regional models (they share one coordinate space), each
+ * mesh once, since the models overlap at their borders. Attachment areas are left out.
+ */
+export async function loadBodyParts(): Promise<ModelPart[]> {
+  const models = await Promise.all(REGIONS.map((region) => loadAnatomyModel(region.id)));
+  const seen = new Set<string>();
+  const parts: ModelPart[] = [];
+  for (const part of models.flatMap((model) => model.parts)) {
+    const key = `${part.kind}|${part.name}|${part.side}`;
+    if (part.kind === 'attachment' || seen.has(key)) continue;
+    seen.add(key);
+    parts.push(part);
+  }
+  return parts;
 }

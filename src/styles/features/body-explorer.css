@@ -183,4 +183,128 @@
   .fact-list dd {
     margin: 0;
   }
+
+  /* ---------- 3D explorer ---------- */
+
+  .body-stage-3d {
+    position: relative;
+    display: block;
+    /* The canvas takes drags and pinches for itself; the page scrolls from outside the stage. */
+    touch-action: none;
+  }
+
+  .body-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+  }
+
+  .body-canvas:active {
+    cursor: grabbing;
+  }
+
+  .body-poster {
+    display: block;
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+    opacity: 0.55;
+  }
+
+  .layer-control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .layer-control .stage-button:disabled {
+    opacity: 0.4;
+  }
+
+  .layer-slider {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .layer-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    font-size: var(--font-size-callout);
+    font-weight: 600;
+  }
+
+  .layer-slider input[type='range'] {
+    width: 100%;
+    /* A thumb tall enough to grab. */
+    height: var(--space-6);
+    margin: 0;
+    accent-color: var(--on-stage-active);
+  }
+
+  .stage-corner {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .look-chips {
+    position: absolute;
+    top: var(--space-2);
+    left: var(--space-2);
+    /* Leave the corner buttons free. */
+    right: calc(var(--tap) + var(--space-4));
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .look-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--tap);
+    max-width: 100%;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--on-stage-line);
+    background: var(--stage);
+    color: var(--on-stage);
+    font-size: var(--font-size-callout);
+    font-weight: 600;
+  }
+
+  .look-chip-reset {
+    background: var(--on-stage-active);
+    color: var(--stage-ink);
+  }
+
+  .target-sheet-compact {
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .target-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .target-actions .button {
+    padding: 0 var(--space-3);
+  }
+
+  .target-actions .button[aria-pressed='true'],
+  .target-actions .button[aria-expanded='true'] {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
 }

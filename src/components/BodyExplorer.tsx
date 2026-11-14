@@ -151,25 +151,54 @@ export function BodyExplorer() {
   );
 }
 
+/** The still picture shown while the 3D model loads. */
+export function BodyPoster() {
+  return (
+    <section className="body-explorer" aria-label="Interactive body" aria-busy="true">
+      <div className="body-stage body-stage-3d">
+        <img className="body-poster" src={bodyImageUrl('front', 'superficial')} alt="" width={W} height={H} />
+      </div>
+      <p className="body-hint" role="status">
+        Loading the 3D body…
+      </p>
+    </section>
+  );
+}
+
 function TargetCard({ target, hiddenHere, onClose }: { target: BodyTarget; hiddenHere: boolean; onClose: () => void }) {
   return (
     <article className="target-sheet">
       <button type="button" className="icon-button target-close" aria-label="Close" onClick={onClose}>
         <Icon name="close" size={18} />
       </button>
-      {target.kind === 'muscle' ? <MuscleSummary id={target.id} /> : <BoneSummary id={target.id} />}
+      <TargetHeader target={target} />
+      <TargetDetails target={target} />
       {hiddenHere && <p className="muted small">Not visible in this view — switch side or layer to see it highlighted.</p>}
     </article>
   );
 }
 
-function MuscleSummary({ id }: { id: string }) {
+/** What the tapped structure is: its kind and name. */
+export function TargetHeader({ target }: { target: BodyTarget }) {
+  const layer = target.kind === 'muscle' ? getMuscle(target.id).layer : undefined;
+  return (
+    <>
+      <span className="target-kind">{target.kind === 'muscle' ? `Muscle${layer ? ` · ${layer}` : ''}` : 'Bone'}</span>
+      <h3 className="target-name">{target.kind === 'muscle' ? getMuscle(target.id).name : getBone(target.id).name}</h3>
+    </>
+  );
+}
+
+/** Key facts of the tapped structure and the ways onward. */
+export function TargetDetails({ target }: { target: BodyTarget }) {
+  return target.kind === 'muscle' ? <MuscleDetails id={target.id} /> : <BoneDetails id={target.id} />;
+}
+
+function MuscleDetails({ id }: { id: string }) {
   const muscle = getMuscle(id);
   const prime = muscle.actions.filter((a) => a.role === 'prime').slice(0, 3);
   return (
     <>
-      <span className="target-kind">Muscle{muscle.layer ? ` · ${muscle.layer}` : ''}</span>
-      <h3 className="target-name">{muscle.name}</h3>
       <p className="small">{muscle.summary}</p>
       <dl className="fact-list">
         <div>
@@ -196,13 +225,10 @@ function MuscleSummary({ id }: { id: string }) {
   );
 }
 
-function BoneSummary({ id }: { id: string }) {
-  const bone = getBone(id);
+function BoneDetails({ id }: { id: string }) {
   const { origins, insertions } = attachmentsOnBone(id);
   return (
     <>
-      <span className="target-kind">Bone</span>
-      <h3 className="target-name">{bone.name}</h3>
       <dl className="fact-list">
         <div>
           <dt>Muscles arising</dt>
