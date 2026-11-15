@@ -2,12 +2,13 @@ import { NavLink, useLocation } from 'react-router';
 
 const SECTIONS = [
   { to: '/muscles', label: 'Muscles', prefixes: ['/muscles'] },
+  { to: '/ligaments', label: 'Ligaments', prefixes: ['/ligaments'] },
   { to: '/bones', label: 'Bones & joints', prefixes: ['/bones', '/joints'] },
   { to: '/nerves', label: 'Nerves', prefixes: ['/nerves'] },
   { to: '/tests', label: 'Special tests', prefixes: ['/tests'] },
 ] as const;
 
-/** Sub-navigation of the Library: the four reference sections. */
+/** Sub-navigation of the Library: the reference sections. */
 export function LibraryTabs() {
   const { pathname } = useLocation();
   return (

@@ -6,6 +6,7 @@ import { EmptyState, SessionStatusBadge } from '../components/ui';
 import { Icon, type IconName } from '../components/Icon';
 import { BONES, MUSCLES, NERVES, SPECIAL_TESTS } from '../data';
 import { EXERCISES } from '../data/exercises';
+import { LIGAMENTS } from '../data/ligaments';
 import { PROTOCOLS } from '../data/protocols';
 import { TECHNIQUES } from '../data/techniques';
 import { localDate } from '../patients/dates';
@@ -53,6 +54,7 @@ export function HomePage() {
       <h2 className="section-heading">Explore</h2>
       <div className="tile-grid">
         <Tile to="/muscles" icon="muscle" title="Muscles" detail={`${MUSCLES.length} with images & 3D`} />
+        <Tile to="/ligaments" icon="layers" title="Ligaments" detail={`${LIGAMENTS.length} ligaments & joint structures`} />
         <Tile to="/bones" icon="bone" title="Bones & joints" detail={`${BONES.length} bones`} />
         <Tile to="/nerves" icon="nerve" title="Nerves" detail={`${NERVES.length} nerves & myotomes`} />
         <Tile to="/tests" icon="test" title="Special tests" detail={`${SPECIAL_TESTS.length} tests`} />

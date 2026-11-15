@@ -4,7 +4,9 @@ import { RehabTabs } from '../components/RehabTabs';
 import { Icon } from '../components/Icon';
 import { JumpBar } from '../components/JumpBar';
 import { Segmented } from '../components/Segmented';
-import { BulletSection, Disclaimer, Empty, EmptyState, PageHeader, ShareButton, SourcesSection } from '../components/ui';
+import { BulletSection, Card, Disclaimer, Empty, EmptyState, PageHeader, ShareButton, SourcesSection } from '../components/ui';
+import { LigamentLink } from '../components/ligaments';
+import { ligamentsForProtocol } from '../domain/ligaments';
 import { conditionsForProtocol } from '../techniques/view';
 import { useUrlParams } from '../components/useUrlParams';
 import { getExercise } from '../data/exercises';
@@ -75,7 +77,8 @@ export function ProtocolListPage() {
   );
 }
 
-function ProtocolRow({ protocol }: { protocol: Protocol }) {
+/** A protocol in a list: name, kind, management and number of phases. */
+export function ProtocolRow({ protocol }: { protocol: Protocol }) {
   return (
     <Link to={`/rehab/protocols/${protocol.id}`} className="muscle-row">
       <span className="muscle-row-text">
@@ -122,6 +125,15 @@ export function ProtocolDetailPage() {
       <BulletSection title="Outcome measures" items={protocol.outcomeMeasures} />
       <BulletSection title="Where protocols differ" items={protocol.notes} />
       <ProtocolConditions protocolId={protocol.id} />
+      {ligamentsForProtocol(protocol.id).length > 0 && (
+        <Card title="Ligaments & joint structures">
+          <span className="chips">
+            {ligamentsForProtocol(protocol.id).map((ligament) => (
+              <LigamentLink key={ligament.id} id={ligament.id} />
+            ))}
+          </span>
+        </Card>
+      )}
       <SourcesSection sourceIds={protocol.sourceIds} />
       <Disclaimer />
     </div>

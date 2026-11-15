@@ -1,8 +1,8 @@
 import { getJoint, getNerve } from '../data';
-import { muscleViews } from '../data/images';
+import { ligamentViews, muscleViews, type MuscleImage } from '../data/images';
 import type { Exercise } from '../data/exerciseTypes';
 import type { Protocol } from '../data/protocolTypes';
-import type { Muscle } from '../data/types';
+import type { Ligament, Muscle } from '../data/types';
 import { formatRoots } from './relations';
 
 /** Plain-text card for messaging apps: the essentials a colleague needs at a glance. */
@@ -23,12 +23,12 @@ export function muscleUrl(muscle: Muscle): string {
   return appUrl(`/muscles/${muscle.id}`);
 }
 
-async function imageFile(muscle: Muscle): Promise<File | null> {
-  const image = muscleViews(muscle.id)[0];
-  if (!image) return null;
+/** The structure's first picture as a file to attach, when it has one and it can be downloaded. */
+async function imageFile(image: MuscleImage | undefined, id: string): Promise<File | null> {
+  if (image === undefined) return null;
   const response = await fetch(image.url);
   if (!response.ok) return null;
-  return new File([await response.blob()], `${muscle.id}.webp`, { type: 'image/webp' });
+  return new File([await response.blob()], `${id}.webp`, { type: 'image/webp' });
 }
 
 export type ShareResult = 'shared' | 'copied' | 'cancelled';
@@ -55,7 +55,7 @@ export async function shareContent({ title, text, url, file = null }: { title: s
 }
 
 export async function shareMuscle(muscle: Muscle): Promise<ShareResult> {
-  return shareContent({ title: muscle.name, text: muscleShareText(muscle), url: muscleUrl(muscle), file: await imageFile(muscle) });
+  return shareContent({ title: muscle.name, text: muscleShareText(muscle), url: muscleUrl(muscle), file: await imageFile(muscleViews(muscle.id)[0], muscle.id) });
 }
 
 /** Link to a screen of the app (hash router). */
@@ -121,4 +121,19 @@ export async function shareOrDownloadFile(file: File, title: string): Promise<'s
   }
   downloadBlob(file, file.name);
   return 'downloaded';
+}
+
+/** Plain-text card for a ligament: what it is, where it runs and what it restrains. */
+export function ligamentShareText(ligament: Ligament): string {
+  return [
+    `${ligament.name} (${ligament.latinName})`,
+    ligament.summary,
+    '',
+    ...ligament.attachments.map((a) => `${a.end}: ${a.text}`),
+    `Restrains: ${ligament.restraints.map((r) => `${getJoint(r.jointId).name} ${r.motion}${r.role === 'secondary' ? ' (secondary)' : ''}`).join('; ') || '—'}`,
+  ].join('\n');
+}
+
+export async function shareLigament(ligament: Ligament): Promise<ShareResult> {
+  return shareContent({ title: ligament.name, text: ligamentShareText(ligament), url: appUrl(`/ligaments/${ligament.id}`), file: await imageFile(ligamentViews(ligament.id)[0], ligament.id) });
 }

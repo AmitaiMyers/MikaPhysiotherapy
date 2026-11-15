@@ -9,6 +9,7 @@ import { HomePage } from './pages/HomePage';
 import { MuscleDetailPage } from './pages/MuscleDetailPage';
 import { SearchPage } from './pages/SearchPage';
 import { MusclesPage } from './pages/MusclesPage';
+import { LigamentDetailPage, LigamentsPage } from './pages/LigamentsPages';
 import { EpisodeFormPage } from './pages/patients/EpisodeFormPage';
 import { PatientFolderPage } from './pages/patients/PatientFolderPage';
 import { PatientFormPage } from './pages/patients/PatientFormPage';
@@ -79,6 +80,8 @@ export function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/muscles" element={<MusclesPage />} />
             <Route path="/muscles/:id" element={<MuscleDetailPage />} />
+            <Route path="/ligaments" element={<LigamentsPage />} />
+            <Route path="/ligaments/:id" element={<LigamentDetailPage />} />
             <Route path="/bones" element={<BonesJointsPage />} />
             <Route path="/bones/:id" element={<BoneDetailPage />} />
             <Route path="/joints/:id" element={<JointDetailPage />} />

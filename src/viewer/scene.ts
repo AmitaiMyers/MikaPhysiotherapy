@@ -52,6 +52,27 @@ export const VIEW_LABELS: Record<CameraView, string> = {
   inferior: 'Below',
 };
 
+/**
+ * Place a perspective camera so a box fills the view from one side, with some surrounding context
+ * (at least a 9 cm radius); returns the point the camera looks at.
+ */
+export function frameCamera(camera: PerspectiveCamera, box: Box3, view: CameraView, aspect: number, padding: number): Vector3 {
+  const center = box.getCenter(new Vector3());
+  const size = box.getSize(new Vector3());
+  const radius = Math.max(size.length() / 2, 9) * padding;
+  const fov = (camera.fov * Math.PI) / 180;
+  const fitHeight = radius / Math.sin(fov / 2);
+  const fitWidth = radius / Math.sin(Math.atan(Math.tan(fov / 2) * aspect));
+  const distance = Math.max(fitHeight, fitWidth);
+  camera.aspect = aspect;
+  camera.position.copy(center).addScaledVector(VIEW_DIRECTIONS[view], distance);
+  camera.near = Math.max(1, distance - radius * 3);
+  camera.far = distance + radius * 3;
+  camera.lookAt(center);
+  camera.updateProjectionMatrix();
+  return center;
+}
+
 export interface SceneOptions {
   muscleId: string;
   mode: DisplayMode;
@@ -162,21 +183,7 @@ export class AnatomyScene {
   frame(view: CameraView, aspect: number, padding = 1.35): Vector3 {
     this.hideLeftSide = view === 'medial';
     this.apply();
-    const box = this.focusBox();
-    const center = box.getCenter(new Vector3());
-    const size = box.getSize(new Vector3());
-    const radius = Math.max(size.length() / 2, 9) * padding;
-    const fov = (this.camera.fov * Math.PI) / 180;
-    const fitHeight = radius / Math.sin(fov / 2);
-    const fitWidth = radius / Math.sin(Math.atan(Math.tan(fov / 2) * aspect));
-    const distance = Math.max(fitHeight, fitWidth);
-    this.camera.aspect = aspect;
-    this.camera.position.copy(center).addScaledVector(VIEW_DIRECTIONS[view], distance);
-    this.camera.near = Math.max(1, distance - radius * 3);
-    this.camera.far = distance + radius * 3;
-    this.camera.lookAt(center);
-    this.camera.updateProjectionMatrix();
-    return center;
+    return frameCamera(this.camera, this.focusBox(), view, aspect, padding);
   }
 
   setSize(width: number, height: number, pixelRatio: number): void {

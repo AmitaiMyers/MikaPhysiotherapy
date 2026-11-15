@@ -168,4 +168,17 @@
     background: var(--info-soft);
     color: var(--info);
   }
+
+  /* A joint's translations and stresses, each with the ligaments that limit it. */
+  .accessory-motion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2) 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .accessory-motion:first-of-type {
+    border-top: 0;
+  }
 }

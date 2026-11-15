@@ -1,0 +1,521 @@
+{
+ "acetabular-labrum": {
+  "views": [
+   "lateral",
+   "anterior",
+   "medial"
+  ],
+  "xray": true
+ },
+ "anterior-cruciate-ligament": {
+  "views": [
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "anterior-inferior-tibiofibular-ligament": {
+  "views": [
+   "lateral",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "anterior-ligament-of-fibular-head": {
+  "views": [
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "anterior-talocalcaneal-ligament": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "anterior-talofibular-ligament": {
+  "views": [
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "arcuate-popliteal-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "bifurcate-ligament": {
+  "views": [
+   "superior"
+  ],
+  "xray": false
+ },
+ "calcaneofibular-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "cuneocuboid-interosseous-ligament": {
+  "views": [
+   "anterior",
+   "inferior",
+   "superior"
+  ],
+  "xray": true
+ },
+ "deep-transverse-metatarsal-ligament": {
+  "views": [
+   "inferior",
+   "superior"
+  ],
+  "xray": false
+ },
+ "deltoid-ligament": {
+  "views": [
+   "medial"
+  ],
+  "xray": false
+ },
+ "dorsal-cuneonavicular-ligaments": {
+  "views": [
+   "superior",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "dorsal-intercuneiform-ligaments": {
+  "views": [
+   "superior",
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "dorsal-metatarsal-ligaments": {
+  "views": [
+   "superior",
+   "lateral",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "dorsal-talonavicular-ligament": {
+  "views": [
+   "superior",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "dorsal-tarsometatarsal-ligaments": {
+  "views": [
+   "superior",
+   "lateral",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "flexor-retinaculum-of-ankle": {
+  "views": [
+   "medial"
+  ],
+  "xray": false
+ },
+ "hallux-ip-capsule": {
+  "views": [
+   "superior",
+   "inferior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "hip-capsule": {
+  "views": [
+   "anterior",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "iliofemoral-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "inferior-extensor-retinaculum": {
+  "views": [
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "inferior-fibular-retinaculum": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "infrapatellar-fat-pad": {
+  "views": [
+   "lateral",
+   "posterior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "intercuneiform-interosseous-ligaments": {
+  "views": [
+   "anterior",
+   "inferior",
+   "lateral"
+  ],
+  "xray": true
+ },
+ "interosseous-membrane-of-leg": {
+  "views": [
+   "anterior",
+   "lateral",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "intersesamoid-ligament": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "ip-collateral-ligaments-foot": {
+  "views": [
+   "superior",
+   "inferior",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "ischiofemoral-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "knee-capsule": {
+  "views": [
+   "posterior",
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "lateral-collateral-ligament-knee": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "lateral-meniscus": {
+  "views": [
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "lateral-patellar-retinaculum": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "lateral-talocalcaneal-ligament": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "ligament-of-head-of-femur": {
+  "views": [
+   "anterior",
+   "medial",
+   "lateral"
+  ],
+  "xray": true
+ },
+ "lisfranc-ligament": {
+  "views": [
+   "lateral",
+   "medial",
+   "anterior"
+  ],
+  "xray": true
+ },
+ "long-plantar-ligament": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "medial-collateral-ligament-knee": {
+  "views": [
+   "medial",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "medial-meniscus": {
+  "views": [
+   "posterior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "medial-patellar-retinaculum": {
+  "views": [
+   "anterior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "medial-talocalcaneal-ligament": {
+  "views": [
+   "medial"
+  ],
+  "xray": false
+ },
+ "meniscopatellar-ligament": {
+  "views": [
+   "lateral",
+   "medial",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "metatarsal-interosseous-ligaments": {
+  "views": [
+   "anterior",
+   "inferior",
+   "superior"
+  ],
+  "xray": true
+ },
+ "mtp-capsules-foot": {
+  "views": [
+   "inferior",
+   "superior",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "mtp-collateral-ligaments-foot": {
+  "views": [
+   "superior",
+   "inferior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "oblique-popliteal-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "plantar-cuneocuboid-ligament": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "plantar-cuneonavicular-ligaments": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "plantar-fascia": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "plantar-intercuneiform-ligaments": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "plantar-ip-ligaments-foot": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "plantar-metatarsal-ligaments": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "plantar-plates-foot": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "plantar-tarsometatarsal-ligaments": {
+  "views": [
+   "inferior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "popliteofibular-ligament": {
+  "views": [
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "posterior-cruciate-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "posterior-inferior-tibiofibular-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "posterior-ligament-of-fibular-head": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": true
+ },
+ "posterior-talocalcaneal-ligament": {
+  "views": [
+   "medial",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "posterior-talofibular-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "pubofemoral-ligament": {
+  "views": [
+   "anterior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "short-plantar-ligament": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "spring-ligament": {
+  "views": [
+   "inferior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "superficial-transverse-metatarsal-ligament": {
+  "views": [
+   "inferior"
+  ],
+  "xray": false
+ },
+ "superior-extensor-retinaculum": {
+  "views": [
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "superior-fibular-retinaculum": {
+  "views": [
+   "anterior",
+   "lateral",
+   "medial"
+  ],
+  "xray": false
+ },
+ "superior-tibiofibular-capsule": {
+  "views": [
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "talocalcaneal-interosseous-ligament": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": true
+ },
+ "toe-dip-capsules": {
+  "views": [
+   "inferior",
+   "superior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "toe-pip-capsules": {
+  "views": [
+   "superior",
+   "inferior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "transverse-acetabular-ligament": {
+  "views": [
+   "anterior",
+   "medial"
+  ],
+  "xray": false
+ },
+ "transverse-ligament-of-knee": {
+  "views": [
+   "posterior",
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "transverse-tibiofibular-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "triradiate-cartilage": {
+  "views": [
+   "lateral",
+   "medial",
+   "posterior"
+  ],
+  "xray": true
+ },
+ "zona-orbicularis": {
+  "views": [
+   "anterior",
+   "posterior"
+  ],
+  "xray": false
+ }
+}

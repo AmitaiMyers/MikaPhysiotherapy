@@ -1,5 +1,6 @@
 /** Built-in and custom techniques in one shape, for listing, searching and cross-linking. */
 import { getMuscle, JOINTS } from '../data';
+import { getLigament } from '../data/ligaments';
 import { CONDITIONS, evidenceFor, getCondition, getFamily, TECHNIQUES } from '../data/techniques';
 import type { Indication, TechniqueAreaId, TechniqueFamilyId } from '../data/techniqueTypes';
 import { matchesWords } from '../domain/search';
@@ -69,9 +70,9 @@ export function searchTechniques(views: TechniqueView[], text: string): Techniqu
   );
 }
 
-export type AnatomyLink = { kind: 'muscle' | 'joint' | 'nerve' | 'bone' | 'exercise' | 'condition'; id: string };
+export type AnatomyLink = { kind: 'muscle' | 'joint' | 'nerve' | 'bone' | 'ligament' | 'exercise' | 'condition'; id: string };
 
-/** Techniques acting on a muscle, joint, nerve or bone (through its joints), continued by an exercise, or used for a condition. */
+/** Techniques acting on a muscle, joint, nerve, bone or ligament (both through their joints), continued by an exercise, or used for a condition. */
 export function linkedTechniques(views: TechniqueView[], link: AnatomyLink): TechniqueView[] {
   switch (link.kind) {
     case 'muscle':
@@ -86,6 +87,10 @@ export function linkedTechniques(views: TechniqueView[], link: AnatomyLink): Tec
       return views.filter((v) => v.conditionIds.includes(link.id));
     case 'bone': {
       const jointIds = new Set(JOINTS.filter((j) => j.bones.includes(link.id)).map((j) => j.id));
+      return views.filter((v) => v.jointIds.some((id) => jointIds.has(id)));
+    }
+    case 'ligament': {
+      const jointIds = new Set(getLigament(link.id).jointIds);
       return views.filter((v) => v.jointIds.some((id) => jointIds.has(id)));
     }
   }

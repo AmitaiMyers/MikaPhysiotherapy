@@ -2,20 +2,24 @@ import { BufferAttribute, BufferGeometry } from 'three';
 import { REGIONS } from '../data/catalog/regions';
 import type { RegionId } from '../data/types';
 import { assert } from '../domain/assert';
-import { modelUrls } from './modelUrls';
+import { modelUrls, type ModelName } from './modelUrls';
 
 /** One mesh of the anatomy model, as written by scripts/anatomy/build-model.mjs. */
 export interface ModelPart {
-  kind: 'bone' | 'muscle' | 'attachment';
+  kind: 'bone' | 'muscle' | 'attachment' | 'ligament';
   name: string;
   side: 'right' | 'left' | 'mid';
   boneId: string | null;
   muscleId: string | null;
   attachment: 'origin' | 'insertion' | null;
+  /** Set on parts of the ligament model only. */
+  ligamentId: string | null;
   geometry: BufferGeometry;
 }
 
-interface ManifestPart extends Omit<ModelPart, 'geometry'> {
+interface ManifestPart extends Omit<ModelPart, 'geometry' | 'ligamentId'> {
+  /** Written only by build-ligaments.mjs. */
+  ligamentId?: string;
   vertexCount: number;
   indexCount: number;
   positionOffset: number;
@@ -34,20 +38,29 @@ export interface AnatomyModel {
   attribution: string;
 }
 
-const pending = new Map<RegionId, Promise<AnatomyModel>>();
+const pending = new Map<ModelName, Promise<AnatomyModel>>();
 
 /** Download (once per session) and decode the 3D model of one body region. */
 export function loadAnatomyModel(regionId: RegionId): Promise<AnatomyModel> {
-  let model = pending.get(regionId);
+  return loadModel(regionId);
+}
+
+/** Download (once per session) and decode the whole-body ligament model (ligaments, capsules, menisci, discs). */
+export function loadLigamentModel(): Promise<AnatomyModel> {
+  return loadModel('ligaments');
+}
+
+function loadModel(name: ModelName): Promise<AnatomyModel> {
+  let model = pending.get(name);
   if (!model) {
-    model = fetchModel(regionId);
-    pending.set(regionId, model);
+    model = fetchModel(name);
+    pending.set(name, model);
   }
   return model;
 }
 
-async function fetchModel(regionId: RegionId): Promise<AnatomyModel> {
-  const urls = modelUrls(regionId);
+async function fetchModel(name: ModelName): Promise<AnatomyModel> {
+  const urls = modelUrls(name);
   const [manifestResponse, binResponse] = await Promise.all([fetch(urls.manifest), fetch(urls.geometry)]);
   assert(manifestResponse.ok && binResponse.ok, 'Could not download the 3D model');
   const manifest = (await manifestResponse.json()) as Manifest;
@@ -72,7 +85,7 @@ function decodePart(part: ManifestPart, buffer: ArrayBuffer, bounds: Manifest['b
   geometry.computeVertexNormals();
   geometry.computeBoundingBox();
   const { kind, name, side, boneId, muscleId, attachment } = part;
-  return { kind, name, side, boneId, muscleId, attachment, geometry };
+  return { kind, name, side, boneId, muscleId, attachment, ligamentId: part.ligamentId ?? null, geometry };
 }
 
 /**

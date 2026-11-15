@@ -2,6 +2,8 @@ import { LinkedTechniquesCard } from '../components/techniques';
 import { Link, useParams } from 'react-router';
 import { LibraryTabs } from '../components/LibraryTabs';
 import { ImageRow, ResultCard, RowGroup, StructureFigure } from '../components/ImageRows';
+import { LigamentLink, LigamentRow, RestrainedBy } from '../components/ligaments';
+import { ligamentsOfJoint, ligamentsOnBone } from '../domain/ligaments';
 import { Card, Disclaimer, Empty, EmptyState, MuscleLink, Note, PageHeader } from '../components/ui';
 import { useUrlParams } from '../components/useUrlParams';
 import { skeletonImage, skeletonThumbnail } from '../data/images';
@@ -122,6 +124,15 @@ export function BoneDetailPage() {
           </ul>
         </Card>
       )}
+      {ligamentsOnBone(bone.id).length > 0 && (
+        <Card title={`Ligaments attached (${ligamentsOnBone(bone.id).length})`}>
+          <span className="chips">
+            {ligamentsOnBone(bone.id).map((ligament) => (
+              <LigamentLink key={ligament.id} id={ligament.id} />
+            ))}
+          </span>
+        </Card>
+      )}
       <LinkedTechniquesCard link={{ kind: 'bone', id: bone.id }} title="Techniques for its joints" />
       <Link to={`/muscles?bone=${bone.id}`} className="button">
         Show these muscles in the list
@@ -157,12 +168,38 @@ export function JointDetailPage() {
                 ))}
               </ul>
             )}
+            <RestrainedBy jointId={joint.id} motion={movement.name} />
           </Card>
         );
       })}
-      <Note>Movers are worked out from the action lists of all muscles in the app.</Note>
+      {joint.movements.length > 0 && <Note>Movers are worked out from the action lists of all muscles in the app.</Note>}
+      {(joint.accessoryMotions ?? []).length > 0 && (
+        <Card title="Translations & stresses">
+          <p className="muted small">Motions no muscle produces, which the ligaments limit.</p>
+          {(joint.accessoryMotions ?? []).map((motion) => (
+            <div key={motion} className="accessory-motion">
+              <strong>{motion[0]?.toUpperCase() + motion.slice(1)}</strong>
+              <RestrainedBy jointId={joint.id} motion={motion} />
+            </div>
+          ))}
+        </Card>
+      )}
+      <JointLigaments jointId={joint.id} />
       <LinkedTechniquesCard link={{ kind: 'joint', id: joint.id }} />
       <Disclaimer />
     </div>
+  );
+}
+
+/** The ligaments, capsule, menisci and discs of a joint, as image rows. */
+function JointLigaments({ jointId }: { jointId: string }) {
+  const ligaments = ligamentsOfJoint(jointId);
+  if (ligaments.length === 0) return null;
+  return (
+    <ResultCard title={`Ligaments & joint structures (${ligaments.length})`}>
+      {ligaments.map((ligament) => (
+        <LigamentRow key={ligament.id} ligament={ligament} showGroup={false} />
+      ))}
+    </ResultCard>
   );
 }

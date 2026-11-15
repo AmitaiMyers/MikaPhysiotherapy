@@ -1,11 +1,12 @@
-/** One search across the whole knowledge base: muscles, bones, joints, nerves, tests, exercises, protocols, techniques and conditions. */
+/** One search across the whole knowledge base: muscles, ligaments, bones, joints, nerves, tests, exercises, protocols, techniques and conditions. */
 import { BONES, JOINTS, MUSCLES, NERVES, SPECIAL_TESTS } from '../data';
 import { EXERCISES } from '../data/exercises';
+import { LIGAMENTS } from '../data/ligaments';
 import { PROTOCOLS } from '../data/protocols';
 import { CONDITIONS, getFamily, TECHNIQUES } from '../data/techniques';
 import { matchesWords } from './search';
 
-export type ResultKind = 'Muscle' | 'Bone' | 'Joint' | 'Nerve' | 'Special test' | 'Exercise' | 'Protocol' | 'Technique' | 'Condition';
+export type ResultKind = 'Muscle' | 'Ligament' | 'Bone' | 'Joint' | 'Nerve' | 'Special test' | 'Exercise' | 'Protocol' | 'Technique' | 'Condition';
 
 export interface SearchResult {
   kind: ResultKind;
@@ -20,6 +21,7 @@ interface Entry extends SearchResult {
 
 const ENTRIES: Entry[] = [
   ...MUSCLES.map((m) => ({ kind: 'Muscle' as const, title: m.name, subtitle: m.latinName, to: `/muscles/${m.id}`, fields: [m.name, m.latinName, ...m.synonyms] })),
+  ...LIGAMENTS.map((l) => ({ kind: 'Ligament' as const, title: l.name, subtitle: l.latinName, to: `/ligaments/${l.id}`, fields: [l.name, l.latinName, ...l.synonyms] })),
   ...BONES.map((b) => ({ kind: 'Bone' as const, title: b.name, subtitle: 'Bone', to: `/bones/${b.id}`, fields: [b.name] })),
   ...JOINTS.map((j) => ({ kind: 'Joint' as const, title: j.name, subtitle: j.type, to: `/joints/${j.id}`, fields: [j.name] })),
   ...NERVES.map((n) => ({ kind: 'Nerve' as const, title: n.name, subtitle: n.origin, to: `/nerves/${n.id}`, fields: [n.name] })),

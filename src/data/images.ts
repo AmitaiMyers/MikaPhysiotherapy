@@ -1,12 +1,16 @@
 import generated from './generated/muscleImages.json';
 import skeletonGenerated from './generated/boneImages.json';
 import nerveGenerated from './generated/nerveImages.json';
+import ligamentGenerated from './generated/ligamentImages.json';
 
-export type ImageView = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior';
+export type ImageView = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior' | 'superior';
+
+/** Muscles are pictured from the four sides and from below (never from above). */
+export type MuscleView = Exclude<ImageView, 'superior'>;
 
 interface ImageEntry {
-  views: ImageView[];
-  attachmentsView: ImageView | null;
+  views: MuscleView[];
+  attachmentsView: MuscleView | null;
 }
 
 /** Written by scripts/anatomy/render-images.mjs; muscles without a 3D mesh are absent. */
@@ -25,6 +29,7 @@ const VIEW_LABEL: Record<ImageView, string> = {
   lateral: 'Lateral',
   medial: 'Medial',
   inferior: 'Below',
+  superior: 'Above',
 };
 
 const VIEW_CAPTION: Record<ImageView, string> = {
@@ -33,10 +38,11 @@ const VIEW_CAPTION: Record<ImageView, string> = {
   lateral: 'Lateral view',
   medial: 'Medial view',
   inferior: 'Inferior view (from below)',
+  superior: 'Superior view (from above)',
 };
 
 /** A rendered picture in public/images/<folder>/. */
-const assetUrl = (folder: 'muscles' | 'bones' | 'joints' | 'nerves', file: string) => `${import.meta.env.BASE_URL}images/${folder}/${file}.webp`;
+const assetUrl = (folder: 'muscles' | 'bones' | 'joints' | 'nerves' | 'ligaments', file: string) => `${import.meta.env.BASE_URL}images/${folder}/${file}.webp`;
 const imageUrl = (file: string) => assetUrl('muscles', file);
 
 export function hasImages(muscleId: string): boolean {
@@ -60,7 +66,7 @@ export function thumbnailUrl(muscleId: string): string | null {
 }
 
 /** The view that shows most of the muscle (used as the 3D viewer's starting camera). */
-export function bestView(muscleId: string): ImageView {
+export function bestView(muscleId: string): MuscleView {
   return IMAGES[muscleId]?.views[0] ?? 'anterior';
 }
 
@@ -96,4 +102,31 @@ export function nerveImage(nerveId: string): MuscleImage | null {
 
 export function nerveThumbnail(nerveId: string): string | null {
   return nerveId in NERVE_IMAGES ? assetUrl('nerves', `${nerveId}-thumb`) : null;
+}
+
+// ---------- ligaments ----------
+
+/** Written by scripts/anatomy/render-ligaments.mjs: the views of each structure, and whether the bones are drawn see-through. */
+const LIGAMENT_IMAGES = ligamentGenerated as Record<string, { views: ImageView[]; xray: boolean }>;
+
+/** The pictures of a ligament (or capsule, meniscus, disc) highlighted on the skeleton, best view first. */
+export function ligamentViews(ligamentId: string): MuscleImage[] {
+  const entry = LIGAMENT_IMAGES[ligamentId];
+  if (entry === undefined) return [];
+  const legend = entry.xray ? ' — bones see-through' : '';
+  return entry.views.map((view) => ({ url: assetUrl('ligaments', `${ligamentId}-${view}`), caption: `${VIEW_CAPTION[view]}${legend}`, label: VIEW_LABEL[view] }));
+}
+
+export function ligamentThumbnail(ligamentId: string): string | null {
+  return ligamentId in LIGAMENT_IMAGES ? assetUrl('ligaments', `${ligamentId}-thumb`) : null;
+}
+
+/** Whether the structure lies inside the joint, hidden by bone from every side (its pictures show the bones see-through). */
+export function ligamentXray(ligamentId: string): boolean {
+  return LIGAMENT_IMAGES[ligamentId]?.xray === true;
+}
+
+/** The side a ligament shows best from (its first picture's view), or the front when it has no picture. */
+export function ligamentBestView(ligamentId: string): ImageView {
+  return LIGAMENT_IMAGES[ligamentId]?.views[0] ?? 'anterior';
 }

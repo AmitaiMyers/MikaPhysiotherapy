@@ -13,6 +13,7 @@ function groupByKind(results: SearchResult[]): { kind: ResultKind; items: Search
 
 const PLURAL: Record<ResultKind, string> = {
   Muscle: 'Muscles',
+  Ligament: 'Ligaments',
   Bone: 'Bones',
   Joint: 'Joints',
   Nerve: 'Nerves',

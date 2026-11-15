@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, PageHeader } from '../components/ui';
 import { findSpecialTest, getSource, MUSCLES, SPECIAL_TESTS } from '../data';
 import { Icon } from '../components/Icon';
+import { LigamentLink } from '../components/ligaments';
+import { ligamentsTestedBy } from '../domain/ligaments';
 
 const musclesTestedBy = (testId: string) => MUSCLES.filter((m) => m.specialTestIds.includes(testId));
 
@@ -13,7 +15,7 @@ export function SpecialTestsPage() {
   const tests = SPECIAL_TESTS.filter((t) => query === '' || `${t.name} ${t.purpose}`.toLowerCase().includes(query));
   return (
     <div className="page">
-      <PageHeader title="Special tests" subtitle={`${SPECIAL_TESTS.length} muscle-related tests`} />
+      <PageHeader title="Special tests" subtitle={`${SPECIAL_TESTS.length} muscle and ligament tests`} />
       <LibraryTabs />
       <input type="search" className="search-input" placeholder="Search test or structure" value={text} onChange={(e) => setText(e.target.value)} aria-label="Search special tests" />
       <section className="card list-card">
@@ -46,6 +48,7 @@ export function SpecialTestDetailPage() {
   const test = findSpecialTest(id);
   if (!test) return <Empty>Test not found.</Empty>;
   const muscles = musclesTestedBy(test.id);
+  const ligaments = ligamentsTestedBy(test.id);
   return (
     <div className="page">
       <PageHeader back title={test.name} subtitle={test.purpose} />
@@ -60,13 +63,24 @@ export function SpecialTestDetailPage() {
         <p>{test.positive}</p>
       </Card>
       <BulletSection title="Notes" items={test.notes} />
-      <Card title="Related muscles">
-        <span className="chips">
-          {muscles.map((m) => (
-            <MuscleLink key={m.id} id={m.id} />
-          ))}
-        </span>
-      </Card>
+      {muscles.length > 0 && (
+        <Card title="Related muscles">
+          <span className="chips">
+            {muscles.map((m) => (
+              <MuscleLink key={m.id} id={m.id} />
+            ))}
+          </span>
+        </Card>
+      )}
+      {ligaments.length > 0 && (
+        <Card title="Related ligaments & joint structures">
+          <span className="chips">
+            {ligaments.map((l) => (
+              <LigamentLink key={l.id} id={l.id} />
+            ))}
+          </span>
+        </Card>
+      )}
       <p className="muted small">Cross-checked against: {test.sourceIds.map((s) => getSource(s).citation.split(' — ')[0]).join(', ')}.</p>
       <Disclaimer />
     </div>

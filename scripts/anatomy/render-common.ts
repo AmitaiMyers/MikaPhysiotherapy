@@ -6,7 +6,7 @@
 import { AmbientLight, Box3, Color, DirectionalLight, LinearSRGBColorSpace, MeshBasicMaterial, NoToneMapping, OrthographicCamera, Scene, Vector3, WebGLRenderer } from 'three';
 import { loadBodyParts, type ModelPart } from '../../src/viewer/model';
 
-export type View = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior';
+export type View = 'anterior' | 'posterior' | 'lateral' | 'medial' | 'inferior' | 'superior';
 
 /** Mapped bones and muscles of the whole body. */
 export async function loadBody(): Promise<{ bones: ModelPart[]; muscles: ModelPart[] }> {
@@ -46,6 +46,7 @@ export function createStage() {
   const direction = (view: View, rightIsNegativeX: boolean): Vector3 => {
     const side = rightIsNegativeX ? -1 : 1;
     if (view === 'inferior') return new Vector3(0, -1, 0);
+    if (view === 'superior') return new Vector3(0, 1, 0);
     if (view === 'anterior') return new Vector3(0, 0, 1);
     if (view === 'posterior') return new Vector3(0, 0, -1);
     if (view === 'lateral') return new Vector3(side, 0, 0);
@@ -59,17 +60,19 @@ export function createStage() {
       const centre = bounds.getCenter(new Vector3());
       const extent = bounds.getSize(new Vector3());
       const dir = direction(view, rightIsNegativeX);
-      // Seen from below, the front of the body is up in the picture; otherwise the head is.
-      const up = view === 'inferior' ? new Vector3(0, 0, 1) : new Vector3(0, 1, 0);
-      const tall = view === 'inferior' ? extent.z : extent.y;
+      // Seen from below or above, the front of the body is up in the picture; otherwise the head is.
+      const vertical = view === 'inferior' || view === 'superior';
+      const up = vertical ? new Vector3(0, 0, 1) : new Vector3(0, 1, 0);
+      const tall = vertical ? extent.z : extent.y;
       // Width seen from this direction: z for side views, x otherwise.
       const across = Math.abs(dir.x) > 0 ? extent.z : extent.x;
       const aspect = size.width / size.height;
       const halfHeight = Math.max(tall / 2, across / 2 / aspect, minHalfHeight / size.padding) * size.padding;
       const halfWidth = halfHeight * aspect;
-      // From below, everything above the target (the rest of the body) is cut away.
+      // From below, everything above the target (the rest of the body) is cut away; from above, everything above it.
       const far = view === 'inferior' ? 1500 + extent.y / 2 + 5 : 4000;
-      const camera = new OrthographicCamera(-halfWidth, halfWidth, halfHeight, -halfHeight, 1, far);
+      const near = view === 'superior' ? 1500 - extent.y / 2 - 5 : 1;
+      const camera = new OrthographicCamera(-halfWidth, halfWidth, halfHeight, -halfHeight, near, far);
       camera.position.copy(centre).addScaledVector(dir, 1500);
       camera.up.copy(up);
       camera.lookAt(centre);

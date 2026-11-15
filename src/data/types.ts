@@ -145,6 +145,11 @@ export interface Joint {
   type: string;
   bones: string[];
   movements: JointMovement[];
+  /**
+   * Motions no muscle produces but ligaments restrain: translations, gapping and stresses
+   * (e.g. "anterior tibial translation", "valgus"). Named in ligament restraints.
+   */
+  accessoryMotions?: string[];
 }
 
 export interface SpecialTest {
@@ -162,4 +167,70 @@ export interface Source {
   id: string;
   citation: string;
   url?: string;
+}
+
+// ---------- ligaments ----------
+
+/** What a structure in the Ligaments tab is. Menisci, labra, discs and capsules are examined like ligaments. */
+export type LigamentKind = 'ligament' | 'capsule' | 'meniscus' | 'labrum' | 'disc' | 'membrane' | 'retinaculum' | 'aponeurosis' | 'fat pad' | 'cartilage';
+
+export interface LigamentAttachment extends Attachment {
+  /** Which end, e.g. "Proximal", "Distal", "Medial", "Peripheral rim". */
+  end: string;
+}
+
+export type RestraintRole = 'primary' | 'secondary';
+
+/** A motion the structure limits: a joint movement or one of the joint's accessory motions. */
+export interface LigamentRestraint {
+  jointId: string;
+  motion: string;
+  role: RestraintRole;
+  /** Qualifier, e.g. "Mainly at 30° of flexion". */
+  note?: string;
+}
+
+export interface LigamentGroup {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface Ligament {
+  /** Stable kebab-case id, also used in the URL, image file names and the 3D model. */
+  id: string;
+  name: string;
+  /** Terminologia Anatomica (TA2) Latin name. */
+  latinName: string;
+  synonyms: string[];
+  regionId: RegionId;
+  groupId: string;
+  kind: LigamentKind;
+  jointIds: string[];
+  summary: string;
+  /** Bands, layers, fibre direction, relations. */
+  structure: string[];
+  attachments: LigamentAttachment[];
+  /** What it does, in words. */
+  functions: string[];
+  restraints: LigamentRestraint[];
+  /** Muscles that protect it dynamically (they resist the motion it restrains). */
+  protectiveMuscleIds: string[];
+  /** Nerves giving its articular branches (proprioception and pain). */
+  nerveIds: string[];
+  bloodSupply: string[];
+  /** How well it heals and how long that takes. */
+  healing: string;
+  injuryMechanisms: string[];
+  /** Injury grades or classifications. */
+  grading: string[];
+  clinical: string[];
+  palpation: string[];
+  specialTestIds: string[];
+  imaging: string[];
+  /** Rehab exercises that load or protect it. */
+  exerciseIds: string[];
+  protocolIds: string[];
+  variationNotes: string[];
+  sourceIds: string[];
 }

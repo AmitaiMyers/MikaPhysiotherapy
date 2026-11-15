@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, type ReactNode } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import { ExerciseList } from '../components/ExerciseList';
 import { TechniquesCard, useTechniqueViews } from '../components/techniques';
@@ -6,12 +6,12 @@ import { linkedTechniques } from '../techniques/view';
 import { BulletSection, Card, Disclaimer, Empty, MuscleLink, NerveSupplyLine, Note, PageHeader, ShareButton, SourcesSection } from '../components/ui';
 import { findMuscle, getBone, getJoint, getRegion, getSpecialTest } from '../data';
 import { exercisesForMuscle } from '../data/exercises';
-import { attachmentImage, muscleViews, type MuscleImage } from '../data/images';
+import { attachmentImage, muscleViews } from '../data/images';
 import type { Attachment, Muscle, MuscleAction } from '../data/types';
 import { agonists, antagonists, formatRoots, type RelatedMuscle } from '../domain/relations';
 import { required } from '../domain/assert';
 import { shareMuscle } from '../domain/share';
-import { Segmented } from '../components/Segmented';
+import { Gallery, TabStrip } from '../components/DetailTabs';
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'));
 
@@ -44,7 +44,7 @@ export function MuscleDetailPage() {
         {getRegion(muscle.regionId).name} › {group?.name}
         {muscle.layer ? ` › ${muscle.layer}` : ''}
       </p>
-      <TabStrip active={tab} onSelect={(id) => setParams({ tab: id }, { replace: true })} />
+      <TabStrip tabs={TABS} active={tab} onSelect={(id) => setParams({ tab: id }, { replace: true })} />
       {tab === 'overview' && <OverviewTab muscle={muscle} />}
       {tab === 'attachments' && <AttachmentsTab muscle={muscle} />}
       {tab === 'supply' && <SupplyTab muscle={muscle} />}
@@ -63,52 +63,11 @@ export function MuscleDetailPage() {
   );
 }
 
-/** Horizontally scrolling tabs; keeps the active tab in view (e.g. when opened from a link). */
-function TabStrip({ active, onSelect }: { active: TabId; onSelect: (id: TabId) => void }) {
-  const activeRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    activeRef.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  }, [active]);
-  return (
-    <nav className="tabs" aria-label="Sections">
-      {TABS.map((t) => (
-        <button
-          key={t.id}
-          ref={t.id === active ? activeRef : undefined}
-          type="button"
-          className={`tab ${t.id === active ? 'tab-active' : ''}`}
-          aria-current={t.id === active ? 'page' : undefined}
-          onClick={() => onSelect(t.id)}
-        >
-          {t.label}
-        </button>
-      ))}
-    </nav>
-  );
-}
-
-function Gallery({ images }: { images: MuscleImage[] }) {
-  const [index, setIndex] = useState(0);
-  const current = images[index];
-  if (!current) return <Note>No 3D model exists for this muscle in the open anatomy atlases, so there is no image.</Note>;
-  return (
-    <figure className="gallery">
-      <div className="image-frame">
-        <img src={current.url} alt={current.caption} width={800} height={1000} />
-      </div>
-      <figcaption>{current.caption}</figcaption>
-      {images.length > 1 && (
-        <Segmented label="View" value={String(index)} onChange={(i) => setIndex(Number(i))} options={images.map((image, i) => ({ value: String(i), label: image.label }))} />
-      )}
-    </figure>
-  );
-}
-
 function OverviewTab({ muscle }: { muscle: Muscle }) {
   return (
     <>
       <p className="summary">{muscle.summary}</p>
-      <Gallery images={muscleViews(muscle.id)} />
+      <Gallery images={muscleViews(muscle.id)} emptyMessage="No 3D model exists for this muscle in the open anatomy atlases, so there is no image." />
       {muscle.synonyms.length > 0 && (
         <p className="muted">
           <strong>Also called:</strong> {muscle.synonyms.join(', ')}
@@ -152,7 +111,7 @@ function AttachmentsTab({ muscle }: { muscle: Muscle }) {
       <Card title="Insertion">
         <AttachmentList items={muscle.insertion} />
       </Card>
-      {image ? <Gallery images={[image]} /> : <Note>The open 3D atlas has no attachment areas for this muscle.</Note>}
+      {image ? <Gallery images={[image]} emptyMessage="No 3D model exists for this muscle in the open anatomy atlases, so there is no image." /> : <Note>The open 3D atlas has no attachment areas for this muscle.</Note>}
       {image && <Note>Attachment areas come from the open Z-Anatomy model and may not show every attachment listed above.</Note>}
       <BulletSection title="Variations" items={muscle.variationNotes} />
     </>

@@ -161,6 +161,7 @@ export const JOINTS: Joint[] = [
       ...pair('medial rotation', 'lateral rotation', 45, 45),
       { name: 'stabilisation (pelvis on the stance leg)' },
     ],
+    accessoryMotions: ['anterior translation of the femoral head', 'posterior translation of the femoral head', 'distraction of the femoral head'],
   },
   {
     id: 'knee',
@@ -168,6 +169,15 @@ export const JOINTS: Joint[] = [
     type: 'Synovial modified hinge joint (tibiofemoral and patellofemoral)',
     bones: ['femur', 'tibia', 'patella'],
     movements: [...pair('flexion', 'extension', 135, 0), ...pair('medial rotation of the tibia', 'lateral rotation of the tibia')],
+    accessoryMotions: ['anterior tibial translation', 'posterior tibial translation', 'valgus', 'varus', 'hyperextension', 'lateral patellar translation', 'medial patellar translation'],
+  },
+  {
+    id: 'tibiofibular',
+    name: 'Tibiofibular joints (proximal joint and distal syndesmosis)',
+    type: 'Proximal: synovial plane joint. Distal: fibrous joint (syndesmosis)',
+    bones: ['tibia', 'fibula'],
+    movements: [],
+    accessoryMotions: ['widening of the ankle mortise (syndesmotic diastasis)', 'fibular rotation and translation at the ankle', 'fibular head translation'],
   },
   {
     id: 'ankle',
@@ -175,6 +185,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial hinge joint',
     bones: ['tibia', 'fibula', 'talus'],
     movements: pair('dorsiflexion', 'plantarflexion', 20, 50),
+    accessoryMotions: ['anterior talar translation', 'posterior talar translation', 'talar tilt into inversion', 'talar tilt into eversion', 'external rotation of the talus'],
   },
   {
     id: 'subtalar',
@@ -182,6 +193,15 @@ export const JOINTS: Joint[] = [
     type: 'Synovial joints of the hindfoot and midfoot',
     bones: ['talus', 'calcaneus', 'navicular', 'cuboid'],
     movements: [...pair('inversion', 'eversion', 35, 15), { name: 'arch support' }],
+    accessoryMotions: ['flattening of the medial longitudinal arch', 'flattening of the lateral longitudinal arch', 'separation of the talus and calcaneus'],
+  },
+  {
+    id: 'tarsometatarsal',
+    name: 'Intertarsal and tarsometatarsal (Lisfranc) joints',
+    type: 'Synovial plane joints of the midfoot',
+    bones: ['navicular', 'cuneiforms', 'cuboid', 'metatarsals'],
+    movements: [],
+    accessoryMotions: ['separation of the 1st and 2nd metatarsal bases (Lisfranc diastasis)', 'dorsal displacement of the metatarsal bases', 'flattening of the transverse arch'],
   },
   {
     id: 'hallux-mtp',
@@ -189,6 +209,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial condyloid joint',
     bones: ['metatarsals', 'phalanges-foot'],
     movements: [...pair('flexion', 'extension', 45, 70), ...pair('abduction', 'adduction')],
+    accessoryMotions: ['valgus deviation of the toe', 'varus deviation of the toe', 'dorsal translation of the phalanx'],
   },
   {
     id: 'hallux-ip',
@@ -196,6 +217,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial hinge joint',
     bones: ['phalanges-foot'],
     movements: pair('flexion', 'extension', 90, 0),
+    accessoryMotions: ['valgus deviation of the toe', 'varus deviation of the toe'],
   },
   {
     id: 'toe-mtp',
@@ -203,6 +225,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial condyloid joints',
     bones: ['metatarsals', 'phalanges-foot'],
     movements: [...pair('flexion', 'extension', 40, 40), ...pair('abduction', 'adduction')],
+    accessoryMotions: ['valgus deviation of the toe', 'varus deviation of the toe', 'dorsal translation of the phalanx', 'splaying of the metatarsal heads'],
   },
   {
     id: 'toe-ip',
@@ -210,6 +233,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial hinge joints',
     bones: ['phalanges-foot'],
     movements: pair('flexion', 'extension'),
+    accessoryMotions: ['valgus deviation of the toe', 'varus deviation of the toe'],
   },
   {
     id: 'craniovertebral',
@@ -261,5 +285,5 @@ export const JOINT_GROUPS: { name: string; jointIds: string[] }[] = [
   { name: 'Shoulder & arm', jointIds: ['sternoclavicular', 'scapulothoracic', 'glenohumeral', 'elbow', 'radioulnar'] },
   { name: 'Wrist & hand', jointIds: ['wrist', 'thumb-cmc', 'thumb-mcp', 'thumb-ip', 'fifth-cmc', 'finger-mcp', 'finger-pip', 'finger-dip'] },
   { name: 'Hip & knee', jointIds: ['hip', 'knee'] },
-  { name: 'Ankle & foot', jointIds: ['ankle', 'subtalar', 'hallux-mtp', 'hallux-ip', 'toe-mtp', 'toe-ip'] },
+  { name: 'Ankle & foot', jointIds: ['tibiofibular', 'ankle', 'subtalar', 'tarsometatarsal', 'hallux-mtp', 'hallux-ip', 'toe-mtp', 'toe-ip'] },
 ];
