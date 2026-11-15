@@ -7,6 +7,35 @@
   ],
   "xray": true
  },
+ "acromioclavicular-capsule": {
+  "views": [
+   "posterior",
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "acromioclavicular-disc": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "acromioclavicular-ligament": {
+  "views": [
+   "lateral",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "annular-ligament": {
+  "views": [
+   "anterior",
+   "lateral",
+   "posterior"
+  ],
+  "xray": false
+ },
  "anterior-cruciate-ligament": {
   "views": [
    "posterior",
@@ -35,6 +64,12 @@
   "xray": false
  },
  "anterior-sacroiliac-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "anterior-sternoclavicular-ligament": {
   "views": [
    "anterior"
   ],
@@ -79,6 +114,19 @@
   ],
   "xray": true
  },
+ "conoid-ligament": {
+  "views": [
+   "anterior",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "coracohumeral-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "costotransverse-ligament": {
   "views": [
    "posterior"
@@ -93,6 +141,13 @@
   ],
   "xray": true
  },
+ "deep-transverse-metacarpal-ligament": {
+  "views": [
+   "anterior",
+   "posterior"
+  ],
+  "xray": false
+ },
  "deep-transverse-metatarsal-ligament": {
   "views": [
    "inferior",
@@ -106,10 +161,22 @@
   ],
   "xray": false
  },
+ "dorsal-carpometacarpal-ligaments": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
  "dorsal-cuneonavicular-ligaments": {
   "views": [
    "superior",
    "anterior"
+  ],
+  "xray": false
+ },
+ "dorsal-intercarpal-ligament": {
+  "views": [
+   "posterior"
   ],
   "xray": false
  },
@@ -121,11 +188,30 @@
   ],
   "xray": false
  },
+ "dorsal-metacarpal-ligaments": {
+  "views": [
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
  "dorsal-metatarsal-ligaments": {
   "views": [
    "superior",
    "lateral",
    "anterior"
+  ],
+  "xray": false
+ },
+ "dorsal-radiocarpal-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "dorsal-scaphotriquetral-ligament": {
+  "views": [
+   "posterior"
   ],
   "xray": false
  },
@@ -144,6 +230,26 @@
   ],
   "xray": false
  },
+ "dorsal-ulnocarpal-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "elbow-capsule": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "extensor-retinaculum-of-wrist": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
  "external-intercostal-membrane": {
   "views": [
    "anterior",
@@ -152,11 +258,48 @@
   ],
   "xray": false
  },
+ "finger-dip-capsules": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "finger-pip-capsules": {
+  "views": [
+   "posterior",
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
  "flexor-retinaculum-of-ankle": {
   "views": [
    "medial"
   ],
   "xray": false
+ },
+ "flexor-retinaculum-of-wrist": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "glenohumeral-capsule": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "glenoid-labrum": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": true
  },
  "hallux-ip-capsule": {
   "views": [
@@ -199,6 +342,12 @@
   ],
   "xray": false
  },
+ "inferior-glenohumeral-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "inferior-pubic-ligament": {
   "views": [
    "anterior"
@@ -220,6 +369,12 @@
   ],
   "xray": false
  },
+ "interclavicular-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "intercuneiform-interosseous-ligaments": {
   "views": [
    "anterior",
@@ -235,6 +390,13 @@
   ],
   "xray": false
  },
+ "interosseous-membrane-of-forearm": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": false
+ },
  "interosseous-membrane-of-leg": {
   "views": [
    "anterior",
@@ -242,6 +404,14 @@
    "posterior"
   ],
   "xray": false
+ },
+ "interosseous-metacarpal-ligaments": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": true
  },
  "interosseous-sacroiliac-ligament": {
   "views": [
@@ -281,6 +451,14 @@
    "superior",
    "inferior",
    "anterior"
+  ],
+  "xray": false
+ },
+ "ip-collateral-ligaments-hand": {
+  "views": [
+   "posterior",
+   "lateral",
+   "medial"
   ],
   "xray": false
  },
@@ -358,6 +536,22 @@
   ],
   "xray": false
  },
+ "mcp-capsules-hand": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "mcp-collateral-ligaments-hand": {
+  "views": [
+   "posterior",
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
  "medial-collateral-ligament-knee": {
   "views": [
    "medial",
@@ -401,6 +595,12 @@
   ],
   "xray": true
  },
+ "middle-glenohumeral-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "mtp-capsules-foot": {
   "views": [
    "inferior",
@@ -429,6 +629,44 @@
    "posterior"
   ],
   "xray": false
+ },
+ "palmar-aponeurosis": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "palmar-carpometacarpal-ligaments": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "palmar-metacarpal-ligaments": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "palmar-radioulnar-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "palmar-scaphotriquetral-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "pisotriquetral-ligament": {
+  "views": [
+   "lateral",
+   "anterior",
+   "medial"
+  ],
+  "xray": true
  },
  "plantar-cuneocuboid-ligament": {
   "views": [
@@ -518,6 +756,12 @@
   ],
   "xray": false
  },
+ "posterior-sternoclavicular-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
  "posterior-talocalcaneal-ligament": {
   "views": [
    "medial",
@@ -544,6 +788,33 @@
   ],
   "xray": false
  },
+ "quadrangular-membrane": {
+  "views": [
+   "lateral",
+   "medial"
+  ],
+  "xray": false
+ },
+ "radial-collateral-ligament-elbow": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "radial-collateral-ligament-wrist": {
+  "views": [
+   "lateral",
+   "anterior",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "radiate-carpal-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "radiate-ligament-of-head-of-rib": {
   "views": [
    "lateral",
@@ -551,6 +822,12 @@
    "posterior"
   ],
   "xray": true
+ },
+ "radioscaphocapitate-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
  },
  "sacrococcygeal-symphysis": {
   "views": [
@@ -575,6 +852,12 @@
   ],
   "xray": false
  },
+ "scaphotrapeziotrapezoid-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "short-plantar-ligament": {
   "views": [
    "inferior"
@@ -585,6 +868,27 @@
   "views": [
    "inferior",
    "medial"
+  ],
+  "xray": false
+ },
+ "sternoclavicular-capsule": {
+  "views": [
+   "anterior",
+   "medial",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "sternoclavicular-disc": {
+  "views": [
+   "medial",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "superficial-transverse-metacarpal-ligament": {
+  "views": [
+   "anterior"
   ],
   "xray": false
  },
@@ -606,6 +910,12 @@
    "anterior",
    "lateral",
    "medial"
+  ],
+  "xray": false
+ },
+ "superior-glenohumeral-ligament": {
+  "views": [
+   "anterior"
   ],
   "xray": false
  },
@@ -667,6 +977,13 @@
   ],
   "xray": false
  },
+ "transverse-humeral-ligament": {
+  "views": [
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
  "transverse-ligament-of-knee": {
   "views": [
    "posterior",
@@ -681,6 +998,25 @@
   ],
   "xray": false
  },
+ "trapezoid-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "triangular-fibrocartilage-complex": {
+  "views": [
+   "anterior",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "triquetrocapitate-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "triradiate-cartilage": {
   "views": [
    "lateral",
@@ -688,6 +1024,52 @@
    "posterior"
   ],
   "xray": true
+ },
+ "ulnar-collateral-ligament-elbow": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "ulnar-collateral-ligament-wrist": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "ulnocapitate-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "ulnolunate-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "ulnotriquetral-ligament": {
+  "views": [
+   "lateral",
+   "medial",
+   "anterior"
+  ],
+  "xray": true
+ },
+ "volar-plates-hand": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "wrist-capsule": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": false
  },
  "zona-orbicularis": {
   "views": [

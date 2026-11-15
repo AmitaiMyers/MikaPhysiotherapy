@@ -1,17 +1,17 @@
-import { required } from "../../domain/assert";
-import { indexById } from "../index";
-import type { Ligament } from "../types";
-import { LIGAMENT_GROUPS } from "./groups";
-import { ANKLE_LIGAMENTS, TIBIOFIBULAR_LIGAMENTS } from "./lowerLimb/ankle";
-import { FOREFOOT_LIGAMENTS, MIDFOOT_LIGAMENTS } from "./lowerLimb/foot";
-import { HIP_LIGAMENTS } from "./lowerLimb/hip";
-import { KNEE_LIGAMENTS } from "./lowerLimb/knee";
-import { PELVIS_LIGAMENTS } from "./trunkPelvis/pelvis";
-import {
-  DISC_LIGAMENTS,
-  RIB_LIGAMENTS,
-  SPINE_LIGAMENTS,
-} from "./trunkPelvis/spine";
+import { required } from '../../domain/assert';
+import { indexById } from '../index';
+import type { Ligament } from '../types';
+import { LIGAMENT_GROUPS } from './groups';
+import { ANKLE_LIGAMENTS, TIBIOFIBULAR_LIGAMENTS } from './lowerLimb/ankle';
+import { FOREFOOT_LIGAMENTS, MIDFOOT_LIGAMENTS } from './lowerLimb/foot';
+import { HIP_LIGAMENTS } from './lowerLimb/hip';
+import { KNEE_LIGAMENTS } from './lowerLimb/knee';
+import { PELVIS_LIGAMENTS } from './trunkPelvis/pelvis';
+import { DISC_LIGAMENTS, RIB_LIGAMENTS, SPINE_LIGAMENTS } from './trunkPelvis/spine';
+import { ELBOW_LIGAMENTS } from './upperLimb/elbow';
+import { HAND_LIGAMENTS } from './upperLimb/hand';
+import { GLENOHUMERAL_LIGAMENTS, SHOULDER_GIRDLE_LIGAMENTS } from './upperLimb/shoulder';
+import { WRIST_LIGAMENTS } from './upperLimb/wrist';
 
 export { LIGAMENT_GROUPS };
 
@@ -21,6 +21,11 @@ export const LIGAMENTS: Ligament[] = [
   ...DISC_LIGAMENTS,
   ...RIB_LIGAMENTS,
   ...PELVIS_LIGAMENTS,
+  ...SHOULDER_GIRDLE_LIGAMENTS,
+  ...GLENOHUMERAL_LIGAMENTS,
+  ...ELBOW_LIGAMENTS,
+  ...WRIST_LIGAMENTS,
+  ...HAND_LIGAMENTS,
   ...HIP_LIGAMENTS,
   ...KNEE_LIGAMENTS,
   ...TIBIOFIBULAR_LIGAMENTS,
@@ -29,12 +34,10 @@ export const LIGAMENTS: Ligament[] = [
   ...FOREFOOT_LIGAMENTS,
 ];
 
-const ligamentById = indexById(LIGAMENTS, "ligament");
+const ligamentById = indexById(LIGAMENTS, 'ligament');
 
-export const getLigament = (id: string): Ligament =>
-  required(ligamentById.get(id), `Unknown ligament "${id}"`);
-export const findLigament = (id: string): Ligament | undefined =>
-  ligamentById.get(id);
+export const getLigament = (id: string): Ligament => required(ligamentById.get(id), `Unknown ligament "${id}"`);
+export const findLigament = (id: string): Ligament | undefined => ligamentById.get(id);
 
 /** The group a ligament is filed under, e.g. "Knee joint". */
 export function ligamentGroup(ligament: Ligament) {

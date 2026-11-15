@@ -1,15 +1,8 @@
-import { BONES, JOINTS, MUSCLES, NERVES, REGIONS } from "../data";
-import {
-  attachmentImage,
-  ligamentViews,
-  muscleViews,
-  nerveImage,
-  skeletonImage,
-  type MuscleImage,
-} from "../data/images";
-import { LIGAMENTS } from "../data/ligaments";
-import { OFFLINE_CACHES } from "../offlineCaches";
-import { modelUrls } from "../viewer/modelUrls";
+import { BONES, JOINTS, MUSCLES, NERVES, REGIONS } from '../data';
+import { attachmentImage, ligamentViews, muscleViews, nerveImage, skeletonImage, type MuscleImage } from '../data/images';
+import { LIGAMENTS } from '../data/ligaments';
+import { OFFLINE_CACHES } from '../offlineCaches';
+import { modelUrls } from '../viewer/modelUrls';
 
 interface OfflineItem {
   cacheName: string;
@@ -20,20 +13,13 @@ interface OfflineItem {
 function offlineItems(): OfflineItem[] {
   const pictures: (MuscleImage | null)[] = [
     ...MUSCLES.flatMap((m) => [...muscleViews(m.id), attachmentImage(m.id)]),
-    ...BONES.map((b) => skeletonImage("bones", b.id)),
-    ...JOINTS.map((j) => skeletonImage("joints", j.id)),
+    ...BONES.map((b) => skeletonImage('bones', b.id)),
+    ...JOINTS.map((j) => skeletonImage('joints', j.id)),
     ...NERVES.map((n) => nerveImage(n.id)),
     ...LIGAMENTS.flatMap((l) => ligamentViews(l.id)),
   ];
-  const images = pictures
-    .filter((image) => image !== null)
-    .map((image) => ({ cacheName: OFFLINE_CACHES.images, url: image.url }));
-  const models = [
-    ...REGIONS.map((region) => modelUrls(region.id)),
-    modelUrls("ligaments"),
-  ]
-    .flatMap((urls) => [urls.manifest, urls.geometry])
-    .map((url) => ({ cacheName: OFFLINE_CACHES.models, url }));
+  const images = pictures.filter((image) => image !== null).map((image) => ({ cacheName: OFFLINE_CACHES.images, url: image.url }));
+  const models = [...REGIONS.map((region) => modelUrls(region.id)), modelUrls('ligaments')].flatMap((urls) => [urls.manifest, urls.geometry]).map((url) => ({ cacheName: OFFLINE_CACHES.models, url }));
   return [...images, ...models];
 }
 
@@ -54,9 +40,7 @@ export async function offlineStatus(): Promise<OfflineProgress> {
 }
 
 /** Download every missing image and model into the service worker's caches. */
-export async function saveEverythingOffline(
-  onProgress: (progress: OfflineProgress) => void,
-): Promise<void> {
+export async function saveEverythingOffline(onProgress: (progress: OfflineProgress) => void): Promise<void> {
   const items = offlineItems();
   let saved = 0;
   for (const item of items) {

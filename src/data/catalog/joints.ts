@@ -77,6 +77,15 @@ export const JOINTS: Joint[] = [
     type: 'Synovial saddle joint with an articular disc',
     bones: ['clavicle', 'sternum', 'ribs'],
     movements: [...pair('clavicle depression', 'clavicle elevation'), { name: 'stabilisation' }],
+    accessoryMotions: ['anterior translation of the medial clavicle', 'posterior translation of the medial clavicle', 'superior translation of the medial clavicle'],
+  },
+  {
+    id: 'acromioclavicular',
+    name: 'Acromioclavicular joint',
+    type: 'Synovial plane joint, often with an incomplete disc',
+    bones: ['clavicle', 'scapula'],
+    movements: [],
+    accessoryMotions: ['anteroposterior translation of the clavicle', 'superior displacement of the clavicle', 'rotation of the clavicle'],
   },
   {
     id: 'scapulothoracic',
@@ -102,6 +111,7 @@ export const JOINTS: Joint[] = [
       ...pair('horizontal adduction', 'horizontal abduction'),
       { name: 'stabilisation (humeral head in glenoid)' },
     ],
+    accessoryMotions: ['anterior translation of the humeral head', 'posterior translation of the humeral head', 'inferior translation of the humeral head'],
   },
   {
     id: 'elbow',
@@ -109,6 +119,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial hinge joint (humero-ulnar and humeroradial)',
     bones: ['humerus', 'ulna', 'radius'],
     movements: pair('flexion', 'extension', 150, 0),
+    accessoryMotions: ['valgus', 'varus', 'posterolateral rotatory subluxation'],
   },
   {
     id: 'radioulnar',
@@ -116,6 +127,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial pivot joints',
     bones: ['radius', 'ulna'],
     movements: pair('pronation', 'supination', 80, 80),
+    accessoryMotions: ['subluxation of the radial head', 'dorsal or palmar translation of the distal ulna', 'separation of the radius and ulna'],
   },
   {
     id: 'wrist',
@@ -123,6 +135,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial condyloid (ellipsoid) joint',
     bones: ['radius', 'scaphoid', 'lunate', 'triquetrum'],
     movements: [...pair('flexion', 'extension', 80, 70), ...pair('radial deviation', 'ulnar deviation', 20, 30)],
+    accessoryMotions: ['scapholunate dissociation', 'lunotriquetral dissociation', 'ulnar translation of the carpus', 'midcarpal instability (catch-up clunk)'],
   },
   {
     id: 'thumb-cmc',
@@ -134,6 +147,7 @@ export const JOINTS: Joint[] = [
       ...pair('palmar abduction', 'adduction', 70),
       ...pair('opposition', 'reposition'),
     ],
+    accessoryMotions: ['dorsoradial subluxation of the first metacarpal'],
   },
   {
     id: 'thumb-mcp',
@@ -141,6 +155,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial condyloid joint',
     bones: ['metacarpals', 'phalanges-hand'],
     movements: pair('flexion', 'extension', 50, 0),
+    accessoryMotions: ['radial deviation stress', 'ulnar deviation stress', 'hyperextension'],
   },
   {
     id: 'thumb-ip',
@@ -148,6 +163,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial hinge joint',
     bones: ['phalanges-hand'],
     movements: pair('flexion', 'extension', 80, 20),
+    accessoryMotions: ['radial deviation stress', 'ulnar deviation stress'],
   },
   {
     id: 'fifth-cmc',
@@ -155,6 +171,15 @@ export const JOINTS: Joint[] = [
     type: 'Synovial saddle-like joint (hamate and 5th metacarpal)',
     bones: ['hamate', 'metacarpals'],
     movements: pair('opposition (cupping)', 'reposition'),
+    accessoryMotions: ['dorsal displacement of the metacarpal bases'],
+  },
+  {
+    id: 'finger-cmc',
+    name: 'Finger carpometacarpal and intermetacarpal joints (2nd–4th)',
+    type: 'Synovial plane joints',
+    bones: ['trapezoid', 'capitate', 'hamate', 'metacarpals'],
+    movements: [],
+    accessoryMotions: ['dorsal displacement of the metacarpal bases', 'splaying of the metacarpals'],
   },
   {
     id: 'finger-mcp',
@@ -162,6 +187,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial condyloid joints',
     bones: ['metacarpals', 'phalanges-hand'],
     movements: [...pair('flexion', 'extension', 90, 45), ...pair('abduction', 'adduction')],
+    accessoryMotions: ['radial deviation stress', 'ulnar deviation stress', 'hyperextension', 'splaying of the metacarpal heads'],
   },
   {
     id: 'finger-pip',
@@ -169,6 +195,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial hinge joints',
     bones: ['phalanges-hand'],
     movements: pair('flexion', 'extension', 100, 0),
+    accessoryMotions: ['radial deviation stress', 'ulnar deviation stress', 'hyperextension'],
   },
   {
     id: 'finger-dip',
@@ -176,6 +203,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial hinge joints',
     bones: ['phalanges-hand'],
     movements: pair('flexion', 'extension', 90, 10),
+    accessoryMotions: ['radial deviation stress', 'ulnar deviation stress', 'hyperextension'],
   },
   {
     id: 'hip',
@@ -309,8 +337,8 @@ export const JOINTS: Joint[] = [
 export const JOINT_GROUPS: { name: string; jointIds: string[] }[] = [
   { name: 'Head & neck', jointIds: ['craniovertebral', 'cervical-spine', 'tmj', 'hyoid', 'face'] },
   { name: 'Spine, thorax & pelvis', jointIds: ['trunk', 'thorax', 'pelvis', 'sacroiliac', 'pubic-symphysis', 'sacrococcygeal', 'pelvic-floor'] },
-  { name: 'Shoulder & arm', jointIds: ['sternoclavicular', 'scapulothoracic', 'glenohumeral', 'elbow', 'radioulnar'] },
-  { name: 'Wrist & hand', jointIds: ['wrist', 'thumb-cmc', 'thumb-mcp', 'thumb-ip', 'fifth-cmc', 'finger-mcp', 'finger-pip', 'finger-dip'] },
+  { name: 'Shoulder & arm', jointIds: ['sternoclavicular', 'acromioclavicular', 'scapulothoracic', 'glenohumeral', 'elbow', 'radioulnar'] },
+  { name: 'Wrist & hand', jointIds: ['wrist', 'thumb-cmc', 'thumb-mcp', 'thumb-ip', 'fifth-cmc', 'finger-cmc', 'finger-mcp', 'finger-pip', 'finger-dip'] },
   { name: 'Hip & knee', jointIds: ['hip', 'knee'] },
   { name: 'Ankle & foot', jointIds: ['tibiofibular', 'ankle', 'subtalar', 'tarsometatarsal', 'hallux-mtp', 'hallux-ip', 'toe-mtp', 'toe-ip'] },
 ];
