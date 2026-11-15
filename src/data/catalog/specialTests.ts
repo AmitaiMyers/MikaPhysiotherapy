@@ -1213,4 +1213,52 @@ export const SPECIAL_TESTS: SpecialTest[] = [
     notes: ['Contractures of more than about 30° at the MCP joint or any PIP contracture usually indicate treatment (needle fasciotomy, collagenase, fasciectomy).'],
     sourceIds: CLINICAL,
   },
+  // ---------- ligament tests: head and neck ----------
+  {
+    id: 'sharp-purser',
+    name: 'Sharp–Purser test',
+    purpose: 'Upper cervical (atlanto-axial) instability from transverse ligament insufficiency, e.g. rheumatoid arthritis or Down syndrome.',
+    procedure: [
+      'Patient sitting with the head slightly flexed; stabilise the spinous process of C2 between finger and thumb.',
+      'With the other hand on the forehead, gently push the head backwards.',
+    ],
+    positive: 'A sliding sensation or clunk as the head moves back, with relief of symptoms (the subluxed atlas reduces).',
+    notes: ['Perform gently and only after screening for red flags (drop attacks, bilateral paraesthesia, dizziness); a positive test means imaging and no manipulation.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'alar-ligament-test',
+    name: 'Alar ligament stress test',
+    purpose: 'Alar ligament integrity (upper cervical instability).',
+    procedure: [
+      'Patient supine or sitting with the neck in neutral; hold the spinous process and lamina of C2.',
+      'Side-bend (or rotate) the head a small amount.',
+    ],
+    positive: 'With intact alar ligaments C2 moves almost immediately in the direction of the side-bend; no movement felt or a soft end-feel suggests laxity.',
+    notes: ['Reliability is limited; interpret with the history (trauma, inflammatory disease) and other signs. Imaging is required when suspected.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'tectorial-membrane-test',
+    name: 'Upper cervical distraction (tectorial membrane) test',
+    purpose: 'Tectorial membrane integrity (craniovertebral instability).',
+    procedure: [
+      'Patient supine; stabilise C2 and apply gentle cranial traction to the occiput, first in neutral then in slight upper cervical flexion.',
+    ],
+    positive: 'More than a few millimetres of movement or reproduction of symptoms suggests membrane laxity.',
+    notes: ['Screening test before treatment of the upper neck after trauma; refer for imaging if positive.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'tmj-loading-test',
+    name: 'TMJ loading and palpation',
+    purpose: 'Temporomandibular joint pain (capsule, lateral ligament, disc).',
+    procedure: [
+      'Palpate the lateral pole of the condyle just in front of the tragus while the patient opens and closes; then palpate through the external ear canal at the back of the condyle.',
+      'Ask the patient to bite on a cotton roll on one side (loading the opposite joint).',
+    ],
+    positive: 'Familiar pain at the joint, clicking (disc displacement with reduction) or crepitus (osteoarthritis).',
+    notes: ['DC/TMD criteria classify pain (myalgia, arthralgia) and joint disorders (disc displacement, degenerative joint disease).'],
+    sourceIds: CLINICAL,
+  },
 ];

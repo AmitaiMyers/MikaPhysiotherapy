@@ -296,6 +296,7 @@ export const JOINTS: Joint[] = [
     type: 'Synovial joints between the occiput, atlas (C1) and axis (C2)',
     bones: ['occipital', 'cervical-vertebrae'],
     movements: [...pair('extension', 'flexion (nodding)'), ...pair('rotation to the same side', 'rotation to the opposite side'), { name: 'lateral flexion (same side)' }],
+    accessoryMotions: ['anterior translation of the atlas on the axis', 'upward migration of the dens', 'separation of the occiput from the atlas'],
   },
   {
     id: 'tmj',
@@ -307,6 +308,7 @@ export const JOINTS: Joint[] = [
       ...pair('protrusion', 'retrusion'),
       ...pair('lateral deviation to the same side', 'lateral deviation to the opposite side'),
     ],
+    accessoryMotions: ['anterior translation of the condyle beyond the eminence', 'posterior displacement of the condyle', 'lateral displacement of the condyle'],
   },
   {
     id: 'hyoid',
@@ -314,6 +316,7 @@ export const JOINTS: Joint[] = [
     type: 'Suspended bone held by muscles; no bony joint',
     bones: ['hyoid', 'thyroid-cartilage', 'mandible'],
     movements: pair('elevation', 'depression'),
+    accessoryMotions: ['separation of the hyoid and thyroid cartilage'],
   },
   {
     id: 'face',

@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { EXERCISES } from '../exercises';
 import { findBone, findJoint, findMuscle, findNerve, findSpecialTest, getJoint, SOURCES } from '../index';
 import { PROTOCOLS } from '../protocols';
+import { LIGAMENT_MESHES } from '../../../scripts/anatomy/meshes/ligaments.mjs';
+import { ligamentViews } from '../images';
 import { findLigament, LIGAMENT_GROUPS, LIGAMENTS } from './index';
 
 const exerciseIds = new Set(EXERCISES.map((e) => e.id));
@@ -41,6 +43,12 @@ describe('ligament records', () => {
     }
   });
 
+  it('fill every group of every region', () => {
+    for (const [regionId, groups] of Object.entries(LIGAMENT_GROUPS)) {
+      for (const group of groups) expect(LIGAMENTS.some((l) => l.regionId === regionId && l.groupId === group.id), `${regionId}/${group.id}`).toBe(true);
+    }
+  });
+
   it('list no item twice', () => {
     for (const l of LIGAMENTS) {
       for (const list of [l.jointIds, l.protectiveMuscleIds, l.nerveIds, l.specialTestIds, l.exerciseIds, l.protocolIds, l.synonyms]) {
@@ -49,8 +57,12 @@ describe('ligament records', () => {
     }
   });
 
-  it('cover every ligament of the atlas for the regions added so far', () => {
+  it('cover every structure of the 3D atlas, and picture all but the few it does not model', () => {
+    const appIds = new Set(LIGAMENTS.map((l) => l.id));
+    expect(Object.keys(LIGAMENT_MESHES).filter((id) => !appIds.has(id))).toEqual([]);
+    const withoutPicture = LIGAMENTS.filter((l) => ligamentViews(l.id).length === 0).map((l) => l.id);
+    expect(withoutPicture.sort()).toEqual(['alar-ligaments', 'coracoacromial-ligament', 'lunotriquetral-ligament', 'scapholunate-ligament', 'tectorial-membrane', 'transverse-ligament-of-atlas']);
+    expect(withoutPicture.filter((id) => id in LIGAMENT_MESHES)).toEqual([]);
     expect(findLigament('anterior-cruciate-ligament')?.name).toContain('ACL');
-    expect(LIGAMENTS.filter((l) => l.regionId === 'lower-limb').length).toBeGreaterThanOrEqual(70);
   });
 });

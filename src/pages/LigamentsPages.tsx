@@ -133,26 +133,21 @@ function GroupedList() {
       {REGIONS.map((region) => {
         const inRegion = LIGAMENTS.filter((l) => l.regionId === region.id);
         return (
-          <details key={region.id} className="region" open={inRegion.length > 0}>
+          <details key={region.id} className="region" open>
             <summary className="region-summary">
               <span>{region.name}</span>
-              <span className="count">{inRegion.length > 0 ? inRegion.length : 'Coming soon'}</span>
+              <span className="count">{inRegion.length}</span>
             </summary>
-            {inRegion.length === 0 ? (
-              <Empty>This region will be added in a later phase.</Empty>
-            ) : (
-              LIGAMENT_GROUPS[region.id].map((group) => {
-                const inGroup = inRegion.filter((l) => l.groupId === group.id);
-                if (inGroup.length === 0) return null;
-                return (
-                  <RowGroup key={group.id} name={group.name} count={inGroup.length}>
-                    {inGroup.map((ligament) => (
-                      <LigamentRow key={ligament.id} ligament={ligament} showGroup={false} />
-                    ))}
-                  </RowGroup>
-                );
-              })
-            )}
+            {LIGAMENT_GROUPS[region.id].map((group) => {
+              const inGroup = inRegion.filter((l) => l.groupId === group.id);
+              return (
+                <RowGroup key={group.id} name={group.name} count={inGroup.length}>
+                  {inGroup.map((ligament) => (
+                    <LigamentRow key={ligament.id} ligament={ligament} showGroup={false} />
+                  ))}
+                </RowGroup>
+              );
+            })}
           </details>
         );
       })}

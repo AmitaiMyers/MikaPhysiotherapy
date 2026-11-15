@@ -2,6 +2,7 @@ import { required } from '../../domain/assert';
 import { indexById } from '../index';
 import type { Ligament } from '../types';
 import { LIGAMENT_GROUPS } from './groups';
+import { HEAD_NECK_LIGAMENTS } from './headNeck/headNeck';
 import { ANKLE_LIGAMENTS, TIBIOFIBULAR_LIGAMENTS } from './lowerLimb/ankle';
 import { FOREFOOT_LIGAMENTS, MIDFOOT_LIGAMENTS } from './lowerLimb/foot';
 import { HIP_LIGAMENTS } from './lowerLimb/hip';
@@ -17,6 +18,7 @@ export { LIGAMENT_GROUPS };
 
 /** Every structure in the Ligaments tab, region by region and joint by joint (head to foot within a region). */
 export const LIGAMENTS: Ligament[] = [
+  ...HEAD_NECK_LIGAMENTS,
   ...SPINE_LIGAMENTS,
   ...DISC_LIGAMENTS,
   ...RIB_LIGAMENTS,

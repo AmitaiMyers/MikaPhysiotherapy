@@ -133,6 +133,14 @@
   ],
   "xray": false
  },
+ "cricopharyngeal-ligament": {
+  "views": [
+   "lateral",
+   "anterior",
+   "posterior"
+  ],
+  "xray": true
+ },
  "cuneocuboid-interosseous-ligament": {
   "views": [
    "anterior",
@@ -501,6 +509,18 @@
   ],
   "xray": false
  },
+ "lateral-temporomandibular-ligament": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "lateral-thyrohyoid-ligament": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
  "ligament-of-head-of-femur": {
   "views": [
    "anterior",
@@ -579,6 +599,19 @@
   ],
   "xray": false
  },
+ "median-cricothyroid-ligament": {
+  "views": [
+   "anterior",
+   "posterior"
+  ],
+  "xray": true
+ },
+ "median-thyrohyoid-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "meniscopatellar-ligament": {
   "views": [
    "lateral",
@@ -614,6 +647,12 @@
    "superior",
    "inferior",
    "medial"
+  ],
+  "xray": false
+ },
+ "nuchal-ligament": {
+  "views": [
+   "lateral"
   ],
   "xray": false
  },
@@ -864,6 +903,14 @@
   ],
   "xray": false
  },
+ "sphenomandibular-ligament": {
+  "views": [
+   "lateral",
+   "posterior",
+   "anterior"
+  ],
+  "xray": true
+ },
  "spring-ligament": {
   "views": [
    "inferior",
@@ -883,6 +930,19 @@
   "views": [
    "medial",
    "anterior"
+  ],
+  "xray": false
+ },
+ "stylohyoid-ligament": {
+  "views": [
+   "lateral",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "stylomandibular-ligament": {
+  "views": [
+   "lateral"
   ],
   "xray": false
  },
@@ -953,6 +1013,18 @@
    "lateral"
   ],
   "xray": true
+ },
+ "tmj-capsule": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
+ },
+ "tmj-disc": {
+  "views": [
+   "lateral"
+  ],
+  "xray": false
  },
  "toe-dip-capsules": {
   "views": [
