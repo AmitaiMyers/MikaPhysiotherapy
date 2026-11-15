@@ -28,6 +28,18 @@
   ],
   "xray": false
  },
+ "anterior-longitudinal-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
+ "anterior-sacroiliac-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "anterior-talocalcaneal-ligament": {
   "views": [
    "lateral"
@@ -54,6 +66,20 @@
   "xray": false
  },
  "calcaneofibular-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "cervical-intervertebral-discs": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": true
+ },
+ "costotransverse-ligament": {
   "views": [
    "posterior"
   ],
@@ -118,6 +144,14 @@
   ],
   "xray": false
  },
+ "external-intercostal-membrane": {
+  "views": [
+   "anterior",
+   "lateral",
+   "posterior"
+  ],
+  "xray": false
+ },
  "flexor-retinaculum-of-ankle": {
   "views": [
    "medial"
@@ -145,6 +179,13 @@
   ],
   "xray": false
  },
+ "iliolumbar-ligament": {
+  "views": [
+   "anterior",
+   "posterior"
+  ],
+  "xray": false
+ },
  "inferior-extensor-retinaculum": {
   "views": [
    "anterior",
@@ -158,11 +199,24 @@
   ],
   "xray": false
  },
+ "inferior-pubic-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "infrapatellar-fat-pad": {
   "views": [
    "lateral",
    "posterior",
    "medial"
+  ],
+  "xray": false
+ },
+ "inguinal-ligament": {
+  "views": [
+   "anterior",
+   "lateral"
   ],
   "xray": false
  },
@@ -174,10 +228,23 @@
   ],
   "xray": true
  },
+ "internal-intercostal-membrane": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": false
+ },
  "interosseous-membrane-of-leg": {
   "views": [
    "anterior",
    "lateral",
+   "posterior"
+  ],
+  "xray": false
+ },
+ "interosseous-sacroiliac-ligament": {
+  "views": [
    "posterior"
   ],
   "xray": false
@@ -187,6 +254,27 @@
    "inferior"
   ],
   "xray": false
+ },
+ "interspinous-ligaments": {
+  "views": [
+   "lateral"
+  ],
+  "xray": true
+ },
+ "intertransverse-ligaments": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": false
+ },
+ "intra-articular-ligament-of-head-of-rib": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": true
  },
  "ip-collateral-ligaments-foot": {
   "views": [
@@ -243,6 +331,13 @@
   ],
   "xray": true
  },
+ "ligamenta-flava": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": true
+ },
  "lisfranc-ligament": {
   "views": [
    "lateral",
@@ -254,6 +349,12 @@
  "long-plantar-ligament": {
   "views": [
    "inferior"
+  ],
+  "xray": false
+ },
+ "lumbar-intervertebral-discs": {
+  "views": [
+   "anterior"
   ],
   "xray": false
  },
@@ -318,6 +419,13 @@
  },
  "oblique-popliteal-ligament": {
   "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
+ "obturator-membrane": {
+  "views": [
+   "anterior",
    "posterior"
   ],
   "xray": false
@@ -397,6 +505,19 @@
   ],
   "xray": true
  },
+ "posterior-longitudinal-ligament": {
+  "views": [
+   "posterior",
+   "anterior"
+  ],
+  "xray": true
+ },
+ "posterior-sacroiliac-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
  "posterior-talocalcaneal-ligament": {
   "views": [
    "medial",
@@ -410,10 +531,47 @@
   ],
   "xray": false
  },
+ "pubic-symphysis": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "pubofemoral-ligament": {
   "views": [
    "anterior",
    "medial"
+  ],
+  "xray": false
+ },
+ "radiate-ligament-of-head-of-rib": {
+  "views": [
+   "lateral",
+   "anterior",
+   "posterior"
+  ],
+  "xray": true
+ },
+ "sacrococcygeal-symphysis": {
+  "views": [
+   "posterior",
+   "anterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "sacrospinous-ligament": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": false
+ },
+ "sacrotuberous-ligament": {
+  "views": [
+   "posterior",
+   "anterior"
   ],
   "xray": false
  },
@@ -451,6 +609,12 @@
   ],
   "xray": false
  },
+ "superior-pubic-ligament": {
+  "views": [
+   "anterior"
+  ],
+  "xray": false
+ },
  "superior-tibiofibular-capsule": {
   "views": [
    "anterior",
@@ -458,7 +622,21 @@
   ],
   "xray": false
  },
+ "supraspinous-ligament": {
+  "views": [
+   "posterior"
+  ],
+  "xray": false
+ },
  "talocalcaneal-interosseous-ligament": {
+  "views": [
+   "anterior",
+   "posterior",
+   "lateral"
+  ],
+  "xray": true
+ },
+ "thoracic-intervertebral-discs": {
   "views": [
    "anterior",
    "posterior",

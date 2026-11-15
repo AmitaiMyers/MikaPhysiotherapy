@@ -15,6 +15,7 @@ export const JOINTS: Joint[] = [
     type: 'Series of synovial facet joints and intervertebral discs',
     bones: ['occipital', 'cervical-vertebrae'],
     movements: [...pair('extension', 'flexion'), { name: 'lateral flexion (same side)' }, ...pair('rotation to the same side', 'rotation to the opposite side')],
+    accessoryMotions: ['anterior translation (shear) of a vertebra', 'posterior translation (shear) of a vertebra', 'axial compression', 'separation of the spinous processes'],
   },
   {
     id: 'trunk',
@@ -22,6 +23,7 @@ export const JOINTS: Joint[] = [
     type: 'Series of synovial facet joints and intervertebral discs',
     bones: ['thoracic-vertebrae', 'lumbar-vertebrae'],
     movements: [...pair('extension', 'flexion'), { name: 'lateral flexion (same side)' }, ...pair('rotation to the same side', 'rotation to the opposite side')],
+    accessoryMotions: ['anterior translation (shear) of a vertebra', 'posterior translation (shear) of a vertebra', 'axial compression', 'separation of the spinous processes'],
   },
   {
     id: 'pelvis',
@@ -29,6 +31,30 @@ export const JOINTS: Joint[] = [
     type: 'Functional movement of the pelvis on the femurs and lumbar spine',
     bones: ['hip-bone', 'sacrum', 'lumbar-vertebrae'],
     movements: [...pair('posterior tilt', 'anterior tilt'), { name: 'hitching (elevation of the same side)' }],
+  },
+  {
+    id: 'sacroiliac',
+    name: 'Sacroiliac joints',
+    type: 'Synovial joint in front, syndesmosis (interosseous ligament) behind',
+    bones: ['sacrum', 'hip-bone'],
+    movements: [],
+    accessoryMotions: ['nutation (sacral flexion)', 'counternutation (sacral extension)', 'vertical shear of the ilium', 'anterior gapping of the joint'],
+  },
+  {
+    id: 'pubic-symphysis',
+    name: 'Pubic symphysis',
+    type: 'Secondary cartilaginous joint (fibrocartilaginous disc)',
+    bones: ['hip-bone'],
+    movements: [],
+    accessoryMotions: ['separation of the pubic bones', 'vertical shear at the symphysis'],
+  },
+  {
+    id: 'sacrococcygeal',
+    name: 'Sacrococcygeal joint',
+    type: 'Secondary cartilaginous joint (symphysis)',
+    bones: ['sacrum', 'coccyx'],
+    movements: [],
+    accessoryMotions: ['flexion and extension of the coccyx'],
   },
   {
     id: 'pelvic-floor',
@@ -43,6 +69,7 @@ export const JOINTS: Joint[] = [
     type: 'Costovertebral and sternocostal joints',
     bones: ['ribs', 'sternum', 'thoracic-vertebrae'],
     movements: [{ name: 'inspiration (quiet breathing)' }, ...pair('rib elevation (forced inspiration)', 'rib depression (forced expiration)')],
+    accessoryMotions: ['separation of the rib from the vertebrae', 'gliding of the rib neck on the transverse process'],
   },
   {
     id: 'sternoclavicular',
@@ -281,7 +308,7 @@ export const JOINTS: Joint[] = [
 /** Joints grouped by body area, in the order of the muscle regions. */
 export const JOINT_GROUPS: { name: string; jointIds: string[] }[] = [
   { name: 'Head & neck', jointIds: ['craniovertebral', 'cervical-spine', 'tmj', 'hyoid', 'face'] },
-  { name: 'Spine, thorax & pelvis', jointIds: ['trunk', 'thorax', 'pelvis', 'pelvic-floor'] },
+  { name: 'Spine, thorax & pelvis', jointIds: ['trunk', 'thorax', 'pelvis', 'sacroiliac', 'pubic-symphysis', 'sacrococcygeal', 'pelvic-floor'] },
   { name: 'Shoulder & arm', jointIds: ['sternoclavicular', 'scapulothoracic', 'glenohumeral', 'elbow', 'radioulnar'] },
   { name: 'Wrist & hand', jointIds: ['wrist', 'thumb-cmc', 'thumb-mcp', 'thumb-ip', 'fifth-cmc', 'finger-mcp', 'finger-pip', 'finger-dip'] },
   { name: 'Hip & knee', jointIds: ['hip', 'knee'] },

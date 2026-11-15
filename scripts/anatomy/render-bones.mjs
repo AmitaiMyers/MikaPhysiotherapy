@@ -21,7 +21,7 @@ const VIEWS = ['anterior', 'posterior', 'lateral', 'medial'];
 /** Front and back read most easily, then the outer side; the view from the inner side is a last resort. */
 const VIEW_WEIGHT = { anterior: 1.25, posterior: 1.25, lateral: 1, medial: 0.7 };
 /** Joints of a whole region are pictured whole; the others zoom in on where their bones meet. */
-const WHOLE_JOINTS = new Set(['cervical-spine', 'trunk', 'pelvis', 'pelvic-floor', 'thorax', 'scapulothoracic', 'face', 'hyoid', 'finger-pip', 'finger-dip', 'thumb-ip', 'hallux-ip', 'toe-ip']);
+const WHOLE_JOINTS = new Set(['cervical-spine', 'trunk', 'pelvis', 'pubic-symphysis', 'pelvic-floor', 'thorax', 'scapulothoracic', 'face', 'hyoid', 'finger-pip', 'finger-dip', 'thumb-ip', 'hallux-ip', 'toe-ip']);
 
 function writeDataUrl(path, dataUrl) {
   const prefix = 'data:image/webp;base64,';
