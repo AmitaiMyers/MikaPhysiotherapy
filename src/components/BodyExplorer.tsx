@@ -4,6 +4,8 @@ import { getBone, getJoint, getMuscle, getNerve } from '../data';
 import { BODY_LAYER_LABELS, BODY_SIZE, bodyIdMapUrl, bodyImageUrl, bodyTarget, isVisible, targetIndex, type BodyLayer, type BodyTarget, type BodyView } from '../data/bodyMap';
 import { attachmentsOnBone, formatRoots } from '../domain/relations';
 import { Icon } from './Icon';
+import { TendonDetails, tendonOf } from './tendons';
+import { getTendon, tendonPath } from '../data/tendons';
 import { useTechniqueViews } from './techniques';
 import { linkedTechniques, type AnatomyLink } from '../techniques/view';
 import { Segmented } from './Segmented';
@@ -178,20 +180,57 @@ function TargetCard({ target, hiddenHere, onClose }: { target: BodyTarget; hidde
   );
 }
 
+/** The kind label and name of a tapped structure. */
+function targetLabel(target: BodyTarget): { kind: string; name: string } {
+  switch (target.kind) {
+    case 'muscle': {
+      const muscle = getMuscle(target.id);
+      return { kind: `Muscle${muscle.layer ? ` · ${muscle.layer}` : ''}`, name: muscle.name };
+    }
+    case 'tendon': {
+      const tendon = getTendon(target.id);
+      return { kind: tendonOf(tendon), name: tendon.name };
+    }
+    case 'bone':
+      return { kind: 'Bone', name: getBone(target.id).name };
+  }
+}
+
 /** What the tapped structure is: its kind and name. */
 export function TargetHeader({ target }: { target: BodyTarget }) {
-  const layer = target.kind === 'muscle' ? getMuscle(target.id).layer : undefined;
+  const { kind, name } = targetLabel(target);
   return (
     <>
-      <span className="target-kind">{target.kind === 'muscle' ? `Muscle${layer ? ` · ${layer}` : ''}` : 'Bone'}</span>
-      <h3 className="target-name">{target.kind === 'muscle' ? getMuscle(target.id).name : getBone(target.id).name}</h3>
+      <span className="target-kind">{kind}</span>
+      <h3 className="target-name">{name}</h3>
     </>
   );
 }
 
-/** Key facts of the tapped structure and the ways onward. */
+/** Key facts of the tapped structure and the ways onward; everything for a tendon. */
 export function TargetDetails({ target }: { target: BodyTarget }) {
-  return target.kind === 'muscle' ? <MuscleDetails id={target.id} /> : <BoneDetails id={target.id} />;
+  switch (target.kind) {
+    case 'muscle':
+      return <MuscleDetails id={target.id} />;
+    case 'tendon':
+      return <TendonSheetDetails id={target.id} />;
+    case 'bone':
+      return <BoneDetails id={target.id} />;
+  }
+}
+
+function TendonSheetDetails({ id }: { id: string }) {
+  const tendon = getTendon(id);
+  return (
+    <>
+      <TendonDetails tendon={tendon} />
+      <div className="button-row">
+        <Link to={tendonPath(tendon)} className="button button-primary">
+          Open on the muscle page
+        </Link>
+      </div>
+    </>
+  );
 }
 
 function MuscleDetails({ id }: { id: string }) {

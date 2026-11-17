@@ -234,3 +234,36 @@ export interface Ligament {
   variationNotes: string[];
   sourceIds: string[];
 }
+
+// ---------- tendons ----------
+
+export interface Tendon {
+  /** Stable kebab-case id, also used in the 3D tendon model. */
+  id: string;
+  name: string;
+  synonyms: string[];
+  /** The muscles whose tendon this is (several for shared tendons, e.g. the Achilles). */
+  muscleIds: string[];
+  /** Which end of the muscles it belongs to. */
+  end: 'origin' | 'insertion';
+  summary: string;
+  /** Length, shape, sheath or paratenon, relations. */
+  structure: string[];
+  attachments: Attachment[];
+  functions: string[];
+  bloodSupply: string[];
+  /** How it heals and how long that takes. */
+  healing: string;
+  /** Common conditions: tendinopathy, tears, ruptures, tenosynovitis. */
+  clinical: string[];
+  injuryMechanisms: string[];
+  grading: string[];
+  palpation: string[];
+  specialTestIds: string[];
+  imaging: string[];
+  /** Loading programme, stage by stage. */
+  loading: string[];
+  exerciseIds: string[];
+  protocolIds: string[];
+  sourceIds: string[];
+}

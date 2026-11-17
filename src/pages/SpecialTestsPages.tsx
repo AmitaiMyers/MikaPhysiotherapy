@@ -6,8 +6,11 @@ import { findSpecialTest, getSource, MUSCLES, SPECIAL_TESTS } from '../data';
 import { Icon } from '../components/Icon';
 import { LigamentLink } from '../components/ligaments';
 import { ligamentsTestedBy } from '../domain/ligaments';
+import { TendonLink } from '../components/tendons';
+import { TENDONS } from '../data/tendons';
 
 const musclesTestedBy = (testId: string) => MUSCLES.filter((m) => m.specialTestIds.includes(testId));
+const tendonsTestedBy = (testId: string) => TENDONS.filter((t) => t.specialTestIds.includes(testId));
 
 export function SpecialTestsPage() {
   const [text, setText] = useState('');
@@ -15,7 +18,7 @@ export function SpecialTestsPage() {
   const tests = SPECIAL_TESTS.filter((t) => query === '' || `${t.name} ${t.purpose}`.toLowerCase().includes(query));
   return (
     <div className="page">
-      <PageHeader title="Special tests" subtitle={`${SPECIAL_TESTS.length} muscle and ligament tests`} />
+      <PageHeader title="Special tests" subtitle={`${SPECIAL_TESTS.length} muscle, tendon and ligament tests`} />
       <LibraryTabs />
       <input type="search" className="search-input" placeholder="Search test or structure" value={text} onChange={(e) => setText(e.target.value)} aria-label="Search special tests" />
       <section className="card list-card">
@@ -49,6 +52,7 @@ export function SpecialTestDetailPage() {
   if (!test) return <Empty>Test not found.</Empty>;
   const muscles = musclesTestedBy(test.id);
   const ligaments = ligamentsTestedBy(test.id);
+  const tendons = tendonsTestedBy(test.id);
   return (
     <div className="page">
       <PageHeader back title={test.name} subtitle={test.purpose} />
@@ -68,6 +72,15 @@ export function SpecialTestDetailPage() {
           <span className="chips">
             {muscles.map((m) => (
               <MuscleLink key={m.id} id={m.id} />
+            ))}
+          </span>
+        </Card>
+      )}
+      {tendons.length > 0 && (
+        <Card title="Related tendons">
+          <span className="chips">
+            {tendons.map((t) => (
+              <TendonLink key={t.id} tendon={t} />
             ))}
           </span>
         </Card>

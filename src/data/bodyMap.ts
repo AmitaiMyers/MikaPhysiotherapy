@@ -4,7 +4,7 @@ import generated from './generated/bodyMap.json';
 export type BodyView = 'front' | 'back';
 export type BodyLayer = 'superficial' | 'deep' | 'skeleton';
 export interface BodyTarget {
-  kind: 'muscle' | 'bone';
+  kind: 'muscle' | 'bone' | 'tendon';
   id: string;
 }
 

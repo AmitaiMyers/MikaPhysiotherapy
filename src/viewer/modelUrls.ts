@@ -1,7 +1,7 @@
 import type { RegionId } from '../data/types';
 
-/** A 3D model file: one per body region, plus the whole-body ligament model. */
-export type ModelName = RegionId | 'ligaments';
+/** A 3D model file: one per body region, plus the whole-body ligament and tendon models. */
+export type ModelName = RegionId | 'ligaments' | 'tendons';
 
 /** URLs of one 3D model (manifest and binary geometry). */
 export function modelUrls(name: ModelName): { manifest: string; geometry: string } {

@@ -28,9 +28,11 @@ export interface ExplorerState {
   focused: string | null;
   /** Where the camera was left; null frames the whole body from the front. */
   camera: CameraPose | null;
+  /** Set when another page asks to show the selected structure: the explorer flies there once, then clears it. */
+  flyToSelected: boolean;
 }
 
-export const INITIAL_STATE: ExplorerState = { depth: 0, selected: null, seeThrough: [], focused: null, camera: null };
+export const INITIAL_STATE: ExplorerState = { depth: 0, selected: null, seeThrough: [], focused: null, camera: null, flyToSelected: false };
 
 /** How a muscle is drawn. */
 export type MuscleLook = 'solid' | 'glass' | 'ghost' | 'hidden';
@@ -76,6 +78,19 @@ export function withSeeThroughToggled(state: ExplorerState, muscleId: string): E
 
 export function withFocusToggled(state: ExplorerState, muscleId: string): ExplorerState {
   return { ...state, focused: state.focused === muscleId ? null : muscleId };
+}
+
+/**
+ * Show a tendon on the body from another page: select it, focus its muscle (so the tendon is not
+ * hidden by peeled layers or other muscles) and ask the explorer to fly to it.
+ */
+export function withTendonShown(state: ExplorerState, tendonId: string, muscleId: string): ExplorerState {
+  return { ...state, selected: { kind: 'tendon', id: tendonId }, focused: muscleId, seeThrough: state.seeThrough.filter((id) => id !== muscleId), flyToSelected: true };
+}
+
+/** The explorer has flown to the structure another page asked for. */
+export function withFlightDone(state: ExplorerState): ExplorerState {
+  return { ...state, flyToSelected: false };
 }
 
 /** Every muscle back to its normal look: nothing see-through, nothing in focus. The layers stay as set. */

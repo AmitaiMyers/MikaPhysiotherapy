@@ -1,5 +1,5 @@
 import { lazy, Suspense, type ReactNode } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
 import { ExerciseList } from '../components/ExerciseList';
 import { TechniquesCard, useTechniqueViews } from '../components/techniques';
 import { linkedTechniques } from '../techniques/view';
@@ -12,12 +12,16 @@ import { agonists, antagonists, formatRoots, type RelatedMuscle } from '../domai
 import { required } from '../domain/assert';
 import { shareMuscle } from '../domain/share';
 import { Gallery, TabStrip } from '../components/DetailTabs';
+import { TendonDetails } from '../components/tendons';
+import { tendonsOfMuscle } from '../data/tendons';
+import { updateExplorer, withTendonShown } from '../viewer/explorerState';
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'));
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
   { id: 'attachments', label: 'Origin & insertion' },
+  { id: 'tendons', label: 'Tendons' },
   { id: 'supply', label: 'Nerve & blood' },
   { id: 'actions', label: 'Actions' },
   { id: 'clinical', label: 'Clinical' },
@@ -47,6 +51,7 @@ export function MuscleDetailPage() {
       <TabStrip tabs={TABS} active={tab} onSelect={(id) => setParams({ tab: id }, { replace: true })} />
       {tab === 'overview' && <OverviewTab muscle={muscle} />}
       {tab === 'attachments' && <AttachmentsTab muscle={muscle} />}
+      {tab === 'tendons' && <TendonsTab muscle={muscle} openId={params.get('tendon')} />}
       {tab === 'supply' && <SupplyTab muscle={muscle} />}
       {tab === 'actions' && <ActionsTab muscle={muscle} />}
       {tab === 'clinical' && <ClinicalTab muscle={muscle} />}
@@ -279,4 +284,30 @@ function TechniquesTab({ muscleId }: { muscleId: string }) {
   const views = linkedTechniques(useTechniqueViews(), { kind: 'muscle', id: muscleId });
   if (views.length === 0) return <Empty>No technique in the directory targets this muscle yet. You can add your own in Techniques.</Empty>;
   return <TechniquesCard views={views} />;
+}
+
+function TendonsTab({ muscle, openId }: { muscle: Muscle; openId: string | null }) {
+  const navigate = useNavigate();
+  const tendons = tendonsOfMuscle(muscle.id);
+  if (tendons.length === 0) return <Empty>No key tendon of this muscle is described. The app covers the tendons most often injured, tested or treated.</Empty>;
+  const showOnBody = (tendonId: string) => {
+    updateExplorer((state) => withTendonShown(state, tendonId, muscle.id));
+    void navigate('/');
+  };
+  return (
+    <>
+      {tendons.map((tendon) => (
+        <details key={tendon.id} className="card group" open={tendons.length === 1 || openId === tendon.id}>
+          <summary className="group-summary">
+            <span className="group-name">{tendon.name}</span>
+            <span className="count">{tendon.end === 'origin' ? 'Origin' : 'Insertion'}</span>
+          </summary>
+          <TendonDetails tendon={tendon} />
+          <button type="button" className="button spaced-top" onClick={() => showOnBody(tendon.id)}>
+            Show on the 3D body
+          </button>
+        </details>
+      ))}
+    </>
+  );
 }

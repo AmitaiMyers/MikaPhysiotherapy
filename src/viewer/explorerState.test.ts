@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { MUSCLES } from '../data';
 import depths from '../data/generated/muscleDepth.json';
-import { depthLabel, INITIAL_STATE, muscleLook, SKELETON_DEPTH, withDepth, withFocusToggled, withLooksReset, withSeeThroughToggled, withTap } from './explorerState';
+import { depthLabel, INITIAL_STATE, muscleLook, SKELETON_DEPTH, withDepth, withFocusToggled, withLooksReset, withFlightDone, withSeeThroughToggled, withTap, withTendonShown } from './explorerState';
 
 const DEPTHS: Record<string, number> = depths;
 const surface = 'deltoid';
@@ -66,5 +66,14 @@ describe('3D explorer state', () => {
     expect(withTap(selected, { ...target }).selected).toBeNull();
     expect(withTap(selected, null).selected).toBeNull();
     expect(withTap(selected, { kind: 'bone', id: 'femur' }).selected).toEqual({ kind: 'bone', id: 'femur' });
+  });
+
+  it('shows a tendon from another page: selects it, focuses its muscle solid, and flies there once', () => {
+    const shown = withTendonShown(withSeeThroughToggled(INITIAL_STATE, 'soleus'), 'achilles-tendon', 'soleus');
+    expect(shown.selected).toEqual({ kind: 'tendon', id: 'achilles-tendon' });
+    expect(shown.focused).toBe('soleus');
+    expect(muscleLook(shown, 'soleus')).toBe('solid');
+    expect(shown.flyToSelected).toBe(true);
+    expect(withFlightDone(shown).flyToSelected).toBe(false);
   });
 });

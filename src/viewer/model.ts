@@ -6,7 +6,7 @@ import { modelUrls, type ModelName } from './modelUrls';
 
 /** One mesh of the anatomy model, as written by scripts/anatomy/build-model.mjs. */
 export interface ModelPart {
-  kind: 'bone' | 'muscle' | 'attachment' | 'ligament';
+  kind: 'bone' | 'muscle' | 'attachment' | 'ligament' | 'tendon';
   name: string;
   side: 'right' | 'left' | 'mid';
   boneId: string | null;
@@ -14,12 +14,16 @@ export interface ModelPart {
   attachment: 'origin' | 'insertion' | null;
   /** Set on parts of the ligament model only. */
   ligamentId: string | null;
+  /** Set on parts of the tendon model only. */
+  tendonId: string | null;
   geometry: BufferGeometry;
 }
 
-interface ManifestPart extends Omit<ModelPart, 'geometry' | 'ligamentId'> {
+interface ManifestPart extends Omit<ModelPart, 'geometry' | 'ligamentId' | 'tendonId'> {
   /** Written only by build-ligaments.mjs. */
   ligamentId?: string;
+  /** Written only by build-tendons.mjs. */
+  tendonId?: string;
   vertexCount: number;
   indexCount: number;
   positionOffset: number;
@@ -48,6 +52,11 @@ export function loadAnatomyModel(regionId: RegionId): Promise<AnatomyModel> {
 /** Download (once per session) and decode the whole-body ligament model (ligaments, capsules, menisci, discs). */
 export function loadLigamentModel(): Promise<AnatomyModel> {
   return loadModel('ligaments');
+}
+
+/** Download (once per session) and decode the tendon model: tendon ends carved from the muscles of the regional models. */
+export function loadTendonModel(): Promise<AnatomyModel> {
+  return loadModel('tendons');
 }
 
 function loadModel(name: ModelName): Promise<AnatomyModel> {
@@ -85,7 +94,7 @@ function decodePart(part: ManifestPart, buffer: ArrayBuffer, bounds: Manifest['b
   geometry.computeVertexNormals();
   geometry.computeBoundingBox();
   const { kind, name, side, boneId, muscleId, attachment } = part;
-  return { kind, name, side, boneId, muscleId, attachment, ligamentId: part.ligamentId ?? null, geometry };
+  return { kind, name, side, boneId, muscleId, attachment, ligamentId: part.ligamentId ?? null, tendonId: part.tendonId ?? null, geometry };
 }
 
 /**

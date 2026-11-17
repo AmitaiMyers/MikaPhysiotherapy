@@ -1261,4 +1261,83 @@ export const SPECIAL_TESTS: SpecialTest[] = [
     notes: ['DC/TMD criteria classify pain (myalgia, arthralgia) and joint disorders (disc displacement, degenerative joint disease).'],
     sourceIds: CLINICAL,
   },
+  // ---------- tendon tests ----------
+  {
+    id: 'royal-london-hospital-test',
+    name: 'Royal London Hospital test',
+    purpose: 'Achilles midportion tendinopathy.',
+    procedure: [
+      'Patient prone, ankle in neutral; find the most tender point of the Achilles tendon.',
+      'Keep pressing there while the patient actively dorsiflexes the ankle fully.',
+    ],
+    positive: 'Tenderness that clearly lessens or disappears in dorsiflexion (the tendon slides under the finger and tightens).',
+    notes: ['Combine with the arc sign and the history (morning stiffness, pain on loading); good specificity.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'arc-sign',
+    name: 'Arc sign',
+    purpose: 'Achilles midportion tendinopathy (tendon thickening).',
+    procedure: [
+      'Patient prone; palpate the area of swelling on the Achilles tendon while the patient plantarflexes and dorsiflexes the ankle.',
+    ],
+    positive: 'The swelling moves with the tendon (intratendinous); swelling of the paratenon stays still.',
+    notes: ['Helps separate tendinopathy from paratenonitis.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'single-leg-decline-squat-test',
+    name: 'Single-leg decline squat test',
+    purpose: 'Patellar tendinopathy.',
+    procedure: [
+      'The patient stands on one leg on a 25° decline board and squats slowly to about 60° of knee flexion.',
+    ],
+    positive: 'Pain at the inferior pole of the patella; rate it 0–10 and use it to monitor loading.',
+    notes: ['Loads the patellar tendon more than a flat squat; the VISA-P questionnaire tracks severity over time.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'puranen-orava',
+    name: 'Puranen–Orava test',
+    purpose: 'Proximal hamstring tendinopathy.',
+    procedure: [
+      'The patient stands with the heel on a support about hip height, knee straight, and leans the trunk forward over the leg.',
+    ],
+    positive: 'Pain at the ischial tuberosity.',
+    notes: ['Use with the bent-knee stretch and modified bent-knee stretch tests; sitting pain is typical.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'single-leg-stance-30s',
+    name: '30-second single-leg stance test',
+    purpose: 'Gluteal tendinopathy (greater trochanteric pain syndrome).',
+    procedure: [
+      'The patient stands on the painful leg for 30 seconds, lightly touching a wall for balance.',
+    ],
+    positive: 'Reproduction of lateral hip pain within 30 seconds.',
+    notes: ['Together with palpation tenderness over the greater trochanter and pain on FABER, FADER or resisted abduction, a cluster with good accuracy for gluteal tendinopathy.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'fader-r',
+    name: 'FADER-R test',
+    purpose: 'Gluteal tendinopathy.',
+    procedure: [
+      'Patient supine; flex the hip to 90°, adduct and externally rotate it, then ask the patient to push the knee back into internal rotation against resistance.',
+    ],
+    positive: 'Lateral hip pain over the greater trochanter.',
+    notes: ['Compresses the gluteus medius and minimus tendons against the trochanter.'],
+    sourceIds: CLINICAL,
+  },
+  {
+    id: 'ecu-synergy-test',
+    name: 'ECU synergy test',
+    purpose: 'Extensor carpi ulnaris tendinitis or subsheath problems.',
+    procedure: [
+      'Forearm supinated on the table, wrist neutral and fingers extended; the patient abducts the thumb against resistance while the examiner palpates the ECU tendon.',
+    ],
+    positive: 'Pain along the ECU tendon on the ulnar dorsum of the wrist.',
+    notes: ['Separates ECU tendon pain from intra-articular causes such as TFCC tears; ECU subluxation is felt as a snap on supination with ulnar deviation.'],
+    sourceIds: CLINICAL,
+  },
 ];

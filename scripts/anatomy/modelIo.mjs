@@ -114,6 +114,7 @@ export function writeModel(regionId, parts) {
       muscleId: part.muscleId ?? null,
       attachment: part.attachment ?? null,
       ...(part.ligamentId === undefined ? {} : { ligamentId: part.ligamentId }),
+      ...(part.tendonId === undefined ? {} : { tendonId: part.tendonId }),
       vertexCount,
       indexCount: part.indices.length,
       positionOffset: push(quantised),
@@ -132,4 +133,21 @@ export function writeModel(regionId, parts) {
   writeFileSync(join(OUT, `${regionId}.json`), `${JSON.stringify(manifest)}\n`);
   const triangles = parts.reduce((sum, p) => sum + p.indices.length / 3, 0);
   console.log(`${regionId}: ${parts.length} parts, ${triangles} triangles, ${(offset / 1024 / 1024).toFixed(1)} MB`);
+}
+
+/** Decode a written model (public/models/<name>) back into { kind, name, side, muscleId, positions, indices } parts. */
+export function readModel(name) {
+  const manifest = JSON.parse(readFileSync(join(OUT, `${name}.json`), 'utf8'));
+  const bin = readFileSync(join(OUT, `${name}.bin`));
+  const buffer = bin.buffer.slice(bin.byteOffset, bin.byteOffset + bin.byteLength);
+  const { min, max } = manifest.bounds;
+  return manifest.parts.map((part) => {
+    const quantised = new Int16Array(buffer, part.positionOffset, part.vertexCount * 3);
+    const positions = new Float32Array(quantised.length);
+    for (let i = 0; i < quantised.length; i++) {
+      const axis = i % 3;
+      positions[i] = ((quantised[i] + 32768) / 65535) * (max[axis] - min[axis]) + min[axis];
+    }
+    return { ...part, positions, indices: new Uint32Array(new Uint16Array(buffer, part.indexOffset, part.indexCount)) };
+  });
 }

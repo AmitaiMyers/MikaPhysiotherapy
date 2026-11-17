@@ -3,14 +3,16 @@ import { Vector2 } from 'three';
 import { BodyExplorer, BodyPoster, TargetDetails, TargetHeader } from '../components/BodyExplorer';
 import { Icon } from '../components/Icon';
 import { getMuscle } from '../data';
+import { getTendon } from '../data/tendons';
+import { required } from '../domain/assert';
 import { BodyScene, type BodySide } from './bodyScene';
-import { depthLabel, getExplorerState, muscleLook, rememberCamera, SKELETON_DEPTH, updateExplorer, useExplorerState, withDepth, withFocusToggled, withLooksReset, withSeeThroughToggled, withTap } from './explorerState';
-import { loadBodyParts, type ModelPart } from './model';
+import { depthLabel, getExplorerState, muscleLook, rememberCamera, SKELETON_DEPTH, updateExplorer, useExplorerState, withDepth, withFocusToggled, withLooksReset, withFlightDone, withSeeThroughToggled, withTap } from './explorerState';
+import { loadBodyParts, loadTendonModel, type ModelPart } from './model';
 
 /** A tap that moves further than this (CSS pixels) is a drag and selects nothing. */
 const TAP_SLOP = 6;
 
-type Load = { status: 'loading' } | { status: 'ready'; parts: ModelPart[] } | { status: 'failed' };
+type Load = { status: 'loading' } | { status: 'ready'; parts: ModelPart[]; tendonParts: ModelPart[] } | { status: 'failed' };
 
 const canDraw3D = () => document.createElement('canvas').getContext('webgl2') !== null;
 
@@ -24,8 +26,8 @@ export default function BodyExplorer3D() {
   useEffect(() => {
     if (!canDraw3D()) return setLoad({ status: 'failed' });
     let current = true;
-    loadBodyParts().then(
-      (parts) => current && setLoad({ status: 'ready', parts }),
+    Promise.all([loadBodyParts(), loadTendonModel()]).then(
+      ([parts, tendons]) => current && setLoad({ status: 'ready', parts, tendonParts: tendons.parts }),
       () => current && setLoad({ status: 'failed' }),
     );
     return () => {
@@ -34,10 +36,10 @@ export default function BodyExplorer3D() {
   }, []);
   if (load.status === 'failed') return <BodyExplorer />;
   if (load.status === 'loading') return <BodyPoster />;
-  return <Explorer parts={load.parts} />;
+  return <Explorer parts={load.parts} tendonParts={load.tendonParts} />;
 }
 
-function Explorer({ parts }: { parts: ModelPart[] }) {
+function Explorer({ parts, tendonParts }: { parts: ModelPart[]; tendonParts: ModelPart[] }) {
   const state = useExplorerState();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<BodyScene | null>(null);
@@ -47,7 +49,7 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas === null) return;
-    const scene = new BodyScene(canvas, parts, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const scene = new BodyScene(canvas, parts, tendonParts, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     sceneRef.current = scene;
     const resize = () => scene.setSize(canvas.clientWidth, canvas.clientHeight, Math.min(window.devicePixelRatio, 2));
     resize();
@@ -62,7 +64,7 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
       scene.dispose();
       sceneRef.current = null;
     };
-  }, [parts]);
+  }, [parts, tendonParts]);
 
   // Looks and selection follow the state; muscles fade between looks.
   useEffect(() => {
@@ -71,6 +73,14 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
   useEffect(() => {
     sceneRef.current?.setSelected(state.selected);
   }, [state.selected]);
+
+  // Another page asked to show a tendon (or the muscle page's "Show on the 3D body"): fly to it once.
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!state.flyToSelected || scene === null) return;
+    if (state.selected?.kind === 'tendon' && scene.hasTendon(state.selected.id)) scene.showTendon(state.selected.id);
+    updateExplorer(withFlightDone);
+  }, [state.flyToSelected, state.selected]);
 
   // A tap (not a drag) selects what is under the finger.
   const down = useRef<{ x: number; y: number } | null>(null);
@@ -93,10 +103,10 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
     const side: BodySide = scene.facing() === 'front' ? 'back' : 'front';
     scene.showWhole(side);
   };
-  const toggleFocus = (muscleId: string) => {
+  const toggleFocus = (muscleId: string, show: (scene: BodyScene) => void) => {
     const focusing = state.focused !== muscleId;
     updateExplorer((s) => withFocusToggled(s, muscleId));
-    if (focusing) sceneRef.current?.showMuscle(muscleId);
+    if (focusing && sceneRef.current !== null) show(sceneRef.current);
   };
 
   const selected = state.selected;
@@ -105,7 +115,7 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
     <section className="body-explorer" aria-label="Interactive 3D body">
       <LayerControl depth={state.depth} />
       <div className="body-stage body-stage-3d">
-        <canvas ref={canvasRef} className="body-canvas" onPointerDown={onPointerDown} onPointerUp={onPointerUp} aria-label="3D body. Drag to rotate, pinch to zoom, tap a muscle or bone to select it." />
+        <canvas ref={canvasRef} className="body-canvas" onPointerDown={onPointerDown} onPointerUp={onPointerUp} aria-label="3D body. Drag to rotate, pinch to zoom, tap a muscle, tendon or bone to select it." />
         <div className="stage-corner">
           <button type="button" className="stage-button" aria-label="Turn the body around" onClick={flip}>
             <Icon name="rotate" size={20} />
@@ -132,7 +142,7 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
           </div>
         )}
       </div>
-      <p className="body-hint">Drag to rotate · pinch to zoom · tap a muscle or bone</p>
+      <p className="body-hint">Drag to rotate · pinch to zoom · tap a muscle, tendon or bone</p>
       <div aria-live="polite">
         {selected !== null && (
           <article className={`target-sheet ${detailsOpen ? '' : 'target-sheet-compact'}`}>
@@ -143,7 +153,7 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
             <div className="target-actions">
               {selected.kind === 'muscle' && (
                 <>
-                  <button type="button" className="button" aria-pressed={state.focused === selected.id} onClick={() => toggleFocus(selected.id)}>
+                  <button type="button" className="button" aria-pressed={state.focused === selected.id} onClick={() => toggleFocus(selected.id, (scene) => scene.showMuscle(selected.id))}>
                     <Icon name="focus" size={18} /> Focus
                   </button>
                   <button type="button" className="button" aria-pressed={state.seeThrough.includes(selected.id)} onClick={() => updateExplorer((s) => withSeeThroughToggled(s, selected.id))}>
@@ -151,6 +161,7 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
                   </button>
                 </>
               )}
+              {selected.kind === 'tendon' && <TendonFocus tendonId={selected.id} focused={state.focused} onToggle={toggleFocus} />}
               <button type="button" className="button" aria-expanded={detailsOpen} onClick={() => setDetailsOpen((open) => !open)}>
                 <Icon name="info" size={18} /> Details
               </button>
@@ -160,6 +171,16 @@ function Explorer({ parts }: { parts: ModelPart[] }) {
         )}
       </div>
     </section>
+  );
+}
+
+/** Focus a tendon's muscle (its first, the one it is named after) and fly to the tendon. */
+function TendonFocus({ tendonId, focused, onToggle }: { tendonId: string; focused: string | null; onToggle: (muscleId: string, show: (scene: BodyScene) => void) => void }) {
+  const muscleId = required(getTendon(tendonId).muscleIds[0], `Tendon "${tendonId}" has no muscle`);
+  return (
+    <button type="button" className="button" aria-pressed={focused === muscleId} onClick={() => onToggle(muscleId, (scene) => scene.showTendon(tendonId))}>
+      <Icon name="focus" size={18} /> Focus
+    </button>
   );
 }
 

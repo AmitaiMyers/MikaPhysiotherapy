@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { nerveImage, skeletonImage } from './images';
 import { LIGAMENTS } from './ligaments';
+import { TENDONS } from './tendons';
 import { formatRoots, oppositeMovement } from '../domain/relations';
 import { BONES, findBone, findJoint, findNerve, findSpecialTest, JOINT_GROUPS, JOINTS, MUSCLES, NERVE_GROUPS, NERVES, REGIONS, SOURCES, SPECIAL_TESTS } from './index';
 
@@ -94,8 +95,8 @@ describe('catalogs', () => {
     }
   });
 
-  it('every special test is used by at least one muscle or ligament', () => {
-    const used = new Set([...MUSCLES.flatMap((m) => m.specialTestIds), ...LIGAMENTS.flatMap((l) => l.specialTestIds)]);
+  it('every special test is used by at least one muscle, ligament or tendon', () => {
+    const used = new Set([...MUSCLES.flatMap((m) => m.specialTestIds), ...LIGAMENTS.flatMap((l) => l.specialTestIds), ...TENDONS.flatMap((t) => t.specialTestIds)]);
     for (const test of SPECIAL_TESTS) {
       expect(used.has(test.id), test.id).toBe(true);
     }

@@ -19,7 +19,7 @@ function offlineItems(): OfflineItem[] {
     ...LIGAMENTS.flatMap((l) => ligamentViews(l.id)),
   ];
   const images = pictures.filter((image) => image !== null).map((image) => ({ cacheName: OFFLINE_CACHES.images, url: image.url }));
-  const models = [...REGIONS.map((region) => modelUrls(region.id)), modelUrls('ligaments')].flatMap((urls) => [urls.manifest, urls.geometry]).map((url) => ({ cacheName: OFFLINE_CACHES.models, url }));
+  const models = [...REGIONS.map((region) => modelUrls(region.id)), modelUrls('ligaments'), modelUrls('tendons')].flatMap((urls) => [urls.manifest, urls.geometry]).map((url) => ({ cacheName: OFFLINE_CACHES.models, url }));
   return [...images, ...models];
 }
 
